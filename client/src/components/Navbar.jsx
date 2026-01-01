@@ -13,7 +13,7 @@ export default function Navbar() {
         {/* Logo */}
         <div className="flex items-center gap-2">
           <div className="h-9 w-9 rounded-full bg-blue-500 flex items-center justify-center font-bold text-white">
-            F
+            Fooooo
           </div>
           <div>
             <p className="text-sm uppercase tracking-widest text-blue-400">
