@@ -56,7 +56,7 @@ export default function NeonFeatureCards() {
                 {/* Actual Card */}
                 <div
                   className="relative rounded-md bg-slate-900/90 p-6 border border-white/10 backdrop-blur-xl 
-                                group-hover:scale-[1.01] transition duration-500 shadow-lg overflow-hidden"
+                                group-hover:scale-[1.0] transition duration-500 shadow-lg overflow-hidden"
                 >
                   {/* Icon Glow */}
                   <div
