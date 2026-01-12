@@ -171,7 +171,7 @@ export default function ViewAllStories() {
               {/* Avatar */}
               <div className="flex justify-center mb-3">
                 <img
-                  src={story.photo}
+                  src={story.photo.url}
                   alt={story.name}
                   className="w-20 h-20 rounded-full border-4 border-slate-700"
                 />
@@ -284,7 +284,7 @@ export default function ViewAllStories() {
               {/* Photo */}
               <div className="flex justify-center -mt-20 mb-2">
                 <img
-                  src={selectedStory.photo}
+                  src={selectedStory.photo.url}
                   alt={selectedStory.name}
                   className="w-28 h-28 rounded-full border-4 border-slate-700 bg-slate-900"
                 />

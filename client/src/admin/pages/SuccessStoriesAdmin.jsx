@@ -449,6 +449,7 @@ import Select from "react-select";
 import { IoMdSearch } from "react-icons/io";
 import UpdateConfirmModal from "../components/UpdateConfirmModal";
 import { BsEmojiTearFill } from "react-icons/bs";
+import Loader from "../components/loader/Loader";
 
 const cardVariant = {
   hidden: {
@@ -652,9 +653,7 @@ export default function SuccessStoriesAdmin() {
                 placeholder="Search by name, story..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-700 rounded-sm
-    pl-10 pr-4 py-2 text-sm text-white outline-none
-    focus:border-slate-400 placeholder:text-slate-500"
+                className="w-full pl-10 rounded bg-slate-900 border border-slate-700 outline-none focus:border-slate-400 transition duration-500 px-4 py-2 text-sm text-white"
               />
             </div>
 
@@ -669,7 +668,7 @@ export default function SuccessStoriesAdmin() {
               styles={{
                 control: (base, state) => ({
                   ...base,
-                  backgroundColor: "#0f172a", // slate-950
+                  backgroundColor: "#0f172a", // slate-900
                   borderColor: state.isFocused ? "#94a3b8" : "#334155",
                   boxShadow: "none",
                   minHeight: "30px",
@@ -707,8 +706,11 @@ export default function SuccessStoriesAdmin() {
 
         {/* Loading State */}
         {fetchLoading && (
-          <div className="text-center text-slate-400 py-20 text-sm">
-            Loading...
+          // <div className="text-center text-slate-400 py-20 text-sm">
+          //   <Loader />
+          // </div>
+          <div className="min-h-screen w-full flex justify-center">
+            <Loader />
           </div>
         )}
 
@@ -900,16 +902,6 @@ export default function SuccessStoriesAdmin() {
       </div>
 
       {/* Delete Confirm Modal */}
-      {/* <ConfirmModal
-        open={showDeleteModal}
-        title="Delete This Story..!"
-        message="Are you sure you want to delete this success story? This action cannot be undone."
-        onCancel={() => {
-          setShowDeleteModal(false);
-          setStoryToDelete(null);
-        }}
-        onConfirm={handleDeleteConfirm}
-      /> */}
       <ConfirmModal
         open={showDeleteModal}
         title="Delete This Story..!"
@@ -923,20 +915,6 @@ export default function SuccessStoriesAdmin() {
       />
 
       {/* Update Confirm Modal */}
-      {/* <UpdateConfirmModal
-        open={openUpdate}
-        title={
-          nextStatus === "approved"
-            ? "Approve Success Story"
-            : "Unapprove Success Story"
-        }
-        message={`Are you sure you want to ${
-          nextStatus === "approved" ? "approve" : "unapprove"
-        } this success story?`}
-        confirmText={nextStatus ? "Approve" : "Unapprove"}
-        onConfirm={handleUpdate}
-        onCancel={() => setOpenUpdate(false)}
-      /> */}
       <UpdateConfirmModal
         open={openUpdate}
         title={nextStatus ? "Approve Success Story" : "Unapprove Success Story"}
@@ -986,7 +964,7 @@ export default function SuccessStoriesAdmin() {
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold">{viewStory.name}</h3>
 
-                  <div className="block xs:flex xs:flex-row xs:items-center gap-2 mt-0.5">
+                  <div className="flex-row sm:flex items-center gap-2 mt-0.5">
                     <div className="flex gap-1">
                       {Array.from({ length: 5 }).map((_, index) => (
                         <FaStar

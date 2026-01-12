@@ -17,6 +17,13 @@ import StudentLogin from "./pages/StudentLogin";
 import StudentSignup from "./pages/StudentSignup";
 import VerifyOtp from "./pages/VerifyOtp";
 import ViewAllStories from "./components/ViewAllStories";
+import AdminQueries from "./admin/pages/AdminQueries";
+import ContactInfoAdmin from "./admin/pages/ContactInfoAdmin";
+import ChangePassword from "./pages/ChangePassword";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import AdminFounder from "./admin/pages/AdminFounder";
+import StudentAdmin from "./admin/pages/StudentsAdmin";
 
 export default function App() {
   return (
@@ -59,6 +66,9 @@ export default function App() {
         <Route path="/login" element={<StudentLogin />} />
         <Route path="/signup" element={<StudentSignup />} />
         <Route path="/verify-otp" element={<VerifyOtp />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/change-password" element={<ChangePassword />} />
 
         {/* Admin Login */}
         <Route path="/admin/login" element={<AdminLogin />} />
@@ -74,6 +84,10 @@ export default function App() {
         >
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="stories" element={<SuccessStoriesAdmin />} />
+          <Route path="querys" element={<AdminQueries />} />
+          <Route path="contactinfo" element={<ContactInfoAdmin />} />
+          <Route path="founder" element={<AdminFounder />} />
+          <Route path="students" element={<StudentAdmin />} />
         </Route>
       </Routes>
     </>

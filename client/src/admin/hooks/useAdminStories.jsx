@@ -21,12 +21,15 @@ export default function useAdminStories() {
     try {
       setFetchLoading(true);
 
-      const res = await axios.get(`${API}/api/admin/all-stories`, {
-        params: { page, limit, search, status },
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
+      const res = await axios.get(
+        `${API}/api/success-stories/admin/all-stories`,
+        {
+          params: { page, limit, search, status },
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
 
       console.log("Fetch all stories ----->", res.data);
 
@@ -45,7 +48,7 @@ export default function useAdminStories() {
       setStatusLoading(true);
 
       const res = await axios.put(
-        `${API}/api/admin/approve/${id}`,
+        `${API}/api/success-stories/admin/approve/${id}`,
         { approved }, // ✅ boolean
         {
           headers: {
@@ -75,11 +78,14 @@ export default function useAdminStories() {
     try {
       setDeleteLoading(true);
 
-      const res = await axios.delete(`${API}/api/admin/delete/${id}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
+      const res = await axios.delete(
+        `${API}/api/success-stories/admin/delete/${id}`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
 
       console.log("Delete storie response ------>", res.data);
 

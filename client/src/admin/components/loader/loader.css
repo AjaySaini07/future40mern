@@ -1,0 +1,299 @@
+/* HTML: <div class="loader"></div> */
+/* .loader {
+    --w:10ch;
+    font-weight: bold;
+    font-family: monospace;
+    font-size: 30px;
+    line-height: 1.4em;
+    letter-spacing: var(--w);
+    width: var(--w);
+    overflow: hidden;
+    white-space: nowrap;
+    color: #0000;
+    text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000;
+    animation: l20 2s infinite linear;
+  }
+  .loader:before {
+    content:"Loading...";
+  }
+  
+  @keyframes l20 {
+    9.09% {text-shadow: 
+          calc( 0*var(--w)) -10px #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000}
+    18.18% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) -10px #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000}
+    27.27% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) -10px #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000}
+    36.36% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) -10px #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000}
+    45.45% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) -10px #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000}
+    54.54% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) -10px #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000}
+    63.63% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) -10px #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000}
+    72.72% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) -10px #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000}
+    81.81% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) -10px #000,calc(-9*var(--w)) 0 #000}
+    90.90% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) -10px #000}
+  } */
+
+  /* ------------------------------ Light Theme ------------------------------ */
+
+  /* .loader {
+    --w:10ch;
+    font-weight: bold;
+    font-family: monospace;
+    font-size: 23px;
+    line-height: 1.4em;
+    letter-spacing: var(--w);
+    width: var(--w);
+    overflow: hidden;
+    white-space: nowrap;
+    color: #0000;
+    text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000;
+    animation: l20 2s infinite linear;
+}
+
+.loader:before {
+    content: "Loading...";
+} */
+
+/* Apply red color to the first letter */
+/* .loader::first-letter {
+    color: red;
+}
+
+@keyframes l20 {
+    9.09% {text-shadow: 
+          calc( 0*var(--w)) -10px #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000}
+    18.18% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) -10px #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000}
+    27.27% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) -10px #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000}
+    36.36% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) -10px #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000}
+    45.45% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) -10px #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000}
+    54.54% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) -10px #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000}
+    63.63% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) -10px #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000}
+    72.72% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) -10px #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000}
+    81.81% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) -10px #000,calc(-9*var(--w)) 0 #000}
+    90.90% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) -10px #000}
+} */
+
+
+  /* ------------------------------ Dark Theme ------------------------------ */
+
+  /* .loader {
+  --w: 10ch;
+  font-weight: bold;
+  font-family: monospace;
+  font-size: 23px;
+  line-height: 1.4em;
+  letter-spacing: var(--w);
+  width: var(--w);
+  overflow: hidden;
+  white-space: nowrap; */
+
+  /* 🔥 Dark theme base */
+  /* color: #0000;
+  text-shadow:
+    calc( 0*var(--w)) 0 #e5e7eb,
+    calc(-1*var(--w)) 0 #cbd5f5,
+    calc(-2*var(--w)) 0 #e5e7eb,
+    calc(-3*var(--w)) 0 #cbd5f5,
+    calc(-4*var(--w)) 0 #e5e7eb,
+    calc(-5*var(--w)) 0 #cbd5f5,
+    calc(-6*var(--w)) 0 #e5e7eb,
+    calc(-7*var(--w)) 0 #cbd5f5,
+    calc(-8*var(--w)) 0 #e5e7eb,
+    calc(-9*var(--w)) 0 #cbd5f5;
+
+  animation: l20 2s infinite linear;
+} */
+
+/* .loader::before {
+  content: "Loading...";
+} */
+
+/* 🔵 Accent first letter */
+/* .loader::first-letter {
+  color: #60a5fa; /* blue-400 
+}
+  */
+
+
+/* ⏱ Animation (same logic, dark colors) */
+/* @keyframes l20 {
+  9.09% { text-shadow:
+    calc( 0*var(--w)) -10px #60a5fa, calc(-1*var(--w)) 0 #cbd5f5, calc(-2*var(--w)) 0 #e5e7eb,
+    calc(-3*var(--w)) 0 #cbd5f5, calc(-4*var(--w)) 0 #e5e7eb, calc(-5*var(--w)) 0 #cbd5f5,
+    calc(-6*var(--w)) 0 #e5e7eb, calc(-7*var(--w)) 0 #cbd5f5, calc(-8*var(--w)) 0 #e5e7eb,
+    calc(-9*var(--w)) 0 #cbd5f5; }
+
+  18.18% { text-shadow:
+    calc( 0*var(--w)) 0 #e5e7eb, calc(-1*var(--w)) -10px #60a5fa, calc(-2*var(--w)) 0 #cbd5f5,
+    calc(-3*var(--w)) 0 #e5e7eb, calc(-4*var(--w)) 0 #cbd5f5, calc(-5*var(--w)) 0 #e5e7eb,
+    calc(-6*var(--w)) 0 #cbd5f5, calc(-7*var(--w)) 0 #e5e7eb, calc(-8*var(--w)) 0 #cbd5f5,
+    calc(-9*var(--w)) 0 #e5e7eb; }
+
+   27.27% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) -10px #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000}
+    36.36% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) -10px #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000}
+    45.45% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) -10px #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000}
+    54.54% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) -10px #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000}
+    63.63% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) -10px #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000}
+    72.72% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) -10px #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) 0 #000}
+    81.81% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) -10px #000,calc(-9*var(--w)) 0 #000}
+    90.90% {text-shadow: 
+          calc( 0*var(--w)) 0 #000,calc(-1*var(--w)) 0 #000,calc(-2*var(--w)) 0 #000,calc(-3*var(--w)) 0 #000,calc(-4*var(--w)) 0 #000, 
+          calc(-5*var(--w)) 0 #000,calc(-6*var(--w)) 0 #000,calc(-7*var(--w)) 0 #000,calc(-8*var(--w)) 0 #000,calc(-9*var(--w)) -10px #000}
+} */
+
+
+
+
+.loader {
+  --w:10ch;
+  font-weight: 500;
+  font-family: monospace;
+  font-size: 25px;
+  letter-spacing: var(--w);
+  width: var(--w);
+  overflow: hidden;
+  white-space: nowrap;
+
+  color: #0000;
+  text-shadow:
+    calc( 0*var(--w)) 0 #e0f2fe,
+    calc(-1*var(--w)) 0 #bae6fd,
+    calc(-2*var(--w)) 0 #c7d2fe,
+    calc(-3*var(--w)) 0 #ddd6fe,
+    calc(-4*var(--w)) 0 #a5f3fc,
+    calc(-5*var(--w)) 0 #e0f2fe,
+    calc(-6*var(--w)) 0 #bae6fd,
+    calc(-7*var(--w)) 0 #c7d2fe,
+    calc(-8*var(--w)) 0 #ddd6fe,
+    calc(-9*var(--w)) 0 #a5f3fc;
+
+  animation: l20 2.2s infinite linear;
+  /* filter: drop-shadow(0 0 6px rgba(56,189,248,0.35)); */
+   filter: drop-shadow(0 0 10px rgba(56,189,248,0.35));
+}
+
+.loader::before {
+  content: "Loading...";
+}
+
+.loader::first-letter {
+  color: #7dd3fc;
+}
+
+
+/* 🔥 SAME ANIMATION – ONLY COLORS CHANGED */
+@keyframes l20 {
+  9.09% { text-shadow:
+    calc( 0*var(--w)) -10px #22d3ee, calc(-1*var(--w)) 0 #818cf8, calc(-2*var(--w)) 0 #a78bfa,
+    calc(-3*var(--w)) 0 #f472b6, calc(-4*var(--w)) 0 #38bdf8, calc(-5*var(--w)) 0 #22d3ee,
+    calc(-6*var(--w)) 0 #818cf8, calc(-7*var(--w)) 0 #a78bfa, calc(-8*var(--w)) 0 #f472b6,
+    calc(-9*var(--w)) 0 #38bdf8; }
+
+  18.18% { text-shadow:
+    calc( 0*var(--w)) 0 #38bdf8, calc(-1*var(--w)) -10px #22d3ee, calc(-2*var(--w)) 0 #818cf8,
+    calc(-3*var(--w)) 0 #a78bfa, calc(-4*var(--w)) 0 #f472b6, calc(-5*var(--w)) 0 #38bdf8,
+    calc(-6*var(--w)) 0 #22d3ee, calc(-7*var(--w)) 0 #818cf8, calc(-8*var(--w)) 0 #a78bfa,
+    calc(-9*var(--w)) 0 #f472b6; }
+
+  27.27% { text-shadow:
+    calc( 0*var(--w)) 0 #38bdf8, calc(-1*var(--w)) 0 #818cf8, calc(-2*var(--w)) -10px #22d3ee,
+    calc(-3*var(--w)) 0 #a78bfa, calc(-4*var(--w)) 0 #f472b6, calc(-5*var(--w)) 0 #38bdf8,
+    calc(-6*var(--w)) 0 #22d3ee, calc(-7*var(--w)) 0 #818cf8, calc(-8*var(--w)) 0 #a78bfa,
+    calc(-9*var(--w)) 0 #f472b6; }
+
+  36.36% { text-shadow:
+    calc( 0*var(--w)) 0 #38bdf8, calc(-1*var(--w)) 0 #818cf8, calc(-2*var(--w)) 0 #a78bfa,
+    calc(-3*var(--w)) -10px #22d3ee, calc(-4*var(--w)) 0 #f472b6, calc(-5*var(--w)) 0 #38bdf8,
+    calc(-6*var(--w)) 0 #22d3ee, calc(-7*var(--w)) 0 #818cf8, calc(-8*var(--w)) 0 #a78bfa,
+    calc(-9*var(--w)) 0 #f472b6; }
+
+  45.45% { text-shadow:
+    calc( 0*var(--w)) 0 #38bdf8, calc(-1*var(--w)) 0 #818cf8, calc(-2*var(--w)) 0 #a78bfa,
+    calc(-3*var(--w)) 0 #f472b6, calc(-4*var(--w)) -10px #22d3ee, calc(-5*var(--w)) 0 #38bdf8,
+    calc(-6*var(--w)) 0 #22d3ee, calc(-7*var(--w)) 0 #818cf8, calc(-8*var(--w)) 0 #a78bfa,
+    calc(-9*var(--w)) 0 #f472b6; }
+
+  54.54% { text-shadow:
+    calc( 0*var(--w)) 0 #38bdf8, calc(-1*var(--w)) 0 #818cf8, calc(-2*var(--w)) 0 #a78bfa,
+    calc(-3*var(--w)) 0 #f472b6, calc(-4*var(--w)) 0 #38bdf8, calc(-5*var(--w)) -10px #22d3ee,
+    calc(-6*var(--w)) 0 #818cf8, calc(-7*var(--w)) 0 #a78bfa, calc(-8*var(--w)) 0 #f472b6,
+    calc(-9*var(--w)) 0 #38bdf8; }
+
+  63.63% { text-shadow:
+    calc( 0*var(--w)) 0 #38bdf8, calc(-1*var(--w)) 0 #818cf8, calc(-2*var(--w)) 0 #a78bfa,
+    calc(-3*var(--w)) 0 #f472b6, calc(-4*var(--w)) 0 #38bdf8, calc(-5*var(--w)) 0 #22d3ee,
+    calc(-6*var(--w)) -10px #818cf8, calc(-7*var(--w)) 0 #a78bfa, calc(-8*var(--w)) 0 #f472b6,
+    calc(-9*var(--w)) 0 #38bdf8; }
+
+  72.72% { text-shadow:
+    calc( 0*var(--w)) 0 #38bdf8, calc(-1*var(--w)) 0 #818cf8, calc(-2*var(--w)) 0 #a78bfa,
+    calc(-3*var(--w)) 0 #f472b6, calc(-4*var(--w)) 0 #38bdf8, calc(-5*var(--w)) 0 #22d3ee,
+    calc(-6*var(--w)) 0 #818cf8, calc(-7*var(--w)) -10px #a78bfa, calc(-8*var(--w)) 0 #f472b6,
+    calc(-9*var(--w)) 0 #38bdf8; }
+
+  81.81% { text-shadow:
+    calc( 0*var(--w)) 0 #38bdf8, calc(-1*var(--w)) 0 #818cf8, calc(-2*var(--w)) 0 #a78bfa,
+    calc(-3*var(--w)) 0 #f472b6, calc(-4*var(--w)) 0 #38bdf8, calc(-5*var(--w)) 0 #22d3ee,
+    calc(-6*var(--w)) 0 #818cf8, calc(-7*var(--w)) 0 #a78bfa, calc(-8*var(--w)) -10px #f472b6,
+    calc(-9*var(--w)) 0 #38bdf8; }
+
+  90.90% { text-shadow:
+    calc( 0*var(--w)) 0 #38bdf8, calc(-1*var(--w)) 0 #818cf8, calc(-2*var(--w)) 0 #a78bfa,
+    calc(-3*var(--w)) 0 #f472b6, calc(-4*var(--w)) 0 #38bdf8, calc(-5*var(--w)) 0 #22d3ee,
+    calc(-6*var(--w)) 0 #818cf8, calc(-7*var(--w)) 0 #a78bfa, calc(-8*var(--w)) 0 #f472b6,
+    calc(-9*var(--w)) -10px #38bdf8; }
+}

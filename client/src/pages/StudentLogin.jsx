@@ -27,7 +27,7 @@ export default function StudentLogin() {
     <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-md p-6 space-y-3 shadow-xl"
+        className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-sm p-6 space-y-3 shadow-xl"
       >
         <div className="text-center space-y-1">
           <h2 className="text-2xl font-bold text-white text-center drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]">
@@ -67,18 +67,13 @@ export default function StudentLogin() {
           )}
         </div>
 
-        {/* <button
-          type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-500 text-white rounded-sm cursor-pointer mt-3 py-2 text-sm font-medium transition"
-        >
-          Login
-        </button> */}
+        {/* Login Button */}
         <button
           type="submit"
           disabled={loginLoading}
           aria-disabled={loginLoading}
           className={`
-    w-full mt-4 py-2 text-sm font-medium rounded-sm text-white bg-blue-600 transition
+    w-full mt-2 py-2 text-sm font-medium rounded-sm text-white bg-blue-600 transition
     ${
       loginLoading
         ? " cursor-not-allowed opacity-70"
@@ -89,8 +84,18 @@ export default function StudentLogin() {
           {loginLoading ? "Loging..." : "Login"}
         </button>
 
-        <p className="text-sm text-center mt-4 text-slate-400">
-          New user?{" "}
+        {/* Forgotten Password Link */}
+        <div className="flex justify-center">
+          <Link
+            to="/forgot-password"
+            className="text-sm text-blue-400 hover:underline"
+          >
+            Forgotten password..?
+          </Link>
+        </div>
+
+        <p className="text-sm text-center mt-2 text-slate-400">
+          New user..?{" "}
           <Link to="/signup" className="text-blue-400 hover:underline">
             Create account
           </Link>

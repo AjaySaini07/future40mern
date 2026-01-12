@@ -47,10 +47,6 @@ const successStorySchema = new mongoose.Schema(
       trim: true,
     },
 
-    // photo: {
-    //   type: String, // optional (filename / url)
-    //   default: null,
-    // },
     photo: {
       url: {
         type: String,

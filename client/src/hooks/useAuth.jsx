@@ -9,6 +9,9 @@ export default function useAuth() {
   const [verifyLoading, setVerifyLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
   const [loginLoading, setLoginLoading] = useState(false);
+  const [changePasswordLoading, setChangePasswordLoading] = useState(false);
+  const [forgotLoading, setForgotLoading] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
 
   /* ================= SIGNUP ================= */
   const signup = async (payload) => {
@@ -16,7 +19,7 @@ export default function useAuth() {
 
     setSignupLoading(true);
     try {
-      const res = await axios.post(`${API}/api/student/signup`, payload);
+      const res = await axios.post(`${API}/api/students/signup`, payload);
       console.log("Signup console ----->", res);
 
       toast.success(res.data.message || "OTP sent to email");
@@ -35,7 +38,7 @@ export default function useAuth() {
 
     setVerifyLoading(true);
     try {
-      const res = await axios.post(`${API}/api/student/verify-otp`, {
+      const res = await axios.post(`${API}/api/students/verify-otp`, {
         email,
         otp,
       });
@@ -56,7 +59,7 @@ export default function useAuth() {
 
     setResendLoading(true);
     try {
-      const res = await axios.post(`${API}/api/student/resend-otp`, { email });
+      const res = await axios.post(`${API}/api/students/resend-otp`, { email });
 
       toast.success(res.data.message || "OTP resent");
       return { success: true };
@@ -74,7 +77,7 @@ export default function useAuth() {
 
     setLoginLoading(true);
     try {
-      const res = await axios.post(`${API}/api/student/login`, data);
+      const res = await axios.post(`${API}/api/students/login`, data);
       console.log("Login response ---->", res);
 
       toast.success(res.data.message || "Login successful");
@@ -94,17 +97,93 @@ export default function useAuth() {
     }
   };
 
+  /* ================= CHANGE PASSWORD ================= */
+  const changePassword = async (payload) => {
+    if (changePasswordLoading) return { success: false };
+
+    setChangePasswordLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await axios.post(
+        `${API}/api/students/change-password`,
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast.success(res.data.message || "Password changed successfully");
+
+      return { success: true };
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Password change failed");
+      return { success: false };
+    } finally {
+      setChangePasswordLoading(false);
+    }
+  };
+
+  /* ================= FORGOT PASSWORD ================= */
+  const forgotPassword = async (email) => {
+    if (forgotLoading) return { success: false };
+
+    setForgotLoading(true);
+    try {
+      const res = await axios.post(`${API}/api/students/forgot-password`, {
+        email,
+      });
+
+      toast.success(res.data?.message || "OTP sent to email");
+      return { success: true };
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to send OTP");
+      return { success: false };
+    } finally {
+      setForgotLoading(false);
+    }
+  };
+
+  /* ================= RESET PASSWORD ================= */
+  const resetPassword = async (payload) => {
+    if (resetLoading) return { success: false };
+
+    setResetLoading(true);
+    try {
+      const res = await axios.post(
+        `${API}/api/students/reset-password`,
+        payload
+      );
+
+      toast.success(res.data?.message || "Password reset successful");
+      return { success: true };
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Password reset failed");
+      return { success: false };
+    } finally {
+      setResetLoading(false);
+    }
+  };
+
   return {
     // actions
     signup,
     verifyOtp,
     resendOtp,
     login,
+    changePassword,
+    forgotPassword,
+    resetPassword,
 
     // loading states
     signupLoading,
     verifyLoading,
     resendLoading,
     loginLoading,
+    changePasswordLoading,
+    forgotLoading,
+    resetLoading,
   };
 }

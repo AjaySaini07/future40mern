@@ -1,16 +1,17 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, NavLink } from "react-router-dom";
 import { useState } from "react";
-
 import {
-  FaTachometerAlt,
-  FaBook,
-  FaUsers,
-  FaStar,
-  FaClipboardList,
-  FaSignOutAlt,
-} from "react-icons/fa";
-
-import { FcManager } from "react-icons/fc";
+  ContactInfoIcon,
+  CoursesIcon,
+  DashboardIcon,
+  EnrollmentIcon,
+  FounderIcon,
+  LogoutIcon,
+  ProfileIcon,
+  QueriesIcon,
+  StarIcon,
+  UsersIcon,
+} from "../../icons/Icons";
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -22,61 +23,82 @@ export default function Sidebar() {
   };
 
   return (
-    // <aside
-    //   onMouseEnter={() => setOpen(true)}
-    //   onMouseLeave={() => setOpen(false)}
-    //   className={`bg-slate-900 text-white min-h-screen
-    //     transition-all duration-300 ease-in-out
-    //     ${open ? "w-64" : "w-16"}
-    //   `}
-    // >
     <aside
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
       className={`bg-slate-900 text-white min-h-screen flex flex-col
-    transition-all duration-300 ease-in-out
-    ${open ? "w-64" : "w-16"}
+    transition-all duration-300 ease-in-out overflow-y-auto scrollbar-slim
+    ${open ? "w-48" : "w-16"}
   `}
     >
       {/* Header */}
       <div className="p-4 flex items-center justify-center gap-3 border-b border-slate-600">
-        <FcManager className="text-3xl" />
+        <ProfileIcon className="text-3xl" />
         {open && <h2 className="text-xl font-bold">Admin Panel</h2>}
       </div>
 
       {/* Navigation */}
       <nav className="mt-4 space-y-3 px-3">
+        {/* Dashboard Icon */}
         <SidebarItem
           to="/admin/dashboard"
-          icon={<FaTachometerAlt />}
+          icon={<DashboardIcon />}
           label="Dashboard"
           open={open}
         />
 
+        {/* Courses Icon */}
         <SidebarItem
           to="/admin/courses"
-          icon={<FaBook />}
+          icon={<CoursesIcon />}
           label="Courses"
           open={open}
         />
 
+        {/* Students Icon */}
         <SidebarItem
           to="/admin/students"
-          icon={<FaUsers />}
+          icon={<UsersIcon />}
           label="Students"
           open={open}
         />
 
+        {/* Success Stories Icon */}
         <SidebarItem
           to="/admin/stories"
-          icon={<FaStar />}
+          icon={<StarIcon />}
           label="Success Stories"
           open={open}
         />
 
+        {/* Querys Icon */}
+        <SidebarItem
+          to="/admin/querys"
+          icon={<QueriesIcon />}
+          label="Querys"
+          open={open}
+        />
+
+        {/* Founder Icon */}
+        <SidebarItem
+          to="/admin/founder"
+          icon={<FounderIcon />}
+          label="Founder"
+          open={open}
+        />
+
+        {/* Contact Info Icon */}
+        <SidebarItem
+          to="/admin/contactinfo"
+          icon={<ContactInfoIcon />}
+          label="Contact Info"
+          open={open}
+        />
+
+        {/* Enrollments Icon */}
         <SidebarItem
           to="/admin/enrollments"
-          icon={<FaClipboardList />}
+          icon={<EnrollmentIcon />}
           label="Enrollments"
           open={open}
         />
@@ -92,7 +114,7 @@ export default function Sidebar() {
       ${open ? "justify-start w-full" : "justify-center"}
     `}
         >
-          <FaSignOutAlt className="text-2xl" />
+          <LogoutIcon className="text-2xl" />
           {open && <span>Logout</span>}
         </button>
       </div>
@@ -103,15 +125,21 @@ export default function Sidebar() {
 /* Reusable Item */
 function SidebarItem({ to, icon, label, open }) {
   return (
-    <Link
+    <NavLink
       to={to}
-      className="flex items-center gap-4 p-2 rounded
-                 hover:bg-slate-700 transition"
+      className={({ isActive }) =>
+        `flex items-center gap-3 p-2 rounded-sm transition
+         ${
+           isActive
+             ? "bg-slate-700 text-blue-400"
+             : "hover:bg-slate-800 text-slate-300"
+         }`
+      }
     >
       <span className="text-2xl">{icon}</span>
       {open && (
         <span className="whitespace-nowrap text-sm font-medium">{label}</span>
       )}
-    </Link>
+    </NavLink>
   );
 }

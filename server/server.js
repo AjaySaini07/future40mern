@@ -18,7 +18,10 @@ connectDB();
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/success-stories", require("./routes/storyRoutes"));
 app.use("/api/admin", require("./routes/adminRoutes"));
-app.use("/api/student", require("./routes/studentRoutes"));
+app.use("/api/students", require("./routes/studentRoutes"));
+app.use("/api/queries", require("./routes/queryRoutes"));
+app.use("/api/contactinfo", require("./routes/contactInfoRoutes"));
+app.use("/api/founder", require("./routes/founderRoutes"));
 
 // Start Server
 const PORT = process.env.PORT || 5000;

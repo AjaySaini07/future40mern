@@ -1,24 +1,31 @@
-/* @tailwind base;
-@tailwind components;
-@tailwind utilities; */
 @import "tailwindcss";
 
-/* Body */
+/* ================= GLOBAL ================= */
 html,
 body {
   background-color: #020617;
   font-family: system-ui, sans-serif;
 }
 
+/* ================= COMPONENTS ================= */
+@layer components {
+  .input {
+    @apply w-full bg-slate-950 border border-slate-700 rounded-sm
+      px-3 py-2 text-sm text-white outline-none
+      placeholder:text-slate-500
+      focus:border-blue-500 transition;
+  }
+}
 
+/* ================= UTILITIES ================= */
 @layer utilities {
-
   /* Avatar soft glow */
   @keyframes glowPulse {
     0% { opacity: 0.3; transform: scale(1); }
     50% { opacity: 0.5; transform: scale(1.1); }
     100% { opacity: 0.3; transform: scale(1); }
   }
+
   .animate-glowPulse {
     animation: glowPulse 2.8s infinite ease-in-out;
   }
@@ -29,6 +36,7 @@ body {
     50% { transform: scale(1.05); }
     100% { transform: scale(1); }
   }
+
   .animate-pulseSoft {
     animation: softPulse 3s infinite ease-in-out;
   }
@@ -38,29 +46,27 @@ body {
     transition-timing-function: linear !important;
   }
 
- /* 🖤 Ultra Slim Dark Scrollbar */
-  .scrollbar-slim {
-    scrollbar-width: thin;
-    scrollbar-color: #475569 #020617;
-  }
-
-  .scrollbar-slim::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
-  }
-
-  .scrollbar-slim::-webkit-scrollbar-track {
-    background-color: #020617; /* force dark */
-  }
-
-  .scrollbar-slim::-webkit-scrollbar-thumb {
-    background-color: rgba(148, 163, 184, 0.35);
-    border-radius: 999px;
-  }
-
-  .scrollbar-slim::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(148, 163, 184, 0.65);
-  }
+/* 🖤 Dark Thin Scrollbar */
+.scrollbar-slim {
+  scrollbar-width: thin;
+  scrollbar-color: #475569 #020617;
 }
 
+.scrollbar-slim::-webkit-scrollbar {
+  width: 5px;
+}
 
+.scrollbar-slim::-webkit-scrollbar-track {
+  background: #020617;
+}
+
+.scrollbar-slim::-webkit-scrollbar-thumb {
+  background-color: rgba(148, 163, 184, 0.4);
+  border-radius: 999px;
+}
+
+.scrollbar-slim::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(148, 163, 184, 0.7);
+}
+
+}

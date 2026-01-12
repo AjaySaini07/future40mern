@@ -1,5 +1,9 @@
 import Reveal from "./Reveal";
 import { useForm } from "react-hook-form";
+import useQuery from "../hooks/useQuery";
+import useContactInfo from "../hooks/useContactInfo";
+import { useEffect } from "react";
+import { LocationIcon, MailIcon, PhoneIcon } from "../icons/Icons";
 
 export default function ContactSection() {
   const {
@@ -9,13 +13,20 @@ export default function ContactSection() {
     reset,
   } = useForm();
 
+  const { contactInfo, fetchContactInfo, fetchLoading } = useContactInfo();
+
+  const { submitQuery, submitLoading } = useQuery();
+
+  useEffect(() => {
+    fetchContactInfo();
+  }, []);
+
   const onSubmit = async (data) => {
-    console.log("Form Data:", data);
+    const res = await submitQuery(data);
 
-    // API call later
-    await new Promise((res) => setTimeout(res, 1000));
-
-    reset();
+    if (res?.success) {
+      reset();
+    }
   };
 
   return (
@@ -24,24 +35,55 @@ export default function ContactSection() {
         {/* Left Side Content */}
         <Reveal>
           <div>
-            <h2 className="text-2xl font-bold">
-              Get in <span className="text-blue-400">Touch</span>
-            </h2>
-            <p className="text-sm text-slate-400 mt-2">
-              Have questions about batches, fees or courses? Send us a message.
-            </p>
+            {/* 🔹 Main Heading */}
+            <div>
+              <h2 className="text-2xl font-bold">
+                Get in <span className="text-blue-400">Touch</span>
+              </h2>
+              <p className="text-sm text-slate-400 mt-0.5">
+                We’d love to hear from you. Reach out for any queries or
+                support.
+              </p>
+            </div>
 
-            <div className="mt-6 space-y-3 text-sm">
-              <p>📩 info@future40.com</p>
-              <p>📱 +91-98765-43210</p>
-              <p>📱 +91-98765-43210</p>
-              <p>📍 Online & Chandigarh-based training</p>
-              <p>📍 Online & Chandigarh-based training</p>
+            {/* 🔹 Contact Info Heading */}
+            <div className="mt-4">
+              <h3 className="text-lg font-semibold">
+                Contact <span className="text-blue-400">Information</span>
+              </h3>
+              <p className="text-xs text-slate-400">
+                Use the details below to connect with the Future40 team.
+              </p>
+            </div>
+
+            {/* 🔹 Contact Details */}
+            <div className="mt-3 space-y-3 text-sm text-slate-200">
+              {/* Emails */}
+              {contactInfo?.emails?.map((email, index) => (
+                <p className="flex gap-2 items-center" key={`email-${index}`}>
+                  <MailIcon /> <span className="text-slate-300">{email}</span>
+                </p>
+              ))}
+
+              {/* Phones */}
+              {contactInfo?.phones?.map((phone, index) => (
+                <p className="flex items-center gap-2" key={`phone-${index}`}>
+                  <PhoneIcon /> <span className="text-slate-300">{phone}</span>
+                </p>
+              ))}
+
+              {/* Address */}
+              {contactInfo?.address && (
+                <p className="flex gap-2">
+                  <LocationIcon className="text-xl" />{" "}
+                  <span className="text-slate-300">{contactInfo.address}</span>
+                </p>
+              )}
             </div>
           </div>
         </Reveal>
 
-        {/* Form */}
+        {/* Query Form */}
         <Reveal>
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -98,6 +140,31 @@ export default function ContactSection() {
               )}
             </div>
 
+            {/* Phone Number */}
+            <div>
+              <input
+                type="phone"
+                {...register("phone", {
+                  required: "Phone number is required.",
+                  pattern: {
+                    value: /^(?:\+91[-\s]?|91[-\s]?|0)?[6-9]\d{9}$/,
+                    message: "Enter a valid Indian mobile number.",
+                  },
+                })}
+                className="w-full rounded-sm bg-slate-950
+    border border-slate-700 outline-none
+    focus:border-slate-400 transition duration-300
+    px-4 py-2 text-sm text-white"
+                placeholder="+91-9876543210"
+              />
+
+              {errors.phone && (
+                <p className="text-xs text-red-400 mt-0.5">
+                  {errors.phone.message}
+                </p>
+              )}
+            </div>
+
             {/* Message */}
             <div>
               <textarea
@@ -125,17 +192,17 @@ export default function ContactSection() {
             {/* Button */}
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={submitLoading}
               className={`
           w-full rounded-md py-2 text-sm font-semibold transition duration-300
           ${
-            isSubmitting
+            submitLoading
               ? "bg-blue-500 opacity-60 cursor-not-allowed"
               : "bg-blue-600 hover:bg-blue-500 cursor-pointer shadow-lg"
           }
         `}
             >
-              {isSubmitting ? "Sending..." : "Send Message"}
+              {submitLoading ? "Sending..." : "Send Message"}
             </button>
           </form>
         </Reveal>

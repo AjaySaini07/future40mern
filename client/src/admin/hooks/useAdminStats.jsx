@@ -21,6 +21,8 @@ export const useAdminStats = () => {
         },
       });
 
+      console.log("Dashboard stats response ----->", res.data);
+
       setStats(res.data.stats);
     } catch (error) {
       toast.error(error?.response?.data?.message || "Failed to load stats");
