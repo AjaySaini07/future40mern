@@ -22,6 +22,8 @@ app.use("/api/students", require("./routes/studentRoutes"));
 app.use("/api/queries", require("./routes/queryRoutes"));
 app.use("/api/contactinfo", require("./routes/contactInfoRoutes"));
 app.use("/api/founder", require("./routes/founderRoutes"));
+app.use("/api/banner", require("./routes/bannerRoutes"));
+app.use("/api/hero", require("./routes/heroRoutes"));
 
 // Start Server
 const PORT = process.env.PORT || 5000;

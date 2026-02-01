@@ -1,7 +1,7 @@
 const Founder = require("../models/founderModel");
 const cloudinary = require("../config/cloudinary");
 
-/* ================= CREATE / UPDATE FOUNDER (ADMIN) ================= */
+// 🔒 ADMIN – CREATE / UPDATE FOUNDER -----------------------------------------
 exports.upsertFounder = async (req, res) => {
   try {
     const {
@@ -33,63 +33,72 @@ exports.upsertFounder = async (req, res) => {
     // 🧠 Always keep single founder
     let founder = await Founder.findOne();
 
-    /* ================= UPDATE ================= */
-    if (founder) {
-      founder.name = name;
-      founder.title = title;
-      founder.bio = bio;
-      founder.experienceYears = experienceYears;
-      founder.studentsTrained = studentsTrained;
-      founder.specialization = specialization;
-      founder.teachingStyle = teachingStyle;
-
-      // 🔁 IMAGE REPLACE LOGIC
-      if (req.file) {
-        // delete old image from cloudinary
-        if (founder.image?.public_id) {
-          await cloudinary.uploader.destroy(founder.image.public_id, {
-            resource_type: "image",
-          });
-        }
-
-        // save new image
-        founder.image = {
-          public_id: req.file.filename,
-          url: req.file.path,
-        };
+    /* ================= CREATE ================= */
+    if (!founder) {
+      if (!req.file) {
+        return res.status(400).json({
+          success: false,
+          message: "Founder image is required",
+        });
       }
 
-      await founder.save();
+      founder = await Founder.create({
+        name,
+        title,
+        bio,
+        experienceYears,
+        studentsTrained,
+        specialization,
+        teachingStyle,
+        image: {
+          public_id: req.file.filename,
+          url: req.file.path,
+        },
+      });
 
-      return res.json({
+      return res.status(201).json({
         success: true,
-        message: "Founder updated successfully",
+        message: "Founder created successfully",
         founder,
       });
     }
 
-    /* ================= CREATE ================= */
-    const imageData = req.file
-      ? {
-          public_id: req.file.filename,
-          url: req.file.path,
+    /* ================= UPDATE ================= */
+
+    founder.name = name;
+    founder.title = title;
+    founder.bio = bio;
+    founder.experienceYears = experienceYears;
+    founder.studentsTrained = studentsTrained;
+    founder.specialization = specialization;
+    founder.teachingStyle = teachingStyle;
+
+    // 🔁 IMAGE REPLACE (SAFE)
+    if (req.file) {
+      if (founder.image?.public_id) {
+        try {
+          await cloudinary.uploader.destroy(founder.image.public_id);
+        } catch (err) {
+          console.error(
+            "Cloudinary delete failed:",
+            founder.image.public_id,
+            err.message,
+          );
+          // ❗ Do NOT throw — update should continue
         }
-      : null;
+      }
 
-    founder = await Founder.create({
-      name,
-      title,
-      bio,
-      experienceYears,
-      studentsTrained,
-      specialization,
-      teachingStyle,
-      image: imageData,
-    });
+      founder.image = {
+        public_id: req.file.filename,
+        url: req.file.path,
+      };
+    }
 
-    return res.status(201).json({
+    await founder.save();
+
+    return res.json({
       success: true,
-      message: "Founder created successfully",
+      message: "Founder updated successfully",
       founder,
     });
   } catch (error) {
@@ -101,13 +110,16 @@ exports.upsertFounder = async (req, res) => {
   }
 };
 
-/* ================= GET FOUNDER (PUBLIC) ================= */
+// GET FOUNDER (PUBLIC) -------------------------------------------------------
 exports.getFounder = async (req, res) => {
   try {
     const founder = await Founder.findOne({ isActive: true });
 
     if (!founder) {
-      return res.status(404).json({ message: "Founder not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Founder not found",
+      });
     }
 
     res.json({
@@ -116,6 +128,9 @@ exports.getFounder = async (req, res) => {
     });
   } catch (error) {
     console.error("Get founder error:", error);
-    res.status(500).json({ message: "Failed to fetch founder" });
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch founder",
+    });
   }
 };

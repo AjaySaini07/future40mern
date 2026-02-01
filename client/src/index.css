@@ -6,6 +6,15 @@ body {
   background-color: #020617;
   font-family: system-ui, sans-serif;
 }
+ /* #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #020617;
+  font-family: system-ui, sans-serif;
+
+  overflow: hidden;
+} */
 
 /* ================= COMPONENTS ================= */
 @layer components {
@@ -47,9 +56,9 @@ body {
   }
 
 /* 🖤 Dark Thin Scrollbar */
-.scrollbar-slim {
+/* .scrollbar-slim {
   scrollbar-width: thin;
-  scrollbar-color: #475569 #020617;
+  scrollbar-color: #475569 #020917;
 }
 
 .scrollbar-slim::-webkit-scrollbar {
@@ -67,6 +76,34 @@ body {
 
 .scrollbar-slim::-webkit-scrollbar-thumb:hover {
   background-color: rgba(148, 163, 184, 0.7);
+} */
+
+
+/* 🖤 Dark Thin Scrollbar – Transparent Track */
+.scrollbar-slim {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.5) transparent;
+}
+
+.scrollbar-slim::-webkit-scrollbar {
+  width: 5px;
+}
+
+.scrollbar-slim::-webkit-scrollbar-track {
+  background: transparent; /* 👈 fully transparent */
+}
+
+.scrollbar-slim::-webkit-scrollbar-thumb {
+  background-color: rgba(148, 163, 184, 0.4);
+  border-radius: 999px;
+}
+
+.scrollbar-slim::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(148, 163, 184, 0.7);
+}
+
+.scrollbar-slim::-webkit-scrollbar-thumb {
+  transition: background-color 0.2s ease;
 }
 
 }

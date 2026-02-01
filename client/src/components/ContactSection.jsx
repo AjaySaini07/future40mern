@@ -74,8 +74,8 @@ export default function ContactSection() {
 
               {/* Address */}
               {contactInfo?.address && (
-                <p className="flex gap-2">
-                  <LocationIcon className="text-xl" />{" "}
+                <p className="flex  items-start gap-2">
+                  <LocationIcon className="text-xl" />
                   <span className="text-slate-300">{contactInfo.address}</span>
                 </p>
               )}

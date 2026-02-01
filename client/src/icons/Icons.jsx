@@ -16,6 +16,8 @@ import { IoMdSearch } from "react-icons/io";
 import { FaPhoneVolume } from "react-icons/fa6";
 import { FiPlus, FiMail, FiPhone, FiMapPin } from "react-icons/fi";
 import { BsIncognito } from "react-icons/bs";
+import { GiTatteredBanner } from "react-icons/gi";
+import { GiHeron } from "react-icons/gi";
 
 export const DashboardIcon = FaTachometerAlt;
 export const CoursesIcon = FaBook;
@@ -35,3 +37,5 @@ export const MailIcon = FiMail;
 export const PhoneIcon = FiPhone;
 export const LocationIcon = FiMapPin;
 export const FounderIcon = BsIncognito;
+export const BannersIcon = GiTatteredBanner;
+export const HeroIcon = GiHeron;

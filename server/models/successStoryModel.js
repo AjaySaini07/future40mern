@@ -21,7 +21,7 @@ const successStorySchema = new mongoose.Schema(
       type: String,
       required: [true, "Gender is required"],
       enum: {
-        values: ["Male", "Female"],
+        values: ["male", "female"],
         message: "Gender must be Male or Female",
       },
     },

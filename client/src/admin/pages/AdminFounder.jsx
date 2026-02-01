@@ -152,13 +152,13 @@ export default function AdminFounder() {
           {/* ===== Buttons ===== */}
           <div className="flex flex-wrap justify-center md:justify-start items-center gap-3">
             <motion.button
-              whileHover={{ scale: 1.02 }}
+              // whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.96 }}
               transition={{ type: "spring", stiffness: 260, damping: 18 }}
               onClick={() => setOpen(true)}
               className="
         inline-flex items-center gap-2
-        px-4 py-2 rounded-md text-sm font-medium
+        px-4 py-2 rounded-sm text-sm font-medium
         bg-blue-600 hover:bg-blue-500
         text-white shadow-md shadow-blue-600/20
         focus:outline-none
@@ -174,7 +174,7 @@ export default function AdminFounder() {
                 rel="noopener noreferrer"
                 className="
         inline-flex items-center gap-2
-        px-3 py-2 rounded-md text-sm font-medium
+        px-3 py-2 rounded-sm text-sm font-medium
         bg-slate-800 hover:bg-slate-700
         text-slate-200 border border-slate-700
         transition
@@ -367,7 +367,7 @@ function EditFounderModal({
                   type: (files) =>
                     !files?.[0] ||
                     ["image/jpeg", "image/png", "image/webp"].includes(
-                      files[0].type
+                      files[0].type,
                     ) ||
                     "Only JPG, PNG, WEBP allowed",
                 },
@@ -419,7 +419,7 @@ function EditFounderModal({
               whileTap={{ scale: 0.95 }}
               onClick={onClose}
               className="w-full sm:w-auto px-4 py-2 rounded-sm text-sm
-              bg-slate-800 hover:bg-slate-700 text-slate-300"
+              bg-slate-700 hover:bg-slate-600 text-slate-300"
             >
               Cancel
             </motion.button>
@@ -432,7 +432,7 @@ function EditFounderModal({
               font-medium text-white
               ${
                 loading
-                  ? "bg-blue-400 cursor-not-allowed"
+                  ? "bg-slate-600 cursor-not-allowed"
                   : "bg-blue-600 hover:bg-blue-500"
               }`}
             >

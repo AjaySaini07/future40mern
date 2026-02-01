@@ -1,11 +1,13 @@
 import { Link, useNavigate, NavLink } from "react-router-dom";
 import { useState } from "react";
 import {
+  BannersIcon,
   ContactInfoIcon,
   CoursesIcon,
   DashboardIcon,
   EnrollmentIcon,
   FounderIcon,
+  HeroIcon,
   LogoutIcon,
   ProfileIcon,
   QueriesIcon,
@@ -26,7 +28,7 @@ export default function Sidebar() {
     <aside
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
-      className={`bg-slate-900 text-white min-h-screen flex flex-col
+      className={`bg-slate-950 text-white min-h-screen flex flex-col
     transition-all duration-300 ease-in-out overflow-y-auto scrollbar-slim
     ${open ? "w-48" : "w-16"}
   `}
@@ -34,16 +36,32 @@ export default function Sidebar() {
       {/* Header */}
       <div className="p-4 flex items-center justify-center gap-3 border-b border-slate-600">
         <ProfileIcon className="text-3xl" />
-        {open && <h2 className="text-xl font-bold">Admin Panel</h2>}
+        {open && <h2 className="text-lg font-bold">Admin Panel</h2>}
       </div>
 
       {/* Navigation */}
-      <nav className="mt-4 space-y-3 px-3">
+      <nav className="mt-4 space-y-2 px-3 overflow-y-auto scrollbar-slim">
         {/* Dashboard Icon */}
         <SidebarItem
           to="/admin/dashboard"
           icon={<DashboardIcon />}
           label="Dashboard"
+          open={open}
+        />
+
+        {/* Hero Icon */}
+        <SidebarItem
+          to="/admin/hero"
+          icon={<HeroIcon />}
+          label="Hero Section"
+          open={open}
+        />
+
+        {/* Banners Icon */}
+        <SidebarItem
+          to="/admin/banners"
+          icon={<BannersIcon />}
+          label="Banners"
           open={open}
         />
 
@@ -114,7 +132,7 @@ export default function Sidebar() {
       ${open ? "justify-start w-full" : "justify-center"}
     `}
         >
-          <LogoutIcon className="text-2xl" />
+          <LogoutIcon className="text-xl" />
           {open && <span>Logout</span>}
         </button>
       </div>
@@ -123,12 +141,32 @@ export default function Sidebar() {
 }
 
 /* Reusable Item */
+// function SidebarItem({ to, icon, label, open }) {
+//   return (
+//     <NavLink
+//       to={to}
+//       className={({ isActive }) =>
+//         `flex items-center gap-3 p-2 rounded-sm transition
+//          ${
+//            isActive
+//              ? "bg-slate-700 text-blue-400"
+//              : "hover:bg-slate-800 text-slate-300"
+//          }`
+//       }
+//     >
+//       <span className="text-xl">{icon}</span>
+//       {open && (
+//         <span className="whitespace-nowrap text-sm font-medium">{label}</span>
+//       )}
+//     </NavLink>
+//   );
+// }
 function SidebarItem({ to, icon, label, open }) {
   return (
     <NavLink
       to={to}
       className={({ isActive }) =>
-        `flex items-center gap-3 p-2 rounded-sm transition
+        `flex items-center gap-1 px-2 py-0 rounded-sm transition
          ${
            isActive
              ? "bg-slate-700 text-blue-400"
@@ -136,7 +174,18 @@ function SidebarItem({ to, icon, label, open }) {
          }`
       }
     >
-      <span className="text-2xl">{icon}</span>
+      {/* ICON CONTAINER */}
+      <span
+        className="
+          w-10 h-10
+          flex items-center justify-center
+          rounded-sm
+        "
+      >
+        <span className="text-xl">{icon}</span>
+      </span>
+
+      {/* LABEL */}
       {open && (
         <span className="whitespace-nowrap text-sm font-medium">{label}</span>
       )}

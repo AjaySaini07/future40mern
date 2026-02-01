@@ -16,13 +16,13 @@ import { motion } from "framer-motion";
 import Loader from "../components/loader/Loader";
 
 const actionBtnMotion = {
-  whileHover: { scale: 1.1 },
+  // whileHover: { scale: 1.1 },
   whileTap: { scale: 0.92 },
   transition: { type: "spring", stiffness: 400, damping: 20 },
 };
 
 const footerBtnMotion = {
-  whileHover: { scale: 1.03 },
+  // whileHover: { scale: 1.03 },
   whileTap: { scale: 0.95 },
   transition: { type: "spring", stiffness: 350, damping: 22 },
 };
@@ -150,12 +150,12 @@ export default function AdminQueries() {
   };
 
   return (
-    <section className="p-6 bg-slate-950 min-h-screen rounded">
-      <div className="flex gap-x-2 flex-wrap justify-between">
-        <h1 className="text-2xl font-bold text-white mb-6">All Queries</h1>
+    <section className="bg-slate-900 border border-slate-800 min-h-screen rounded-sm p-6">
+      <div className="flex flex-wrap gap-3 justify-between items-end mb-3">
+        <h1 className="text-2xl font-bold text-white">All Queries</h1>
 
         {/* 🔎 Searching & Filter */}
-        <div className="flex flex-wrap gap-3 mb-5">
+        <div className="flex flex-wrap gap-3">
           <div className="relative w-48 sm:w-64">
             <SearchIcon
               className="absolute left-3 top-1/2 -translate-y-1/2
@@ -209,8 +209,8 @@ export default function AdminQueries() {
                 backgroundColor: state.isSelected
                   ? "#2563eb" // blue-600
                   : state.isFocused
-                  ? "#1e293b" // slate-800
-                  : "transparent",
+                    ? "#1e293b" // slate-800
+                    : "transparent",
                 color: state.isSelected ? "#ffffff" : "#e5e7eb",
                 cursor: "pointer",
                 padding: "8px 12px",
@@ -252,7 +252,7 @@ export default function AdminQueries() {
       {/* 📋 TABLE */}
       <div className="overflow-x-auto border border-slate-800 rounded-sm">
         <table className="w-full text-sm text-slate-300">
-          <thead className="bg-slate-900 text-slate-400">
+          <thead className="bg-slate-700/60 text-slate-300">
             <tr>
               <th className="p-3 text-left">Sr. No.</th>
               <th className="p-3 text-left">User</th>
@@ -262,7 +262,7 @@ export default function AdminQueries() {
             </tr>
           </thead>
 
-          <tbody>
+          <tbody className="divide-y divide-slate-800">
             {fetchLoading ? (
               <tr>
                 <td colSpan="5" className="p-3 text-center">
@@ -280,10 +280,7 @@ export default function AdminQueries() {
               </tr>
             ) : (
               queries.map((q, index) => (
-                <tr
-                  key={q._id}
-                  className="border-t border-slate-800 hover:bg-slate-900/50 transition"
-                >
+                <tr key={q._id} className="hover:bg-slate-800/40 transition">
                   <td className="p-3">
                     {(currentPage - 1) * limit + index + 1}
                   </td>
@@ -309,7 +306,7 @@ export default function AdminQueries() {
     ${
       q.status === "replied"
         ? "bg-green-500/10 text-green-400"
-        : "bg-yellow-500/10 text-yellow-400"
+        : "bg-yellow-500/10 text-yellow-600"
     }
   `}
                     >
@@ -410,7 +407,7 @@ export default function AdminQueries() {
               >
                 {page}
               </button>
-            )
+            ),
           )}
 
           {/* Next */}
@@ -568,12 +565,14 @@ export default function AdminQueries() {
               />
 
               {errors.reply && (
-                <p className="text-xs text-red-500">{errors.reply.message}</p>
+                <p className="text-xs text-red-500 -mt-1">
+                  {errors.reply.message}
+                </p>
               )}
 
               {/* ACTIONS */}
               <div className="flex justify-end gap-3 mt-2">
-                {/* ❌ Cancel Button */}
+                {/* Cancel Button */}
                 <motion.button
                   type="button"
                   {...footerBtnMotion}
@@ -582,7 +581,7 @@ export default function AdminQueries() {
                     setReplyModal(null);
                   }}
                   className="
-      px-4 py-1.5 rounded-sm text-sm
+      px-4 py-1.5 rounded-sm text-sm font-semibold
       bg-slate-800 text-slate-300
       hover:bg-slate-700
       transition-colors
@@ -591,18 +590,18 @@ export default function AdminQueries() {
                   Cancel
                 </motion.button>
 
-                {/* 📤 Reply Button */}
+                {/* Reply Button */}
                 <motion.button
                   type="submit"
                   disabled={replyLoading}
                   {...(!replyLoading ? footerBtnMotion : {})}
                   className={`
-      px-4 py-2 rounded-sm text-sm text-white
+      px-4.5 py-2 rounded-sm font-semibold text-sm text-white
       transition-colors
       ${
         replyLoading
           ? "bg-blue-600 opacity-60 cursor-not-allowed"
-          : "bg-blue-600 hover:bg-blue-500"
+          : "bg-blue-600 hover:bg-blue-800"
       }
     `}
                 >

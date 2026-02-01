@@ -108,12 +108,19 @@ export default function StatsCharts({ stats }) {
                   borderRadius: "8px",
                   color: "#e5e7eb",
                 }}
+                labelStyle={{
+                  color: "#ffffff",
+                  fontWeight: 600,
+                }}
+                itemStyle={{
+                  color: "#e5e7eb",
+                }}
               />
 
               <Legend
                 verticalAlign="bottom"
                 wrapperStyle={{
-                  color: "#cbd5f5",
+                  color: "#cbd5f",
                   fontSize: "12px",
                 }}
               />

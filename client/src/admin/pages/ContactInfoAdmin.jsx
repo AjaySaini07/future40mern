@@ -240,7 +240,6 @@ export default function ContactInfoAdmin() {
 }
 
 /* ================= UI COMPONENTS ================= */
-
 const Card = ({ title, icon, children }) => (
   <div className="mb-6 bg-slate-950 border border-slate-700 rounded-md p-4">
     <h3 className="flex items-center gap-2 text-slate-300 text-sm mb-3">

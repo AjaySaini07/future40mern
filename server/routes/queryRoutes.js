@@ -10,7 +10,10 @@ const { queryLimiter } = require("../middlewares/rateLimiter");
 
 const router = express.Router();
 
+// 🌍 Public Routes
 router.post("/submit", queryLimiter, submitQuery);
+
+// 🔐 Admin-Only Routes
 router.get("/admin/all", adminAuth, getAllQueries);
 router.post("/admin/reply/:id", adminAuth, replyToQuery);
 router.delete("/admin/delete/:id", adminAuth, deleteQuery);

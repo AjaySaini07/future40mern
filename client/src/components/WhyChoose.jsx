@@ -49,8 +49,20 @@ export default function NeonFeatureCards() {
             <Reveal key={i}>
               <div className="relative group p-[2px] rounded-xl transition duration-500">
                 {/* Neon Glow Border on Hover */}
-                <div
+                {/* <div
                   className={`absolute inset-0 rounded-xl bg-gradient-to-r ${f.glow} opacity-0 group-hover:opacity-100 blur-sm transition duration-500`}
+                /> */}
+                {/* Neon Glow Border on Hover Outside*/}
+                {/* <div
+                  className={`absolute inset-0 rounded-xl bg-gradient-to-r ${f.glow}
+  opacity-0 group-hover:opacity-70 blur-[2px]
+  transition-opacity duration-500`}
+                /> */}
+                {/* Neon Glow Border on Hover Inside*/}
+                <div
+                  className={`absolute inset-[1px] rounded-xl bg-gradient-to-r ${f.glow}
+  opacity-0 group-hover:opacity-60 blur-[1.5px]
+  transition-opacity duration-500`}
                 />
 
                 {/* Actual Card */}

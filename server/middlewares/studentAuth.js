@@ -23,6 +23,7 @@ exports.studentAuth = async (req, res, next) => {
       role: "student",
       FullName: student.fullName,
       Email: student.email,
+      Gender: student.gender,
     };
 
     next();

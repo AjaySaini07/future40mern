@@ -5,6 +5,7 @@ import { FaTimes, FaMedal, FaStar } from "react-icons/fa";
 import { useSuccessStory } from "../hooks/useSuccessStory";
 import { IoMdSearch } from "react-icons/io";
 import { BsEmojiTearFill } from "react-icons/bs";
+import Loader from "../admin/components/loader/Loader";
 
 const container = {
   hidden: { opacity: 0 },
@@ -153,27 +154,27 @@ export default function ViewAllStories() {
         variants={container}
         initial="hidden"
         animate="show"
-        className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 pt-4 border-t border-slate-900 rounded-l-lg rounded-r-lg"
+        className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 pt-4 border-t border-slate-900 rounded-l-md rounded-r-md"
       >
         {fetchLoading ? (
-          <p className="col-span-full text-center text-slate-400 text-sm">
-            Loading...
+          <p className="col-span-full flex justify-center text-center text-slate-400 text-sm">
+            <Loader />
           </p>
         ) : (
           stories.map((story) => (
             <motion.div
               key={story._id || story.id}
               variants={item}
-              whileHover={{ y: -6 }}
+              whileHover={{ y: -4 }}
               onClick={() => setSelectedStory(story)}
-              className="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 hover:border-slate-600 cursor-pointer rounded-md p-6 shadow-xl duration-300"
+              className="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 hover:border-slate-600 cursor-pointer rounded-sm p-6 shadow-xl duration-300"
             >
               {/* Avatar */}
               <div className="flex justify-center mb-3">
                 <img
                   src={story.photo.url}
                   alt={story.name}
-                  className="w-20 h-20 rounded-full border-4 border-slate-700"
+                  className="w-20 h-20 rounded-full border-2 border-sky-600/80"
                 />
               </div>
 
@@ -242,7 +243,7 @@ export default function ViewAllStories() {
               >
                 {page}
               </button>
-            )
+            ),
           )}
 
           {/* Next */}
@@ -272,7 +273,7 @@ export default function ViewAllStories() {
               exit={{ scale: 0.9, y: 30 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-lg rounded-lg bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-700 p-7 shadow-2xl"
+              className="relative w-full max-w-lg rounded-md bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-700 p-7 shadow-2xl"
             >
               <button
                 onClick={() => setSelectedStory(null)}
@@ -322,8 +323,7 @@ export default function ViewAllStories() {
 
                 {/* Story */}
                 <div
-                  className="mt-4 max-h-50 overflow-y-auto
-  scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-900
+                  className="mt-4 max-h-50 overflow-y-auto scrollbar-slim
   pr-2 scroll-smooth"
                 >
                   <p className="text-xs sm:text-sm text-slate-300 italic font-semibold leading-relaxed">

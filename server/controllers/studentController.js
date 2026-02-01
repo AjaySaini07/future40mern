@@ -232,7 +232,7 @@ exports.studentLogin = async (req, res) => {
 
     res.json({
       success: true,
-      message: "Login successful",
+      message: "You are login successfully.",
       token,
       student: {
         id: student._id,
@@ -395,6 +395,53 @@ exports.changePassword = async (req, res) => {
   } catch (error) {
     console.error("Change password error:", error);
     res.status(500).json({ message: "Password change failed" });
+  }
+};
+
+/* --------------------- GET STUDENT PROFILE --------------------- */
+exports.getStudentProfile = async (req, res) => {
+  try {
+    const studentId = req.user.id;
+
+    const student = await studentModel
+      .findById(studentId)
+      .select("-password -otp -otpExpiry")
+      .lean();
+
+    if (!student) {
+      return res.status(404).json({
+        success: false,
+        message: "Student not found",
+      });
+    }
+
+    // 🔍 Find success story by email
+    const story = await successStoryModel.findOne({
+      email: student.email.toLowerCase(),
+    });
+
+    res.status(200).json({
+      success: true,
+      student: {
+        ...student,
+        hasSubmittedStory: !!story,
+        story: story
+          ? {
+              rating: story.rating,
+              achievement: story.achievement,
+              story: story.story,
+              approved: story.approved,
+              createdAt: story.createdAt,
+            }
+          : null,
+      },
+    });
+  } catch (error) {
+    console.error("Get Student Profile Error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch profile",
+    });
   }
 };
 

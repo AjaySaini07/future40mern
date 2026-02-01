@@ -5,7 +5,9 @@ const {
   getFounder,
 } = require("../controllers/founderController");
 
-const upload = require("../middlewares/cloudinaryUpload");
+// const upload = require("../middlewares/cloudinaryUpload");
+const cloudinaryUpload = require("../middlewares/cloudinaryUpload");
+const uploadFounder = cloudinaryUpload("founder");
 const { adminAuth } = require("../middlewares/adminAuth");
 
 // 🌐 Public
@@ -15,8 +17,8 @@ router.get("/founder-info", getFounder);
 router.post(
   "/admin/founder-update",
   adminAuth,
-  upload.single("image"),
-  upsertFounder
+  uploadFounder.single("image"),
+  upsertFounder,
 );
 
 module.exports = router;

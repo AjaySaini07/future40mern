@@ -12,15 +12,13 @@ const {
 } = require("../controllers/contactInfoController");
 const { adminAuth } = require("../middlewares/adminAuth");
 
-// 🟢 Public Routes
+// 🌍 Public Routes
 router.get("/", getContactInfo);
 
 // 🔒 Admin Routes
 router.post("/admin/email", adminAuth, addEmail);
-// router.delete("/admin/delete/:email", adminAuth, deleteEmail);
 
 router.post("/admin/phone", adminAuth, addPhone);
-// router.delete("/admin/delete/:phone", adminAuth, deletePhone);
 
 router.delete("/admin/delete", adminAuth, deleteContactValue);
 

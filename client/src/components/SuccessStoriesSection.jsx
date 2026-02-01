@@ -123,20 +123,6 @@ export default function SuccessStoriesSection() {
         </div>
 
         <Reveal>
-          {/* <Link
-            to="/all-stories"
-            className="
-    mt-8 px-8 py-3 rounded-full
-    border-2 border-blue-500
-    text-blue-400 font-semibold
-    cursor-pointer
-    transition-all duration-300
-    hover:scale-102 hover:text-white
-    active:scale-95
-  "
-          >
-            View All Stories
-          </Link> */}
           <div className="flex justify-center mt-8">
             <Link
               to="/all-stories"
