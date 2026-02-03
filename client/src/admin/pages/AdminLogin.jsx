@@ -15,7 +15,7 @@ export default function AdminLogin() {
   const navigate = useNavigate();
 
   const handleLogin = async (data) => {
-    console.log("Login form console ------>", data);
+    // console.log("Login form submit console ------>", data);
     await adminLogin(data);
   };
 
@@ -35,13 +35,13 @@ export default function AdminLogin() {
         {/* Header */}
         <div className="text-center mb-6">
           <h2 className="text-2xl font-bold text-white">Admin Login</h2>
-          <p className="text-sm text-slate-400 mt-1">
+          {/* <p className="text-sm text-slate-400 mt-1">
             Access Future40 Admin Panel
-          </p>
+          </p> */}
         </div>
 
         {/* Email */}
-        <div className="mb-3">
+        <div className="mb-2">
           <label className="text-xs text-slate-400">Email</label>
           <input
             type="email"
@@ -54,7 +54,7 @@ export default function AdminLogin() {
               },
             })}
             className="
-      w-full rounded-md bg-slate-950
+      w-full rounded-sm bg-slate-950
       border border-slate-700
       px-4 py-2 text-sm text-white
       outline-none focus:border-slate-400
@@ -69,7 +69,7 @@ export default function AdminLogin() {
         </div>
 
         {/* Password */}
-        <div className="mb-5">
+        <div className="mb-4">
           <label className="text-xs text-slate-400">Password</label>
           <input
             type="password"
@@ -82,7 +82,7 @@ export default function AdminLogin() {
               },
             })}
             className="
-      w-full rounded-md bg-slate-950
+      w-full rounded-sm bg-slate-950
       border border-slate-700
       px-4 py-2 text-sm text-white
       outline-none focus:border-slate-400
@@ -105,8 +105,8 @@ export default function AdminLogin() {
     bg-blue-600
     hover:bg-blue-500
     text-white
-    py-2
-    rounded-md
+    py-1.5
+    rounded-sm
     font-semibold
     transition
     active:scale-95

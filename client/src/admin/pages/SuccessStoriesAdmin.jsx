@@ -201,7 +201,7 @@ export default function SuccessStoriesAdmin() {
 
   return (
     <>
-      <div className="space-y-8">
+      <div className="space-y-8 min-h-screen">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between gap-4">
           <h1 className="text-xl sm:text-2xl font-bold">All Success Stories</h1>

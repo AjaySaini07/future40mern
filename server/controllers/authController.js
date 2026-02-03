@@ -36,21 +36,21 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await authModel.findOne({ email });
-    if (!user) return res.json({ success: false, message: "User not found" });
+    if (!user) return res.json({ success: false, message: "Admin not found." });
 
     const match = await bcrypt.compare(password, user.password);
     if (!match)
-      return res.json({ success: false, message: "Incorrect password" });
+      return res.json({ success: false, message: "Incorrect password." });
 
     const token = jwt.sign(
       { id: user._id, role: user.role, name: user.name, email: user.email },
       process.env.JWT_SECRET,
-      { expiresIn: "7d" }
+      { expiresIn: "7d" },
     );
 
     res.json({
       success: true,
-      message: "Login successful",
+      message: "Admin login successful.",
       token,
       role: user.role,
       name: user.name,

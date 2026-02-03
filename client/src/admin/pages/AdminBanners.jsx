@@ -104,7 +104,7 @@ export default function AdminBanners() {
   };
 
   return (
-    <div className="text-slate-200">
+    <div className="text-slate-200 min-h-screen">
       {/* ================= HEADER ================= */}
       <div className="flex justify-between items-end mb-6">
         <h1 className="text-2xl font-semibold">All Banners</h1>

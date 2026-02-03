@@ -25,7 +25,7 @@ export const useAuthAdmin = () => {
         toast.success(response?.message || "Admin login successful");
         navigate("/admin/dashboard");
       } else {
-        toast.error("Admin access denied");
+        toast.error(response?.message);
       }
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong");

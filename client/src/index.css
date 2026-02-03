@@ -86,7 +86,7 @@ body {
 }
 
 .scrollbar-slim::-webkit-scrollbar {
-  width: 5px;
+  width: 4px;
 }
 
 .scrollbar-slim::-webkit-scrollbar-track {
