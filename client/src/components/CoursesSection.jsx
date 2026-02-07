@@ -38,23 +38,23 @@ const courses = [
 
 export default function CoursesSection() {
   return (
-    <section className="bg-slate-950 py-16">
-      <div className="max-w-6xl mx-auto px-6">
-        <h2 className="text-center text-3xl font-bold text-white">
+    <section className="bg-slate-950 pt-12 md:pt-16 pb-2 md:pb-5 px-4">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center">
           Our <span className="text-blue-400">Courses</span>
         </h2>
-        <p className="text-slate-400 text-center mt-2 text-sm">
+        <p className="text-slate-400 text-center text-xs sm:text-sm mt-1 sm:mt-2">
           Choose a skill-level course designed to improve your English fluency.
         </p>
 
-        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="mt-5 sm:mt-7 md:mt-9 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
           {courses.map((c, i) => (
             <Reveal key={i}>
               <div
                 className={`
                   group bg-[#0E1624] border border-slate-800 rounded-md p-5 
                   transition duration-500 hover:border-${c.color}
-                hover:scale-[1.02] transition duration-600`}
+                hover:scale-[1.01] transition duration-600`}
               >
                 {/* ICON */}
                 <div
@@ -77,7 +77,10 @@ export default function CoursesSection() {
                   ))}
                 </ul>
 
-                <button className="w-full py-2 mt-6 rounded-md bg-blue-600 hover:bg-blue-500 text-sm font-semibold">
+                {/* <button className="w-full py-2 mt-6 rounded-md bg-blue-600 hover:bg-blue-500 text-sm font-semibold"> */}
+                <button
+                  className={`w-full py-2 mt-6 rounded-md bg-${c.color} text-sm font-semibold`}
+                >
                   Apply Now
                 </button>
               </div>

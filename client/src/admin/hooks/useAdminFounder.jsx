@@ -1,15 +1,16 @@
 import { useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
+// import { toast } from "react-toastify";
 
 const API = import.meta.env.VITE_API_URL;
 
 export default function useAdminFounder() {
-  // 🔄 separate loading states
+  // Separate loading states
   const [getLoading, setGetLoading] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
 
-  /* ================= GET FOUNDER ================= */
+  // ------------------------- GET FOUNDER -------------------------
   const getFounder = async () => {
     setGetLoading(true);
     try {
@@ -23,7 +24,7 @@ export default function useAdminFounder() {
     }
   };
 
-  /* ================= UPDATE FOUNDER (ADMIN) ================= */
+  // ------------------------- UPDATE FOUNDER -------------------------
   const updateFounder = async (formData) => {
     if (updateLoading) return false;
 
@@ -38,7 +39,7 @@ export default function useAdminFounder() {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       toast.success(res.data?.message || "Founder updated");

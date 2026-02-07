@@ -303,7 +303,7 @@ import { FaUserCircle, FaUser, FaKey, FaSignOutAlt } from "react-icons/fa";
 /* 🔹 Profile Icon */
 function ProfileIcon() {
   return (
-    <FaUserCircle className="text-3xl text-slate-200 hover:text-blue-400 transition cursor-pointer" />
+    <FaUserCircle className="text-2xl [@media(min-width:480px)]:text-3xl text-slate-200 hover:text-blue-400 transition cursor-pointer" />
   );
 }
 
@@ -480,10 +480,10 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur border-b border-slate-800">
-      <nav className="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
+      <nav className="max-w-6xl mx-auto flex items-center justify-between px-4 py-2 [@media(min-width:480px)]:py-3">
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <div className="h-9 w-9 rounded-full bg-blue-500 flex items-center justify-center font-bold text-white">
+          <div className="h-7 w-7 [@media(min-width:480px)]:h-9 [@media(min-width:480px)]:w-9 rounded-full bg-blue-500 flex items-center justify-center font-bold text-white">
             F
           </div>
 
@@ -542,7 +542,7 @@ export default function Navbar() {
             ref={toggleBtnRef}
             onClick={() => setOpen((prev) => !prev)}
             className="
-    md:hidden relative h-8 w-10
+    md:hidden relative h-6 w-8 [@media(min-width:480px)]:h-8 [@media(min-width:480px)]:w-10
     flex items-center justify-center
     rounded-sm
     bg-slate-800 hover:bg-slate-700
@@ -557,7 +557,7 @@ export default function Navbar() {
         open ? "opacity-0 rotate-90 scale-75" : "opacity-100 rotate-0 scale-100"
       }`}
             >
-              <MdMenu className="text-2xl text-slate-200" />
+              <MdMenu className="twxt-xl [@media(min-width:480px)]:text-2xl text-slate-200" />
             </span>
 
             {/* Close Icon */}
@@ -570,7 +570,7 @@ export default function Navbar() {
           : "opacity-0 -rotate-90 scale-75"
       }`}
             >
-              <MdClose className="text-2xl text-slate-200" />
+              <MdClose className="twxt-xl [@media(min-width:480px)]:text-2xl text-slate-200" />
             </span>
           </button>
         </div>
@@ -579,49 +579,78 @@ export default function Navbar() {
       {/* 🔹 Mobile Dropdown (Nav Links) */}
       <div
         ref={dropdownRef}
-        className={`md:hidden absolute right-3 top-12 mt-2 w-56 rounded-md
-  bg-slate-900 border border-slate-800 p-4 space-y-3 shadow-2xl
-  transition-all duration-300 origin-top-right
-  ${open ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"}`}
-      >
-        <a
-          href="#courses"
-          onClick={() => setOpen(false)}
-          className="block text-slate-200 hover:text-blue-400"
-        >
-          Courses
-        </a>
-        <a
-          href="#success"
-          onClick={() => setOpen(false)}
-          className="block text-slate-200 hover:text-blue-400"
-        >
-          Success Stories
-        </a>
-        <a
-          href="#founder"
-          onClick={() => setOpen(false)}
-          className="block text-slate-200 hover:text-blue-400"
-        >
-          Founder
-        </a>
-        <a
-          href="#contact"
-          onClick={() => setOpen(false)}
-          className="block text-slate-200 hover:text-blue-400"
-        >
-          Contact
-        </a>
+        className={`
+    md:hidden absolute right-3 top-8
+    [@media(min-width:480px)]:top-12
+    mt-2 w-56 rounded-md
 
+    bg-slate-900/95 backdrop-blur
+    border border-slate-800
+    shadow-2xl
+
+    p-2 space-y-1
+    text-sm [@media(min-width:480px)]:text-base
+
+    origin-top-right
+    transition-all duration-200 ease-out
+    ${
+      open
+        ? "opacity-100 scale-100 translate-y-0"
+        : "opacity-0 scale-95 -translate-y-1 pointer-events-none"
+    }
+  `}
+      >
+        {/* Nav links */}
+        {[
+          { label: "Home", href: "/" },
+          { label: "Courses", href: "#courses" },
+          { label: "Success Stories", href: "#success" },
+          { label: "Founder", href: "#founder" },
+          { label: "Contact", href: "#contact" },
+        ].map((item) => (
+          <a
+            key={item.label}
+            href={item.href}
+            onClick={() => setOpen(false)}
+            className="
+  block rounded-sm px-2 py-1.5
+  text-slate-200
+
+  border border-transparent
+  transition-all duration-200 ease-out
+
+  hover:border-cyan-400/60
+  hover:bg-slate-800
+  hover:text-cyan-300
+  hover:shadow-[0_0_0_1px_rgba(34,211,238,0.3)]
+
+  active:scale-[0.98]
+"
+          >
+            {item.label}
+          </a>
+        ))}
+
+        {/* Auth section */}
         {!isLoggedIn && (
           <>
-            <hr className="border-slate-700 my-2" />
+            <div className="my-2 h-px bg-slate-700/60" />
+
             <Link
               to="/login"
               onClick={() => setOpen(false)}
-              className="block text-white rounded-md text-center
-      border border-blue-500 px-4 py-2 text-sm font-medium
-      hover:bg-blue-600 transition"
+              className="
+          block rounded-sm text-center
+          border border-cyan-500/70
+          px-4 py-2
+
+          text-xs [@media(min-width:480px)]:text-sm
+          font-medium text-white
+
+          transition
+          hover:bg-cyan-600 hover:border-cyan-600
+          active:scale-[0.98]
+        "
             >
               Login / Register
             </Link>

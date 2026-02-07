@@ -55,7 +55,7 @@ export default function AdminHero() {
   };
 
   return (
-    <div className="max-w-3xl bg-slate-900 border border-slate-800 rounded-md p-6">
+    <div className="max-w-3xl bg-slate-900 border border-slate-700 rounded-md p-6">
       <h2 className="text-xl font-bold text-blue-400 mb-6">
         Hero Section Settings
       </h2>

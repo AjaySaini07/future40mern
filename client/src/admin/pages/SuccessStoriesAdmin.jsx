@@ -86,7 +86,7 @@ export default function SuccessStoriesAdmin() {
   const [totalPages, setTotalPages] = useState(1);
 
   const filterOptions = [
-    { value: "all", label: "All" },
+    { value: "all", label: "All Stories" },
     { value: "approved", label: "Approved" },
     { value: "unapproved", label: "Unapproved" },
   ];
@@ -185,7 +185,7 @@ export default function SuccessStoriesAdmin() {
     loadStories();
   };
 
-  //Handle delete function
+  // Handle delete function
   const handleDeleteConfirm = async () => {
     if (!storyToDelete) return;
 
@@ -206,7 +206,7 @@ export default function SuccessStoriesAdmin() {
         <div className="flex flex-col md:flex-row justify-between gap-4">
           <h1 className="text-xl sm:text-2xl font-bold">All Success Stories</h1>
 
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3">
             {/* Search */}
             <div className="relative w-64">
               <IoMdSearch
@@ -229,22 +229,40 @@ export default function SuccessStoriesAdmin() {
               onChange={(selected) => setFilter(selected.value)}
               options={filterOptions}
               isSearchable={false}
-              className="w-31 text-xs"
+              className="w-36 text-sm"
               classNamePrefix="react-select"
               styles={{
                 control: (base, state) => ({
                   ...base,
                   backgroundColor: "#0f172a", // slate-900
+
                   borderColor: state.isFocused ? "#94a3b8" : "#334155",
+
                   boxShadow: "none",
                   minHeight: "30px",
                   cursor: "pointer",
+
+                  transition: "all 500ms ease",
+
+                  ":hover": {
+                    borderColor: state.isFocused ? "#94a3b8" : "#334155",
+                  },
                 }),
+
                 menu: (base) => ({
                   ...base,
-                  backgroundColor: "#0f172a",
+                  backgroundColor: "#020617",
                   border: "1px solid #334155",
+                  marginTop: "4px",
+                  zIndex: 50,
                 }),
+
+                menuList: (base) => ({
+                  ...base,
+                  paddingTop: "4px",
+                  paddingBottom: "4px",
+                }),
+
                 option: (base, state) => ({
                   ...base,
                   backgroundColor: state.isSelected
@@ -254,16 +272,30 @@ export default function SuccessStoriesAdmin() {
                       : "#020617",
                   color: "#e5e7eb",
                   cursor: "pointer",
+                  padding: "6px 10px",
                 }),
+
                 singleValue: (base) => ({
                   ...base,
                   color: "#e5e7eb",
                 }),
-                indicatorSeparator: () => ({ display: "none" }),
-                dropdownIndicator: (base) => ({
+
+                placeholder: (base) => ({
                   ...base,
                   color: "#94a3b8",
-                  ":hover": { color: "#e5e7eb" },
+                }),
+
+                indicatorSeparator: () => ({
+                  display: "none",
+                }),
+
+                dropdownIndicator: (base, state) => ({
+                  ...base,
+                  color: state.isFocused ? "#e5e7eb" : "#94a3b8",
+                  transition: "color 300ms ease",
+                  ":hover": {
+                    color: state.isFocused ? "#e5e7eb" : "#94a3b8",
+                  },
                 }),
               }}
             />
@@ -363,7 +395,7 @@ export default function SuccessStoriesAdmin() {
                   {story.name}
                 </h4>
 
-                {/* Actions */}
+                {/* Actions Buttons */}
                 <div className="mt-4 flex justify-center gap-2">
                   {/* Approve / Unapprove */}
                   <motion.button
@@ -571,25 +603,45 @@ export default function SuccessStoriesAdmin() {
               </p>
 
               {/* Meta Info */}
-              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-400">
-                <div>
-                  <span className="text-slate-500">Email:</span>
-                  <p className="break-all">{viewStory.email}</p>
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                {/* Email */}
+                <div className="rounded-sm border border-slate-700 hover:border-cyan-700 bg-slate-900/60 p-3 transition-all duration-500">
+                  <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold mb-1">
+                    Email
+                  </p>
+                  <p className="break-all text-slate-300 font-medium">
+                    {viewStory.email}
+                  </p>
                 </div>
 
-                <div>
-                  <span className="text-slate-500">Gender:</span>
-                  <p>{viewStory.gender}</p>
+                {/* Gender */}
+                <div className="rounded-sm border border-slate-700 hover:border-cyan-700 bg-slate-900/60 p-3 transition-all duration-500">
+                  <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold mb-1">
+                    Gender
+                  </p>
+                  <p className="text-slate-300 font-medium capitalize">
+                    {viewStory.gender}
+                  </p>
                 </div>
 
-                <div>
-                  <span className="text-slate-500">Created At:</span>
-                  <p>{new Date(viewStory.createdAt).toLocaleString()}</p>
+                {/* Created At */}
+                <div className="rounded-sm border border-slate-700 hover:border-cyan-700 bg-slate-900/60 p-3 transition-all duration-500">
+                  <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold mb-1">
+                    Created At
+                  </p>
+                  <p className="text-slate-300 font-medium">
+                    {new Date(viewStory.createdAt).toLocaleString()}
+                  </p>
                 </div>
 
-                <div>
-                  <span className="text-slate-500">Updated At:</span>
-                  <p>{new Date(viewStory.updatedAt).toLocaleString()}</p>
+                {/* Updated At */}
+                <div className="rounded-sm border border-slate-700 hover:border-cyan-700 bg-slate-900/60 p-3 transition-all duration-500">
+                  <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold mb-1">
+                    Updated At
+                  </p>
+                  <p className="text-slate-300 font-medium">
+                    {new Date(viewStory.updatedAt).toLocaleString()}
+                  </p>
                 </div>
               </div>
             </motion.div>

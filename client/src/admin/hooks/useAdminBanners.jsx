@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
+// import { toast } from "react-toastify";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -10,7 +11,7 @@ export default function useAdminBanners() {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [toggleLoading, setToggleLoading] = useState(false);
 
-  /* ================= GET ALL BANNERS ================= */
+  // ------------------------- GET ALL BANNERS -------------------------
   const getBanners = async () => {
     setGetLoading(true);
     try {
@@ -27,7 +28,7 @@ export default function useAdminBanners() {
     }
   };
 
-  /* ================= ADD BANNER (ADMIN) ================= */
+  // ------------------------ ADD BANNER (ADMIN) ------------------------
   const addBanner = async (formData) => {
     if (addLoading) return false;
     setAddLoading(true);
@@ -42,7 +43,7 @@ export default function useAdminBanners() {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       console.log("Add banner response ------->", res.data);
@@ -57,7 +58,7 @@ export default function useAdminBanners() {
     }
   };
 
-  /* ================= ACTIVE / INACTIVE (ADMIN) ================= */
+  // --------------------- ACTIVE / INACTIVE (ADMIN) ---------------------
   const toggleBanner = async (id) => {
     if (toggleLoading) return false;
 
@@ -72,7 +73,7 @@ export default function useAdminBanners() {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       toast.success(res.data.message);
@@ -85,7 +86,7 @@ export default function useAdminBanners() {
     }
   };
 
-  /* ================= DELETE BANNER ================= */
+  // --------------------------- DELETE BANNER ---------------------------
   const deleteBanner = async (id) => {
     if (deleteLoading) return false;
     setDeleteLoading(true);
@@ -99,7 +100,7 @@ export default function useAdminBanners() {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       console.log("Delete banner response ------->", res.data);

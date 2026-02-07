@@ -35,16 +35,16 @@ const features = [
 
 export default function NeonFeatureCards() {
   return (
-    <section className="py-16 bg-slate-950">
+    <section className="pt-12 md:pt-16 pb-2 md:pb-5 bg-slate-950">
       <div className="max-w-6xl mx-auto px-4">
-        <h2 className="text-center text-3xl md:text-4xl font-bold text-white">
+        <h2 className="text-center text-2xl sm:text-3xl md:text-4xl font-bold text-white">
           Why Choose <span className="text-blue-400">Future40?</span>
         </h2>
-        <p className="text-center mt-3 text-slate-300 text-sm max-w-xl mx-auto">
+        <p className="text-center mt-1 sm:mt-2 text-slate-300 text-xs sm:text-sm max-w-xl mx-auto">
           High-performance training built for real confidence, fluency & growth.
         </p>
 
-        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-8">
+        <div className="mt-5 sm:mt-7 md:mt-9 grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
           {features.map((f, i) => (
             <Reveal key={i}>
               <div className="relative group p-[2px] rounded-xl transition duration-500">

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
+// import { toast } from "react-toastify";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -8,7 +9,7 @@ export default function useAdminHero() {
   const [getLoading, setGetLoading] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
 
-  /* ================= GET HERO (ADMIN) ================= */
+  // -------------------------- GET HERO --------------------------
   const getHero = async () => {
     setGetLoading(true);
     try {
@@ -31,7 +32,7 @@ export default function useAdminHero() {
     }
   };
 
-  /* ================= UPDATE HERO (ADMIN) ================= */
+  // -------------------------- UPDATE HERO --------------------------
   const updateHero = async (formData) => {
     if (updateLoading) return false;
 

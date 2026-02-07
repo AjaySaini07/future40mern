@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
+// import { toast } from "react-toastify";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -11,7 +12,7 @@ export default function useAdminStories() {
   const [statusLoading, setStatusLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
-  // 🔹 FETCH STORIES (search + filter + pagination)
+  //------------------------- FETCH STORIES (search + filter + pagination) --------------------------
   const fetchStories = async ({
     page = 1,
     limit = 8,
@@ -28,7 +29,7 @@ export default function useAdminStories() {
           headers: {
             Authorization: "Bearer " + token,
           },
-        }
+        },
       );
 
       console.log("Fetch all stories ----->", res.data);
@@ -42,7 +43,7 @@ export default function useAdminStories() {
     }
   };
 
-  // 🔹 APPROVE / UNAPPROVE (BOOLEAN BASED)
+  //------------------------- APPROVE / UNAPPROVE STORIES --------------------------
   const updateStatus = async (id, approved) => {
     try {
       setStatusLoading(true);
@@ -54,7 +55,7 @@ export default function useAdminStories() {
           headers: {
             Authorization: "Bearer " + token,
           },
-        }
+        },
       );
 
       console.log("Approve/Unapprove response -------->", res.data);
@@ -73,7 +74,7 @@ export default function useAdminStories() {
     }
   };
 
-  // 🔹 DELETE STORY
+  //------------------------- DELETE STORIES --------------------------
   const deleteStory = async (id) => {
     try {
       setDeleteLoading(true);
@@ -84,7 +85,7 @@ export default function useAdminStories() {
           headers: {
             Authorization: "Bearer " + token,
           },
-        }
+        },
       );
 
       console.log("Delete storie response ------>", res.data);

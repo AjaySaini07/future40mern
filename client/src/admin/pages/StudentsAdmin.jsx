@@ -91,37 +91,50 @@ export default function StudentAdmin() {
   const selectStyles = {
     control: (base, state) => ({
       ...base,
-      //   backgroundColor: "#020617",
       backgroundColor: "#0f172a",
-      borderColor: state.isFocused ? "#38bdf8" : "#334155",
+
+      borderColor: state.isFocused ? "#94a3b8" : "#334155",
+
       boxShadow: "none",
       minHeight: "35px",
-      ":hover": { borderColor: "#38bdf8" },
+
+      transition: "all 500ms ease",
+
+      ":hover": {
+        borderColor: state.isFocused ? "#94a3b8" : "#334155",
+      },
     }),
+
     menu: (base) => ({
       ...base,
       backgroundColor: "#020617",
       border: "1px solid #334155",
       zIndex: 50,
+      marginTop: "4px",
     }),
+
     option: (base, state) => ({
       ...base,
       backgroundColor: state.isSelected
         ? "#1e293b"
         : state.isFocused
-        ? "#0f172a"
-        : "#020617",
+          ? "#0f172a"
+          : "#020617",
       color: "#e5e7eb",
+      padding: "8px 10px",
       cursor: "pointer",
     }),
+
     singleValue: (base) => ({
       ...base,
       color: "#e5e7eb",
     }),
+
     placeholder: (base) => ({
       ...base,
       color: "#94a3b8",
     }),
+
     input: (base) => ({
       ...base,
       color: "#e5e7eb",
@@ -130,14 +143,14 @@ export default function StudentAdmin() {
 
   return (
     <div className="bg-slate-900 border border-slate-800 min-h-screen rounded-sm p-6">
-      {/* ================= HEADER ================= */}
+      {/* ----------------------- HEADER ----------------------- */}
       <div className="flex flex-wrap gap-3 justify-between items-end mb-3">
         <h2 className="text-2xl font-semibold text-white">All Students</h2>
 
-        {/* ================= FILTERS / SEARCH ================= */}
+        {/* -------------- FILTERS / SEARCH -------------- */}
         <div className="flex flex-wrap gap-4">
           {/* Gender Filter */}
-          <div className="">
+          <div className="min-w-[120px]">
             <Select
               options={genderOptions}
               styles={selectStyles}
@@ -184,16 +197,16 @@ export default function StudentAdmin() {
               //     setSearch(e.target.value);
               //     setCurrentPage(1);
               //   }}
-              className="w-full pl-10 rounded bg-slate-900 border border-slate-700 outline-none focus:border-slate-400 transition duration-500 px-4 py-2 text-sm text-white"
+              className="w-full pl-10 rounded bg-slate-900 border border-slate-700 outline-none focus:border-slate-400 transition-all duration-500 px-4 py-2 text-sm text-white"
             />
           </div>
         </div>
       </div>
 
-      {/* ================= TABLE ================= */}
+      {/* ------------------------ TABLE ------------------------ */}
       <div className="overflow-x-auto rounded-sm border border-slate-800">
         <table className="w-full text-sm">
-          {/* ================= HEADER ================= */}
+          {/* ------------- HEADER ------------- */}
           <thead className="bg-slate-700/60 text-slate-300">
             <tr>
               <th className="text-left px-4 py-3 font-medium">Sr. No.</th>
@@ -205,7 +218,7 @@ export default function StudentAdmin() {
             </tr>
           </thead>
 
-          {/* ================= BODY ================= */}
+          {/* -------------- BODY -------------- */}
           <tbody className="divide-y divide-slate-800">
             {fetchLoading ? (
               <tr>
@@ -272,7 +285,7 @@ export default function StudentAdmin() {
                     <div className="flex justify-center gap-2">
                       {/* 👁 View */}
                       <motion.button
-                        whileHover={{ scale: 1.1 }}
+                        // whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.92 }}
                         transition={{
                           type: "spring",
@@ -288,7 +301,7 @@ export default function StudentAdmin() {
 
                       {/* 🗑 Delete */}
                       <motion.button
-                        whileHover={{ scale: 1.1 }}
+                        // whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.92 }}
                         transition={{
                           type: "spring",
@@ -316,7 +329,7 @@ export default function StudentAdmin() {
         </table>
       </div>
 
-      {/* ================= PAGINATION ================= */}
+      {/* ------------- PAGINATION ------------- */}
       {pagination?.totalPages > 1 && (
         <div className="flex justify-center items-center gap-2 mt-14 flex-wrap">
           {/* Prev */}
@@ -347,7 +360,7 @@ export default function StudentAdmin() {
               >
                 {page}
               </button>
-            )
+            ),
           )}
 
           {/* Next */}
@@ -364,7 +377,7 @@ export default function StudentAdmin() {
         </div>
       )}
 
-      {/* ================= VIEW STUDENT MODAL ================= */}
+      {/* ------------------- VIEW STUDENT MODAL ------------------- */}
       <AnimatePresence>
         {viewStudent && (
           <motion.div
@@ -427,7 +440,7 @@ export default function StudentAdmin() {
                     <Info
                       label="Account Created"
                       value={new Date(
-                        viewStudent.createdAt
+                        viewStudent.createdAt,
                       ).toLocaleDateString()}
                     />
                   </InfoGrid>
@@ -459,7 +472,7 @@ export default function StudentAdmin() {
         )}
       </AnimatePresence>
 
-      {/* ================= DELETE MODAL ================= */}
+      {/* ------------ DELETE MODAL ------------ */}
       <ConfirmModal
         open={!!deleteId}
         title="Delete Student...!"
@@ -503,11 +516,11 @@ function InfoGrid({ children }) {
 function Info({ label, value }) {
   return (
     <div
-      className="bg-slate-800/40 border border-slate-700/50 hover:border-sky-900
-    rounded-sm px-3 py-2 md:px-4 md:py-3 transition"
+      className="bg-slate-800/20 border border-slate-700/50 hover:border-sky-900
+    rounded-sm px-3 py-2 md:px-4 md:py-3 transition-all duration-500"
     >
       <p className="text-xs text-slate-400 mb-1">{label}</p>
-      <p className="text-slate-200 font-medium break-all">{value || "-"}</p>
+      <p className="text-slate-300 font-medium break-all">{value || "-"}</p>
     </div>
   );
 }

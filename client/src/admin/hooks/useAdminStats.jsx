@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -8,6 +8,7 @@ export const useAdminStats = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  //-------------------------- FETCH ADMIN STATS ----------------------------
   const fetchAdminStats = async () => {
     try {
       setLoading(true);

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
+// import { toast } from "react-toastify";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -16,12 +17,14 @@ export default function useContactInfo() {
       const res = await axios.get(`${API}/api/contactinfo`);
 
       console.log("Contact info response -------->", res.data);
+      // toast.success(res.data.message);
+      // toast.success("Query submitted successfully");
 
       setContactInfo(res.data.info);
       return res.data;
     } catch (error) {
       toast.error(
-        error?.response?.data?.message || "Failed to load contact information"
+        error?.response?.data?.message || "Failed to load contact information",
       );
       return { success: false };
     } finally {

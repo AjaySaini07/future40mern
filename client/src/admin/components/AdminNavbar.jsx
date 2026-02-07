@@ -10,6 +10,7 @@ import {
   SattingIcon,
   UnLockedIcon,
 } from "../../icons/Icons";
+import { Link } from "react-router-dom";
 
 function AdminNavbar({ open, pinMode, setPinMode, setOpen }) {
   const [adminName, setAdminName] = useState("");
@@ -132,7 +133,7 @@ function AdminNavbar({ open, pinMode, setPinMode, setOpen }) {
 
         {/* Dropdown */}
         {menuOpen && (
-          <div className="absolute right-0 top-11 w-56 bg-slate-950 border border-slate-800 rounded-md shadow-xl overflow-hidden z-50">
+          <div className="absolute right-0 top-11 w-56 bg-slate-950 border border-slate-700 rounded-md shadow-xl overflow-hidden z-50">
             <div className="flex items-center gap-1 px-4 py-3 border-b border-slate-800">
               <p className="text-sm text-blue-400 font-medium">
                 {adminName}
@@ -143,7 +144,9 @@ function AdminNavbar({ open, pinMode, setPinMode, setOpen }) {
 
             <div className="py-1">
               <DropdownItem icon={<ProfileIcon />} label="Profile" />
-              <DropdownItem icon={<LockedIcon />} label="Change Password" />
+              <Link to="/admin/change-password">
+                <DropdownItem icon={<LockedIcon />} label="Change Password" />
+              </Link>
               <DropdownItem icon={<SattingIcon />} label="Settings" />
             </div>
 

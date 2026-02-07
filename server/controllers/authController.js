@@ -2,8 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authModel = require("../models/authModel");
 
-// --------------------------- SIGNUP ---------------------------
-
+// --------------------------- ADMIN SIGNUP ---------------------------
 exports.signup = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -29,8 +28,7 @@ exports.signup = async (req, res) => {
   }
 };
 
-// --------------------------- LOGIN ---------------------------
-
+// --------------------------- ADMIN LOGIN ---------------------------
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -57,5 +55,64 @@ exports.login = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
+  }
+};
+
+// --------------------------- CHANGE PASSWORD ---------------------------
+exports.changePassword = async (req, res) => {
+  try {
+    console.log("Console req.body ------>", req.body);
+    const { currentPassword, newPassword } = req.body;
+    const userId = req.admin.id;
+
+    if (!currentPassword || !newPassword) {
+      return res.json({
+        success: false,
+        message: "All fields are required.",
+      });
+    }
+
+    // find user
+    const user = await authModel.findById(userId);
+    if (!user) {
+      return res.json({
+        success: false,
+        message: "User not found.",
+      });
+    }
+
+    // match old password
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res.json({
+        success: false,
+        message: "Current password is incorrect.",
+      });
+    }
+
+    // prevent same password
+    const samePassword = await bcrypt.compare(newPassword, user.password);
+    if (samePassword) {
+      return res.json({
+        success: false,
+        message: "New password must be different.",
+      });
+    }
+
+    // hash new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    user.password = hashedPassword;
+    await user.save();
+
+    res.json({
+      success: true,
+      message: "Password changed successfully. Please login again.",
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      error: err.message,
+    });
   }
 };

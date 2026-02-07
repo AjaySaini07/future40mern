@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import Reveal from "./Reveal";
 import { RxCross1 } from "react-icons/rx";
 import { useSuccessStory } from "../hooks/useSuccessStory";
-import { StarIcon } from "../icons/Icons";
+import { CrossIcon, StarIcon } from "../icons/Icons";
 
 import Cropper from "react-easy-crop";
 import { getCroppedImg } from "../utils/cropImage";
@@ -70,10 +70,10 @@ export default function SuccessForm() {
       <div className="max-w-4xl mx-auto px-4 text-center">
         <Reveal>
           {/* Heading */}
-          <h2 className="text-2xl md:text-3xl font-bold">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center">
             Submit Your <span className="text-blue-400">Success Story</span>
           </h2>
-          <p className="text-sm text-slate-400 mt-2">
+          <p className="text-slate-400 text-xs sm:text-sm mt-1 sm:mt-2">
             Inspire others by sharing your experience.
           </p>
 
@@ -84,6 +84,7 @@ export default function SuccessForm() {
               className="
                 inline-flex items-center justify-center
                 px-8 py-3
+                text-xs sm:text-sm md:text-base
                 rounded-full
                 border-2 border-blue-500
                 text-blue-400 font-semibold
@@ -103,12 +104,12 @@ export default function SuccessForm() {
           <div
             onClick={handleOutsideClick}
             className="fixed inset-0 bg-black/60 backdrop-blur-sm
-                       flex items-center justify-center z-50 px-3"
+                       flex items-center justify-center z-50 px-4"
           >
             <div
               ref={modalRef}
               className="bg-slate-900 border border-slate-700
-                         rounded-md w-full sm:w-[90%] md:max-w-xl
+                         rounded-md w-[99%] [@media(min-width:480px)]:w-[90%] md:max-w-xl
                          max-h-[90vh] overflow-y-auto scrollbar-slim
   pr-3 scroll-smooth
                          p-4 sm:p-6 animate-fadeInScale"
@@ -118,13 +119,13 @@ export default function SuccessForm() {
                 <h3 className="text-blue-400 font-bold text-lg sm:text-xl">
                   Share Your Story
                 </h3>
-                <RxCross1
+                <CrossIcon
                   onClick={() => {
                     reset();
                     setOpen(false);
                   }}
-                  className="flex items-start justify-center
-                             text-2xl text-slate-400 hover:text-white cursor-pointer mt-1"
+                  className="flex items-start justify-center 
+                             text-xl sm:text-2xl text-slate-400 hover:text-white cursor-pointer mt-1"
                 />
               </div>
 
@@ -134,15 +135,15 @@ export default function SuccessForm() {
                   onSubmit={handleSubmit(onSubmit)}
                   className="space-y-2 text-left"
                 >
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
+                  <div className="grid grid-cols-1 [@media(min-width:480px)]:grid-cols-2 gap-x-4 gap-y-1 [@media(min-width:480px)]:gap-y-2">
                     {/* Name */}
                     <div>
                       <label className="text-xs text-slate-400">Name *</label>
                       <input
                         {...register("name", { required: true })}
-                        className="w-full rounded-sm bg-slate-950
+                        className="w-full rounded-sm bg-slate-900
                  border border-slate-700 outline-none focus:border-slate-400 transition duration-500
-                 px-4 py-2 text-sm"
+                 px-2 [@media(min-width:480px)]:px-3 py-2 [@media(min-width:480px)]:py-2 text-xs sm:text-sm"
                       />
                       {errors.name && (
                         <p className="text-red-500 text-xs mt-0.5">
@@ -157,9 +158,9 @@ export default function SuccessForm() {
                       <input
                         type="email"
                         {...register("email", { required: true })}
-                        className="w-full rounded-sm bg-slate-950
+                        className="w-full rounded-sm bg-slate-900
                  border border-slate-700 outline-none focus:border-slate-400 transition duration-500
-                 px-4 py-2 text-sm"
+                 px-2 [@media(min-width:480px)]:px-3 py-2 [@media(min-width:480px)]:py-2 text-xs sm:text-sm"
                       />
                       {errors.email && (
                         <p className="text-red-500 text-xs mt-0.5">
@@ -169,7 +170,7 @@ export default function SuccessForm() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
+                  <div className="grid grid-cols-1 [@media(min-width:480px)]:grid-cols-2 gap-x-4 gap-y-1 [@media(min-width:480px)]:gap-y-2">
                     {/* Key Achievement */}
                     <div>
                       <label className="text-xs text-slate-400">
@@ -185,11 +186,11 @@ export default function SuccessForm() {
                               "Achievement must be at least 5 characters",
                           },
                         })}
-                        placeholder="e.g. Cracked Interview, Improved English fluency"
-                        className="w-full rounded-sm bg-slate-950
+                        placeholder="E.g. Cracked Interview"
+                        className="w-full rounded-sm bg-slate-900
       border border-slate-700 outline-none
       focus:border-slate-400 transition duration-500
-      px-4 py-2 text-sm text-white"
+      px-2 [@media(min-width:480px)]:px-3 py-2 [@media(min-width:480px)]:py-2 text-xs sm:text-sm"
                       />
 
                       {errors.achievement && (
@@ -213,7 +214,7 @@ export default function SuccessForm() {
                         })}
                       />
 
-                      <div className="flex items-center gap-2 text-xl mt-1">
+                      <div className="flex flex-wrap items-center gap-2 text-xl mt-0.5">
                         {[1, 2, 3, 4, 5].map((star) => (
                           <button
                             type="button"
@@ -233,7 +234,7 @@ export default function SuccessForm() {
                         ))}
 
                         {errors.rating && (
-                          <p className="text-red-500 text-xs ms-1 mt-1">
+                          <p className="text-red-500 text-xs ms-1 [@media(min-width:380px)]:mt-1">
                             {errors.rating.message}
                           </p>
                         )}
@@ -260,13 +261,13 @@ export default function SuccessForm() {
                         };
                         reader.readAsDataURL(file);
                       }}
-                      className="block w-full text-sm text-slate-400
-                               file:mr-4 file:py-1 file:px-3
+                      className="block w-full text-slate-400
+                               file:mr-4 file:[@media(min-width:480px)]:py-0 file:px-2 file:[@media(min-width:480px)]:px-2
                                file:rounded-sm file:border-0
                                file:bg-slate-800 file:text-white
-                               hover:file:bg-slate-700 rounded-sm bg-slate-950
+                               hover:file:bg-slate-700 rounded-sm bg-slate-900
                  border border-slate-700 outline-none focus:border-slate-400 transition duration-500
-                 px-2 py-1.5"
+                px-2 [@media(min-width:480px)]:px-3 py-2 text-xs sm:text-sm"
                     />
                   </div>
 
@@ -285,10 +286,10 @@ export default function SuccessForm() {
                           message: "Story must be at least 20 characters",
                         },
                       })}
-                      className="w-full h-20 rounded-sm bg-slate-950
+                      className="w-full h-15 [@media(min-width:480px)]:h-20 rounded-sm bg-slate-900
       border border-slate-700 outline-none
       focus:border-slate-400 transition duration-500
-      px-4 py-2 text-sm"
+      px-2 py-1.5 text-xs sm:text-sm"
                     />
 
                     {errors.story && (
@@ -304,7 +305,7 @@ export default function SuccessForm() {
                     disabled={submitLoading}
                     aria-disabled={submitLoading}
                     className={`
-    w-full mt-1 py-2 text-sm font-medium rounded-sm text-white bg-blue-600 transition
+    w-full mt-0.5 py-2 text-xs [@media(min-width:480px)]:text-sm font-medium rounded-sm text-white bg-blue-600 transition
     ${
       submitLoading
         ? " cursor-not-allowed opacity-70"
@@ -315,7 +316,7 @@ export default function SuccessForm() {
                     {submitLoading ? "Submitting..." : "Submit Story"}
                   </button>
 
-                  <p className="text-center text-[11px] text-slate-400">
+                  <p className="text-center text-[10px] [@media(min-width:480px)]:text-[11px] text-slate-400">
                     Your story will be reviewed before publishing.
                   </p>
                 </form>

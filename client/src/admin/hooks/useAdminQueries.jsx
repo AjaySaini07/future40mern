@@ -1,18 +1,19 @@
 import { useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
+// import { toast } from "react-toastify";
 
 const API = import.meta.env.VITE_API_URL;
 
 export default function useAdminQueries() {
   const [queries, setQueries] = useState([]);
 
-  // 🔄 Loading states
+  // Loading states ----------
   const [fetchLoading, setFetchLoading] = useState(false);
   const [replyLoading, setReplyLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
-  // 🔹 FETCH (pagination + search + filter)
+  //-------------------------- FETCH (pagination + search + filter) ----------------------------
   const fetchQueries = async (page, search, status, limit) => {
     try {
       setFetchLoading(true);
@@ -40,7 +41,7 @@ export default function useAdminQueries() {
     }
   };
 
-  // 🔹 REPLY QUERY
+  //-------------------------- REPLY QUERY ----------------------------
   const replyQuery = async (id, reply) => {
     try {
       setReplyLoading(true);
@@ -49,7 +50,7 @@ export default function useAdminQueries() {
       const res = await axios.post(
         `${API}/api/queries/admin/reply/${id}`,
         { reply },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
 
       toast.success(res?.data?.message || "Reply sent");
@@ -62,7 +63,7 @@ export default function useAdminQueries() {
     }
   };
 
-  // 🔹 DELETE QUERY
+  //-------------------------- DELETE QUERY ----------------------------
   const deleteQuery = async (id) => {
     try {
       setDeleteLoading(true);

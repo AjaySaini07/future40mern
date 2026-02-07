@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
+// import { toast } from "react-toastify";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -22,7 +23,7 @@ export const useSuccessStory = () => {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
 
       toast.success(res?.data?.message || "Story submitted for review");
@@ -48,7 +49,7 @@ export const useSuccessStory = () => {
       return res.data; // { success, stories, pagination }
     } catch (error) {
       toast.error(
-        error?.response?.data?.message || "Failed to fetch stories ❌"
+        error?.response?.data?.message || "Failed to fetch stories ❌",
       );
       return { success: false, stories: [] };
     } finally {

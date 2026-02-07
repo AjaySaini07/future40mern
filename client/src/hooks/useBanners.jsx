@@ -11,6 +11,7 @@ export default function useBanners() {
     setLoading(true);
     try {
       const res = await axios.get(`${API}/api/banner/all-banners`);
+      console.log("Banner fetch response ------->", res);
       setBanners(res.data?.banners || []);
     } catch (error) {
       console.error("Failed to fetch banners", error);

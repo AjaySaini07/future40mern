@@ -20,7 +20,7 @@ const stories = [
   {
     name: "Kriti J.",
     tag: "Fluent Communicator",
-    text: "I used to hesitate speaking English — now I talk to international clients fluently & fearlessly.",
+    text: "I used to hesitate speaking English now I talk to international clients fluently & fearlessly.",
     img: "https://avatar.iran.liara.run/public/boy",
   },
   {
@@ -39,13 +39,16 @@ const stories = [
 
 export default function SuccessStoriesSection() {
   return (
-    <section id="success" className="py-12 bg-slate-950 ">
-      <div className="max-w-6xl mx-auto px-4 text-center w-full">
+    <section
+      id="success"
+      className="pt-12 md:pt-16 pb-2 md:pb-5 px-4 bg-slate-950"
+    >
+      <div className="max-w-6xl mx-auto text-center w-full">
         <Reveal>
-          <h2 className="text-3xl md:text-4xl font-bold text-white">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center">
             Student <span className="text-blue-400">Success Stories</span>
           </h2>
-          <p className="text-slate-400 mt-2 max-w-lg mx-auto text-sm">
+          <p className="text-slate-400 max-w-lg mx-auto text-xs sm:text-sm mt-1 sm:mt-2">
             Each success story reflects dedication, growth and transformation.
           </p>
         </Reveal>
@@ -53,9 +56,9 @@ export default function SuccessStoriesSection() {
         {/* SWIPER */}
         <div className="relative group">
           {/* Left Fade */}
-          <div className="pointer-events-none absolute left-0 top-0 h-full w-16 bg-gradient-to-r from-slate-950 to-transparent z-20"></div>
+          <div className="pointer-events-none absolute left-0 top-0 h-full [@media(min-width:250px)]:w-3 [@media(min-width:480px)]:w-6 [@media(min-width:640px)]::w-9 bg-gradient-to-r from-slate-950 to-transparent [@media(min-width:250px)]:z-10 md:z-20"></div>
           {/* Right Fade */}
-          <div className="pointer-events-none absolute right-0 top-0 h-full w-16 bg-gradient-to-l from-slate-950 to-transparent z-20"></div>
+          <div className="pointer-events-none absolute right-0 top-0 h-full [@media(min-width:250px)]:w-3 [@media(min-width:480px)]:w-6 [@media(min-width:640px)]::w-9 bg-gradient-to-l from-slate-950 to-transparent [@media(min-width:250px)]:z-10 md:z-20"></div>
 
           <Swiper
             modules={[Autoplay]}
@@ -75,14 +78,28 @@ export default function SuccessStoriesSection() {
               768: { slidesPerView: 3 },
               1024: { slidesPerView: 4 },
             }}
-            className="linear-swiper mt-12 w-full"
+            className="linear-swiper mt-5 sm:mt-7 md:mt-8 w-full"
           >
             {stories.map((s, index) => (
               <SwiperSlide key={index}>
-                <div className="p-[2px] my-1 rounded-md bg-slate-800/40">
+                <div className="p-0.5 my-1 rounded-md bg-slate-800/40">
+                  {/* <div
+                    className="rounded-md bg-slate-900 p-4 text-center hover:border border-white/10 hover:border-cyan-600 backdrop-blur-xl 
+                                hover:scale-[1.02] transition duration-600"
+                  > */}
                   <div
-                    className="rounded-md bg-slate-900 p-6 text-center hover:border-t border-white/10 hover:border-cyan-600 backdrop-blur-xl 
-                                hover:scale-[1.04] transition duration-600"
+                    className="
+    rounded-md bg-slate-900 p-4 text-center
+    border border-white/10
+    backdrop-blur-xl
+
+    transform-gpu
+    transition-all duration-500 ease-out
+
+    hover:scale-[1.02]
+    hover:border-cyan-500/80
+    hover:shadow-lg hover:shadow-cyan-500/20
+  "
                   >
                     {/* Avatar */}
                     <div className="flex justify-center">
@@ -123,12 +140,13 @@ export default function SuccessStoriesSection() {
         </div>
 
         <Reveal>
-          <div className="flex justify-center mt-8">
+          <div className="flex justify-center mt-8 mb-6 sm:mb-4">
             <Link
               to="/all-stories"
               className="
       inline-flex items-center justify-center
       px-8 py-3
+      text-xs sm:text-sm md:text-base
       rounded-full
       border-2 border-blue-500
       text-blue-400 font-semibold

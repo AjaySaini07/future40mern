@@ -37,10 +37,10 @@ export default function ContactSection() {
           <div>
             {/* 🔹 Main Heading */}
             <div>
-              <h2 className="text-2xl font-bold">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">
                 Get in <span className="text-blue-400">Touch</span>
               </h2>
-              <p className="text-sm text-slate-400 mt-0.5">
+              <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
                 We’d love to hear from you. Reach out for any queries or
                 support.
               </p>
@@ -49,7 +49,7 @@ export default function ContactSection() {
             {/* 🔹 Contact Info Heading */}
             <div className="mt-4">
               <h3 className="text-lg font-semibold">
-                Contact <span className="text-blue-400">Information</span>
+                <span className="text-blue-400">Contact</span> Information
               </h3>
               <p className="text-xs text-slate-400">
                 Use the details below to connect with the Future40 team.
@@ -61,21 +61,23 @@ export default function ContactSection() {
               {/* Emails */}
               {contactInfo?.emails?.map((email, index) => (
                 <p className="flex gap-2 items-center" key={`email-${index}`}>
-                  <MailIcon /> <span className="text-slate-300">{email}</span>
+                  <MailIcon className="text-lg text-blue-400" />{" "}
+                  <span className="text-slate-300">{email}</span>
                 </p>
               ))}
 
               {/* Phones */}
               {contactInfo?.phones?.map((phone, index) => (
                 <p className="flex items-center gap-2" key={`phone-${index}`}>
-                  <PhoneIcon /> <span className="text-slate-300">{phone}</span>
+                  <PhoneIcon className="text-lg text-blue-400" />{" "}
+                  <span className="text-slate-300">{phone}</span>
                 </p>
               ))}
 
               {/* Address */}
               {contactInfo?.address && (
-                <p className="flex  items-start gap-2">
-                  <LocationIcon className="text-xl" />
+                <p className="flex items-start gap-2">
+                  <LocationIcon className="text-lg mt-0.5 shrink-0 text-blue-400" />
                   <span className="text-slate-300">{contactInfo.address}</span>
                 </p>
               )}
@@ -87,9 +89,9 @@ export default function ContactSection() {
         <Reveal>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="rounded-md bg-slate-900 border border-slate-800 p-6 space-y-3"
+            className="rounded-md bg-slate-900 border border-slate-800 p-5 sm:p-6 space-y-3"
           >
-            <h2 className="text-2xl font-bold text-white">
+            <h2 className="text-xl sm:text-2xl font-bold text-white">
               Send Your <span className="text-blue-400">Query</span>
             </h2>
 
@@ -103,10 +105,10 @@ export default function ContactSection() {
                     message: "Name must be at least 2 characters.",
                   },
                 })}
-                className="w-full rounded-sm bg-slate-950
+                className="w-full rounded-sm bg-slate-900
             border border-slate-700 outline-none
             focus:border-slate-400 transition duration-300
-            px-4 py-2 text-sm text-white"
+            px-3 py-2 text-sm text-white"
                 placeholder="Your Name"
               />
               {errors.name && (
@@ -127,10 +129,10 @@ export default function ContactSection() {
                     message: "Enter a valid email.",
                   },
                 })}
-                className="w-full rounded-sm bg-slate-950
+                className="w-full rounded-sm bg-slate-900
             border border-slate-700 outline-none
             focus:border-slate-400 transition duration-300
-            px-4 py-2 text-sm text-white"
+            px-3 py-2 text-sm text-white"
                 placeholder="Your Email"
               />
               {errors.email && (
@@ -151,10 +153,10 @@ export default function ContactSection() {
                     message: "Enter a valid Indian mobile number.",
                   },
                 })}
-                className="w-full rounded-sm bg-slate-950
+                className="w-full rounded-sm bg-slate-900
     border border-slate-700 outline-none
     focus:border-slate-400 transition duration-300
-    px-4 py-2 text-sm text-white"
+    px-3 py-2 text-sm text-white"
                 placeholder="+91-9876543210"
               />
 
@@ -176,10 +178,10 @@ export default function ContactSection() {
                     message: "Message must be at least 10 characters.",
                   },
                 })}
-                className="w-full rounded-sm bg-slate-950
+                className="w-full rounded-sm bg-slate-900
             border border-slate-700 outline-none
             focus:border-slate-400 transition duration-300
-            px-4 py-2 text-sm text-white"
+            px-3 py-2 text-sm text-white"
                 placeholder="Your message..."
               />
               {errors.message && (
@@ -194,7 +196,7 @@ export default function ContactSection() {
               type="submit"
               disabled={submitLoading}
               className={`
-          w-full rounded-md py-2 text-sm font-semibold transition duration-300
+          w-full rounded-sm py-2 text-sm font-semibold transition duration-300
           ${
             submitLoading
               ? "bg-blue-500 opacity-60 cursor-not-allowed"

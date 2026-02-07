@@ -3,47 +3,26 @@ import { motion } from "framer-motion";
 
 export default function FounderSection() {
   return (
-    <section id="founder" className="bg-slate-950 py-12">
-      <h2 className="text-2xl md:text-3xl font-bold text-center">
+    <section
+      id="founder"
+      className="bg-slate-950 pt-12 md:pt-16 pb-2 md:pb-5 px-4"
+    >
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center">
         Meet Our <span className="text-blue-400">Founder</span>
       </h2>
-      <p className="text-center text-sm text-slate-400 mt-2 max-w-2xl mx-auto">
+      <p className="text-center text-xs sm:text-sm text-slate-400 mt-1 sm:mt-2 max-w-xl mx-auto">
         Learn more about the visionary behind Future40 and their commitment to
         your success.
       </p>
 
-      <div className="mt-10 bg-slate-950 relative overflow-hidden">
+      <div className="mt-5 sm:mt-7 md:mt-9 bg-slate-950 relative overflow-hidden">
         {/* 🔥 Background Light Blurs */}
         <div className="absolute top-10 left-10 w-72 h-72 bg-blue-500/20 blur-2xl rounded-full -z-10" />
         <div className="absolute bottom-10 right-20 w-56 h-56 bg-purple-500/20 blur-2xl rounded-full -z-10" />
 
         {/* <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-14 items-center"> */}
-        <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-2">
+        <div className="max-w-6xl mx-auto px-4 grid lg:grid-cols-2 gap-x-2 gap-y-5">
           {/* 🟦 IMAGE WITH 3D DEPTH */}
-          {/* <Reveal>
-            <div className="flex justify-center">
-              <div
-                className="relative group"
-                style={{ perspective: "1000px" }} // enables 3D rotation
-              >
-                <div
-                  className="rounded-2xl border border-slate-700 shadow-2xl
-                           transform-gpu transition-transform duration-500 group-hover:rotate-y-6 group-hover:rotate-x-3"
-                >
-                  <img
-                    src="https://media.licdn.com/dms/image/v2/D4D03AQEJSc8sxmcMbg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1715872424793?e=1769040000&v=beta&t=4X2u_mV0UHFWKLAwWEcfXN5ncNxrPkbMUPhyhOb1Xbg"
-                    loading="lazy"
-                    alt="Founder"
-                    className="rounded-2xl w-[350px] md:w-[380px] object-cover"
-                  />
-
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/30 to-purple-500/30 blur-xl opacity-0 group-hover:opacity-70 transition duration-700"></div>
-                </div>
-
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-56 h-6 bg-blue-500/30 blur-2xl opacity-0 group-hover:opacity-50 transition duration-700"></div>
-              </div>
-            </div>
-          </Reveal> */}
           <Reveal>
             <div className="flex justify-center">
               <div
@@ -52,18 +31,18 @@ export default function FounderSection() {
               >
                 {/* Floating Shapes */}
                 {/* <span className="absolute top-1 left-1 w-9 h-9 rounded-full bg-purple-500/60" /> */}
-                <span className="absolute top-2 -right-7 w-12 h-12 rounded-full bg-pink-500/40" />
-                <span className="absolute bottom-4 -left-6 w-10 h-10 rotate-40 bg-orange-400/70 rounded-md" />
+                <span className="[@media(min-width:340px)]:absolute top-2 -right-5 [@media(min-width:480px)]:-right-7 w-8 h-8 [@media(min-width:480px)]:w-12 [@media(min-width:480px)]:h-12 rounded-full bg-pink-500/40" />
+                <span className="[@media(min-width:340px)]:absolute bottom-4 -left-4 [@media(min-width:480px)]:-left-6 w-8 h-8 [@media(min-width:480px)]:w-10 [@media(min-width:480px)]:h-10 rotate-40 bg-orange-400/70 rounded-md" />
 
                 {/* 🧊 Glass Hexagon (STATIC) */}
                 <div
-                  className="relative w-[340px] h-[380px]
+                  className="relative w-[220px] h-[220px] [@media(min-width:340px)]:w-[240px] [@media(min-width:340px)]:h-[240px] sm:w-[340px] sm:h-[380px]
       flex items-center justify-center"
                 >
                   {/* Hex Frame */}
                   <div
                     className="absolute inset-0 hexagon
-        border-[3px] rounded-md border-purple-500/70
+        border-[2px] [@media(min-width:340px)]:border-[3px] rounded-md border-purple-500/70
         bg-slate-900/20 backdrop-blur-sm"
                   />
 
@@ -90,7 +69,7 @@ export default function FounderSection() {
                       damping: 14,
                     }}
                     className="relative z-10
-        w-[320px]
+        w-[210px] [@media(min-width:340px)]:w-[230px] sm:w-[320px]
         object-cover rounded
         transform-gpu"
                   />
@@ -107,10 +86,10 @@ export default function FounderSection() {
 
           {/* 🟦 TEXT BLOCK UPGRADED */}
           <Reveal>
-            <div className="text-center md:text-left">
+            <div className="w-full text-center lg:text-left lg:self-center">
               {/* 🔹 Heading */}
               <h2
-                className="text-2xl sm:text-3xl md:text-4xl
+                className="text-xl sm:text-2xl md:text-3xl
     font-bold text-white leading-snug"
               >
                 Ajay Saini –{" "}
@@ -121,21 +100,26 @@ export default function FounderSection() {
 
               {/* 🔹 Description */}
               <p
-                className="mt-3 sm:mt-4
+                className="
+    mt-3 sm:mt-4
+    w-full max-w-2xl
+    mx-auto lg:mx-0
+    text-center lg:text-left
     text-sm sm:text-[15px] md:text-base
-    text-slate-300 leading-relaxed max-w-2xl"
+    text-slate-300 leading-relaxed
+  "
               >
-                Ajay has trained students, working professionals and business
+                "Ajay has trained students, working professionals and business
                 owners to speak clear, confident English. With practical
                 speaking practice, mindset coaching & real situation based
                 training, he creates real outcomes— interviews cracked,
-                promotions earned & communication transformed.
+                promotions earned & communication transformed."
               </p>
 
               {/* 🔹 Details */}
               <div
                 className="mt-5 sm:mt-6
-    grid grid-cols-1 sm:grid-cols-2
+    grid grid-cols-1 [@media(min-width:450px)]:grid-cols-2 sm:grid-cols-2
     gap-4 sm:gap-6
     text-sm sm:text-[15px]"
               >

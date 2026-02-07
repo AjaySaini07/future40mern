@@ -1,31 +1,30 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import axios from "axios";
+import { toast } from "sonner";
 
 const API = import.meta.env.VITE_API_URL;
 
 export const useAuthAdmin = () => {
   const [loginLoading, setLoginLoading] = useState(false);
+  const [changePasswordLoading, setChangePasswordLoading] = useState(false);
   const navigate = useNavigate();
 
+  // ---------------------- ADMIN LOGIN ----------------------
   const adminLogin = async (payLoad) => {
     try {
       setLoginLoading(true);
 
       const res = await axios.post(`${API}/api/auth/login`, payLoad);
-
-      console.log("Admin login response ---->", res.data);
-
       const response = res.data;
 
       if (response.success && response.role === "admin") {
         localStorage.setItem("token", response.token);
-
-        toast.success(response?.message || "Admin login successful");
+        toast.success(response.message || "Admin login successful");
         navigate("/admin/dashboard");
       } else {
-        toast.error(response?.message);
+        toast.error(response.message);
       }
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong");
@@ -34,8 +33,43 @@ export const useAuthAdmin = () => {
     }
   };
 
+  // ---------------------- CHANGE PASSWORD ----------------------
+  const changePassword = async (payload) => {
+    try {
+      setChangePasswordLoading(true);
+
+      const token = localStorage.getItem("token");
+
+      const res = await axios.post(
+        `${API}/api/auth/admin/change-password`,
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      const response = res.data;
+
+      if (response.success) {
+        toast.success(response.message || "Password changed successfully");
+        return response;
+      } else {
+        toast.error(response.message);
+        return response;
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went wrong");
+    } finally {
+      setChangePasswordLoading(false);
+    }
+  };
+
   return {
     adminLogin,
+    changePassword,
     loginLoading,
+    changePasswordLoading,
   };
 };

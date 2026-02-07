@@ -105,21 +105,21 @@ export default function AdminBanners() {
 
   return (
     <div className="text-slate-200 min-h-screen">
-      {/* ================= HEADER ================= */}
+      {/* -------------- HEADER -------------- */}
       <div className="flex justify-between items-end mb-6">
         <h1 className="text-2xl font-semibold">All Banners</h1>
 
         <motion.button
-          whileTap={{ scale: 0.95 }}
+          whileTap={{ scale: 0.92 }}
           // whileHover={{ scale: 1.02 }}
           onClick={() => setOpen(true)}
-          className="bg-indigo-600 px-3 py-2 font-semibold rounded-sm"
+          className="bg-indigo-600 hover:bg-indigo-700 px-3 py-1.5 font-semibold rounded-sm transition-all duration-300"
         >
           Add Banner
         </motion.button>
       </div>
 
-      {/* ================= LIST ================= */}
+      {/* --------------- BANNER LIST --------------- */}
       {getLoading ? (
         <div className="w-full flex justify-center">
           <Loader />
@@ -129,7 +129,7 @@ export default function AdminBanners() {
           <p className="text-slate-400 text-lg">No banner found...!</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 border border-slate-800 rounded-md p-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 border border-slate-700 rounded-md p-6">
           <AnimatePresence>
             {banners.map((banner) => (
               <motion.div
@@ -170,17 +170,16 @@ export default function AdminBanners() {
                   </span>
                 </div>
 
-                {/* CONTENT */}
+                {/* ACTIONS BUTTONS */}
                 <div className="p-4 flex flex-col gap-3 flex-1">
-                  {/* ACTIONS */}
                   <div className="flex justify-between items-center">
                     {/* ACTIVE / INACTIVE */}
                     <motion.button
                       whileTap={{ scale: 0.95 }}
-                      whileHover={{ scale: 1.05 }}
+                      // whileHover={{ scale: 1.05 }}
                       disabled={toggleLoading === banner._id}
                       onClick={() => openToggleConfirm(banner)}
-                      className={`px-3 py-1.5 rounded-sm text-xs font-semibold transition
+                      className={`px-3.5 py-1.5 rounded-sm text-sm font-semibold transition
                   ${
                     banner.isActive
                       ? "bg-green-600/90 text-white"
@@ -202,11 +201,11 @@ export default function AdminBanners() {
 
                     {/* DELETE */}
                     <motion.button
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
+                      // whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.92 }}
                       onClick={() => setDeleteItem(banner)}
                       className="
-                  p-2 rounded-sm
+                  py-2 px-2.5 rounded-sm
                   text-white bg-red-600/80
                   hover:bg-red-600
                   transition
@@ -227,7 +226,7 @@ export default function AdminBanners() {
         </div>
       )}
 
-      {/* ================= ADD BANNER MODAL ================= */}
+      {/*--------------- ADD BANNER MODAL--------------- */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -235,7 +234,7 @@ export default function AdminBanners() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeModal}
-            className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-black/90 shadow-2xl flex items-center justify-center z-50"
           >
             <motion.form
               initial={{ scale: 0.9 }}
@@ -243,7 +242,10 @@ export default function AdminBanners() {
               exit={{ scale: 0.9 }}
               onClick={(e) => e.stopPropagation()}
               onSubmit={handleSubmit(onSubmit)}
-              className="bg-slate-900 p-6 rounded-md w-full max-w-md space-y-1.5 relative"
+              className="space-y-1.5 relative bg-slate-900/90 backdrop-blur
+          border border-slate-800
+          rounded-sm w-full max-w-md p-6
+          shadow-lg shadow-slate-900/50"
             >
               <button
                 type="button"
@@ -334,7 +336,7 @@ export default function AdminBanners() {
         )}
       </AnimatePresence>
 
-      {/* ================= IMAGE PREVIEW ================= */}
+      {/*--------------- IMAGE PREVIEW--------------- */}
       <AnimatePresence>
         {viewImage && (
           <motion.div
@@ -369,7 +371,7 @@ export default function AdminBanners() {
         )}
       </AnimatePresence>
 
-      {/* ================= DELETE CONFIRM ================= */}
+      {/* --------------- DELETE CONFIRM --------------- */}
       <ConfirmModal
         open={!!deleteItem}
         title="Delete Banner?"
@@ -385,7 +387,7 @@ export default function AdminBanners() {
         }}
       />
 
-      {/* ================= TOGGLE CONFIRM ================= */}
+      {/*--------------- TOGGLE CONFIRM--------------- */}
       <UpdateConfirmModal
         open={openUpdate}
         title={nextStatus ? "Activate Banner" : "Inactivate Banner"}

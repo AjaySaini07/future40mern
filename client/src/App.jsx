@@ -3,6 +3,7 @@ import { ToastContainer } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles/toast.css";
+import { Toaster, toast } from "sonner";
 
 /* Public */
 import Home from "./pages/Home";
@@ -29,18 +30,34 @@ import StudentAdmin from "./admin/pages/StudentsAdmin";
 import Profile from "./pages/Profile";
 import AdminBanners from "./admin/pages/AdminBanners";
 import AdminHero from "./admin/pages/AdminHero";
+import AdminChangePassword from "./admin/pages/AdminChangePassword";
 
 export default function App() {
   return (
     <>
       {/* 🔔 Global Toasts */}
-      <ToastContainer
+      {/* <ToastContainer
         position="top-center"
         autoClose={3000}
         newestOnTop
         closeOnClick
         pauseOnHover
         theme="dark"
+      /> */}
+
+      <Toaster
+        theme="dark"
+        richColors
+        position="top-center"
+        expand={false}
+        // visibleToasts={1}
+        offset={64}
+        toastOptions={{
+          duration: 6000,
+          style: {
+            fontSize: "0.75rem",
+          },
+        }}
       />
 
       {/* <Routes>
@@ -115,6 +132,7 @@ export default function App() {
           <Route path="students" element={<StudentAdmin />} />
           <Route path="banners" element={<AdminBanners />} />
           <Route path="hero" element={<AdminHero />} />
+          <Route path="change-password" element={<AdminChangePassword />} />
         </Route>
       </Routes>
     </>

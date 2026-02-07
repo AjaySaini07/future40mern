@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
+// import { toast } from "react-toastify";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -112,7 +113,7 @@ export default function useAuth() {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       toast.success(res.data.message || "Password changed successfully");
@@ -154,7 +155,7 @@ export default function useAuth() {
     try {
       const res = await axios.post(
         `${API}/api/students/reset-password`,
-        payload
+        payload,
       );
 
       toast.success(res.data?.message || "Password reset successful");

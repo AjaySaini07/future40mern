@@ -1,19 +1,20 @@
 import { useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
+// import { toast } from "react-toastify";
 
 const API = import.meta.env.VITE_API_URL;
 
 export default function useAdminContactInfo() {
   const [contactInfo, setContactInfo] = useState(null);
 
-  // 🔄 Loading states
+  // Loading states -----------
   const [fetchLoading, setFetchLoading] = useState(false);
   const [emailLoading, setEmailLoading] = useState(false);
   const [phoneLoading, setPhoneLoading] = useState(false);
   const [addressLoading, setAddressLoading] = useState(false);
 
-  // 🟢 FETCH – Public
+  // --------------------------- FETCH – Public -------------------------------
   const fetchContactInfo = async () => {
     try {
       setFetchLoading(true);
@@ -30,7 +31,7 @@ export default function useAdminContactInfo() {
     }
   };
 
-  // 🔒 ADD EMAIL
+  // --------------------------- ADD EMAIL -------------------------------
   const addEmail = async (email) => {
     try {
       setEmailLoading(true);
@@ -39,7 +40,7 @@ export default function useAdminContactInfo() {
       const res = await axios.post(
         `${API}/api/contactinfo/admin/email`,
         { email },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
 
       console.log("Add email response --------->", res.data);
@@ -56,27 +57,7 @@ export default function useAdminContactInfo() {
     }
   };
 
-  // 🔒 DELETE EMAIL
-  //   const deleteEmail = async (email) => {
-  //     try {
-  //       const token = localStorage.getItem("token");
-
-  //       const res = await axios.delete(
-  //         `${API}/api/contactinfo/admin/delete/${email}`,
-  //         { headers: { Authorization: `Bearer ${token}` } }
-  //       );
-
-  //       console.log("Delete email response --------->", res.data);
-
-  //       toast.success(res?.data?.message);
-  //       setContactInfo(res.data.info);
-
-  //       return { success: true };
-  //     } catch (error) {
-  //       toast.error(error?.response?.data?.message);
-  //       return { success: false };
-  //     }
-  //   };
+  // --------------------------- DELETE EMAIL -------------------------------
   const deleteEmail = async (email) => {
     try {
       const token = localStorage.getItem("token");
@@ -93,7 +74,7 @@ export default function useAdminContactInfo() {
     }
   };
 
-  // 🔒 ADD PHONE
+  // --------------------------- ADD PHONE -------------------------------
   const addPhone = async (phone) => {
     try {
       setPhoneLoading(true);
@@ -102,7 +83,7 @@ export default function useAdminContactInfo() {
       const res = await axios.post(
         `${API}/api/contactinfo/admin/phone`,
         { phone },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
 
       console.log("Add phone response --------->", res.data);
@@ -119,27 +100,7 @@ export default function useAdminContactInfo() {
     }
   };
 
-  // 🔒 DELETE PHONE
-  //   const deletePhone = async (phone) => {
-  //     try {
-  //       const token = localStorage.getItem("token");
-
-  //       const res = await axios.delete(
-  //         `${API}/api/contactinfo/admin/delete/${phone}`,
-  //         { headers: { Authorization: `Bearer ${token}` } }
-  //       );
-
-  //       console.log("Delete phone response --------->", res.data);
-
-  //       toast.success(res?.data?.message);
-  //       setContactInfo(res.data.info);
-
-  //       return { success: true };
-  //     } catch (error) {
-  //       toast.error(error?.response?.data?.message);
-  //       return { success: false };
-  //     }
-  //   };
+  // --------------------------- DELETE PHONE -------------------------------
   const deletePhone = async (phone) => {
     try {
       const token = localStorage.getItem("token");
@@ -156,7 +117,7 @@ export default function useAdminContactInfo() {
     }
   };
 
-  // 🔒 SET ADDRESS (single)
+  // --------------------------- SET ADDRESS (single) -------------------------------
   const setAddress = async (address) => {
     try {
       setAddressLoading(true);
@@ -165,7 +126,7 @@ export default function useAdminContactInfo() {
       const res = await axios.post(
         `${API}/api/contactinfo/admin/address`,
         { address },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
 
       console.log("Add address response --------->", res.data);

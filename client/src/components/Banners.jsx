@@ -3,6 +3,7 @@ import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { motion } from "framer-motion";
 
 import Reveal from "./Reveal";
 import useBanners from "../hooks/useBanners";
@@ -25,43 +26,70 @@ export default function Banners() {
   }
 
   return (
-    <section className="bg-slate-950 py-12">
+    <section className="bg-slate-950 pt-8 sm:pt-12 pb-2 md:pb-5">
       <div className="mx-auto max-w-6xl px-4">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           navigation
           pagination={{ clickable: true }}
-          autoplay={{ delay: 4500, disableOnInteraction: false }}
+          autoplay={{
+            delay: 4500,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          speed={900} // 🔥 smooth transition
+          grabCursor={true} // nice UX
           loop
-          className="rounded-md"
+          className="rounded-md home-banner-swiper overflow-hidden"
         >
           {banners.map((item) => (
             <SwiperSlide key={item._id}>
-              <Reveal>
-                <div className="p-1">
-                  <div
-                    className="
-                      relative rounded-md
-                      overflow-hidden
-                      border border-white/10
-                      bg-slate-900
-                    "
-                  >
-                    {/* IMAGE BANNER */}
-                    <img
-                      src={item.image.url}
-                      alt="Banner"
-                      className="
-                        w-full h-[280px] sm:h-[290px] md:h-[300px]
-                        object-cover
-                      "
-                    />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+              >
+                <Reveal>
+                  <div className="p-1">
+                    <div className="group relative rounded-md overflow-hidden border border-white/10 bg-slate-900">
+                      {/* <img
+                        src={item.image.url}
+                        alt="Banner"
+                        className="
+              w-full h-[150px] sm:h-[290px] md:h-[300px]
+              rounded-md object-cover
+              transition-transform duration-[4500ms] ease-out
+              group-hover:scale-105
+            "
+                      /> */}
+                      <img
+                        src={item.image.url}
+                        alt="Banner"
+                        className="
+    w-full
+    h-[180px] sm:h-[280px] md:h-[300px]
+    rounded-md object-cover
+    transition-transform duration-[4500ms] ease-out
+    md:group-hover:scale-105
+  "
+                      />
+                      {/* <img
+                        src={item.image.url}
+                        alt="Banner"
+                        className="
+    w-full aspect-[16/7]
+    sm:h-[280px] md:h-[300px]
+    rounded-md object-cover
+    transition-transform duration-[4500ms] ease-out
+    md:group-hover:scale-105
+  "
+                      /> */}
 
-                    {/* OVERLAY (optional – remove if not needed) */}
-                    <div className="absolute inset-0 bg-black/30" />
+                      <div className="absolute inset-0 bg-black/30" />
+                    </div>
                   </div>
-                </div>
-              </Reveal>
+                </Reveal>
+              </motion.div>
             </SwiperSlide>
           ))}
         </Swiper>

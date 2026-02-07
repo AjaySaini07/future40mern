@@ -2,6 +2,8 @@ import { useForm, Controller } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import Select from "react-select";
 import useAuth from "../hooks/useAuth";
+import { useState } from "react";
+import { EyeIcon, EyeOffIcon } from "../icons/Icons";
 
 export default function StudentSignup() {
   const {
@@ -9,11 +11,32 @@ export default function StudentSignup() {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      dob: "",
+    },
+  });
 
   const { signup, signupLoading } = useAuth();
-
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Min 10 year old checking
+  const isAtLeastTenYearsOld = (dob) => {
+    if (!dob) return false;
+
+    const birthDate = new Date(dob);
+    const today = new Date();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+
+    return age >= 10;
+  };
 
   const onSubmit = async (data) => {
     if (signupLoading) return; // 🔒 double submit guard
@@ -34,17 +57,17 @@ export default function StudentSignup() {
   ];
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4 py-10">
+    <div className="min-h-screen flex items-start sm:items-center justify-center bg-slate-950 px-4 py-10">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-md p-6 space-y-4 shadow-xl"
+        className="w-full max-w-lg [@media(min-width:480px)]:max-w-2xl bg-slate-900 border border-slate-800 rounded-md p-6 space-y-2 sm:space-y-3 shadow-xl "
       >
-        <div className="text-center space-y-1">
-          <h2 className="text-2xl font-bold text-white text-center drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]">
+        <div className="text-center space-y-0.5">
+          <h2 className="text-xl [@media(min-width:480px)]:text-2xl font-bold text-white text-center drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]">
             Student Signup
           </h2>
 
-          <p className="text-sm text-slate-400">
+          <p className="hidden sm:block text-sm text-slate-400">
             Create your account to start learning
           </p>
 
@@ -52,12 +75,12 @@ export default function StudentSignup() {
         </div>
 
         {/* Full Name & Mobile */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+        <div className="grid grid-cols-1 [@media(min-width:440px)]:grid-cols-2 gap-y-2 gap-x-4 mt-4">
           <div>
             <label className="text-xs text-slate-400">Full Name *</label>
             <input
               {...register("fullname", { required: "Full name is required" })}
-              className="w-full bg-slate-950 border border-slate-700 rounded-sm px-4 py-2 text-sm text-white outline-none focus:border-blue-500 transition"
+              className="w-full bg-slate-900 border border-slate-700 rounded-sm px-3 py-2 text-xs [@media(min-width:480px)]:text-sm text-white outline-none focus:border-blue-500 transition"
             />
             {errors.fullname && (
               <p className="text-xs text-red-500 mt-0.5">
@@ -77,7 +100,7 @@ export default function StudentSignup() {
                   message: "Enter valid 10 digit number",
                 },
               })}
-              className="w-full bg-slate-950 border border-slate-700 rounded-sm px-4 py-2 text-sm text-white outline-none focus:border-blue-500 transition"
+              className="w-full bg-slate-900 border border-slate-700 rounded-sm px-3 py-2 text-xs [@media(min-width:480px)]:text-sm text-white outline-none focus:border-blue-500 transition"
             />
             {errors.mobile && (
               <p className="text-xs text-red-500 mt-0.5">
@@ -88,7 +111,46 @@ export default function StudentSignup() {
         </div>
 
         {/* Gender & DOB */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 [@media(min-width:440px)]:grid-cols-2 gap-y-2 gap-x-4">
+          <div>
+            <label className="text-xs text-slate-400">Date of Birth *</label>
+            {/* <input
+              type="date"
+              {...register("dob", {
+                required: "DOB is required",
+                validate: (value) =>
+                  isAtLeastTenYearsOld(value) ||
+                  "You must be at least 10 years old",
+              })}
+              className="
+      w-full bg-slate-900 border border-slate-700 rounded-sm
+      px-3 py-2 text-sm text-white outline-none
+      focus:border-blue-500 transition
+      [&::-webkit-calendar-picker-indicator]:invert
+    "
+            /> */}
+            <input
+              type="date"
+              max={new Date().toISOString().split("T")[0]}
+              {...register("dob", {
+                required: "DOB is required",
+                validate: (value) =>
+                  isAtLeastTenYearsOld(value) ||
+                  "You must be at least 10 years old",
+              })}
+              className="w-full bg-slate-900 border border-slate-700 rounded-sm
+    px-3 py-2 text-sm text-white outline-none
+    focus:border-blue-500 transition
+    [&::-webkit-calendar-picker-indicator]:invert"
+            />
+
+            {errors.dob && (
+              <p className="text-xs text-red-500 mt-0.5">
+                {errors.dob.message}
+              </p>
+            )}
+          </div>
+
           <div>
             <label className="text-xs text-slate-400">Gender *</label>
 
@@ -109,14 +171,18 @@ export default function StudentSignup() {
                       ? genderOptions.find((opt) => opt.value === field.value)
                       : null
                   }
+                  className="text-xs [@media(min-width:480px)]:text-sm"
                   styles={{
-                    control: (base) => ({
+                    control: (base, state) => ({
                       ...base,
-                      backgroundColor: "#020617",
+                      // backgroundColor: "#020617",
+                      backgroundColor: "#0f172a",
                       borderColor: "#334155",
-                      minHeight: "40px",
+                      minHeight: "20px",
                       boxShadow: "none",
-                      ":hover": { borderColor: "#3b82f6" },
+                      "&:hover": {
+                        borderColor: state.isFocused ? "#3b82f6" : "#334155",
+                      },
                     }),
                     menu: (base) => ({
                       ...base,
@@ -143,36 +209,17 @@ export default function StudentSignup() {
               </p>
             )}
           </div>
-
-          <div>
-            <label className="text-xs text-slate-400">Date of Birth *</label>
-            <input
-              type="date"
-              {...register("dob", { required: "DOB is required" })}
-              className="
-        w-full bg-slate-950 border border-slate-700 rounded-sm
-        px-4 py-2 text-sm text-white outline-none
-        focus:border-blue-500 transition
-        [&::-webkit-calendar-picker-indicator]:invert
-      "
-            />
-            {errors.dob && (
-              <p className="text-xs text-red-500 mt-0.5">
-                {errors.dob.message}
-              </p>
-            )}
-          </div>
         </div>
 
-        {/* Email & Password */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Email & Password Fields*/}
+        <div className="grid grid-cols-1 [@media(min-width:440px)]:grid-cols-2 gap-y-2 gap-x-4">
           {/* Email Field */}
           <div>
             <label className="text-xs text-slate-400">Email *</label>
             <input
               type="email"
               {...register("email", { required: "Email is required" })}
-              className="w-full bg-slate-950 border border-slate-700 rounded-sm px-4 py-2 text-sm text-white outline-none focus:border-blue-500 transition"
+              className="w-full bg-slate-900 border border-slate-700 rounded-sm px-3 py-2 text-xs [@media(min-width:480px)]:text-sm text-white outline-none focus:border-blue-500 transition"
             />
             {errors.email && (
               <p className="text-xs text-red-500 mt-0.5">
@@ -184,17 +231,37 @@ export default function StudentSignup() {
           {/* Password Field */}
           <div>
             <label className="text-xs text-slate-400">Password *</label>
-            <input
-              type="password"
-              {...register("password", {
-                required: "Password is required",
-                minLength: {
-                  value: 6,
-                  message: "Minimum 6 characters",
-                },
-              })}
-              className="w-full bg-slate-950 border border-slate-700 rounded-sm px-4 py-2 text-sm text-white outline-none focus:border-blue-500 transition"
-            />
+
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Minimum 6 characters",
+                  },
+                })}
+                className="
+        w-full bg-slate-900 border border-slate-700
+        rounded-sm px-3 py-2 pr-10
+        text-xs [@media(min-width:480px)]:text-sm text-white outline-none
+        focus:border-blue-500 transition
+      "
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword((p) => !p)}
+                className="
+        absolute right-3 top-1/2 -translate-y-1/2
+        text-slate-400 hover:text-white transition
+      "
+              >
+                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+              </button>
+            </div>
+
             {errors.password && (
               <p className="text-xs text-red-500 mt-0.5">
                 {errors.password.message}
@@ -209,7 +276,7 @@ export default function StudentSignup() {
           disabled={signupLoading}
           aria-disabled={signupLoading}
           className={`
-    w-full mt-4 py-2 text-sm font-medium rounded-sm text-white bg-blue-600 transition
+    w-full mt-2 [@media(min-width:480px)]:mt-4 py-2 text-xs [@media(min-width:480px)]:text-sm font-medium rounded-sm text-white bg-blue-600 transition
     ${
       signupLoading
         ? " cursor-not-allowed opacity-70"
@@ -220,7 +287,7 @@ export default function StudentSignup() {
           {signupLoading ? "Creating..." : "Create Account"}
         </button>
 
-        <p className="text-sm text-center text-slate-400">
+        <p className="text-xs [@media(min-width:480px)]:text-sm text-center text-slate-400">
           Already have an account?{" "}
           <Link to="/login" className="text-blue-400 hover:underline">
             Login
