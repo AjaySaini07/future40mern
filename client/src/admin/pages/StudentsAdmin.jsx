@@ -145,7 +145,7 @@ export default function StudentAdmin() {
     <div className="bg-slate-900 border border-slate-800 min-h-screen rounded-sm p-6">
       {/* ----------------------- HEADER ----------------------- */}
       <div className="flex flex-wrap gap-3 justify-between items-end mb-3">
-        <h2 className="text-2xl font-semibold text-white">All Students</h2>
+        <h2 className="text-2xl font-semibold text-blue-400">All Students</h2>
 
         {/* -------------- FILTERS / SEARCH -------------- */}
         <div className="flex flex-wrap gap-4">
@@ -410,7 +410,7 @@ export default function StudentAdmin() {
 
               {/* Header */}
               <div className="mb-6">
-                <h3 className="text-2xl font-semibold text-white">
+                <h3 className="text-2xl font-semibold text-blue-400">
                   Student Details
                 </h3>
                 <p className="text-xs text-slate-400 mt-0.5">

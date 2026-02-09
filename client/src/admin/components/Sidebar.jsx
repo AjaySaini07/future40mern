@@ -16,132 +16,6 @@ import {
   UsersIcon,
 } from "../../icons/Icons";
 
-// export default function Sidebar() {
-//   const navigate = useNavigate();
-//   const [open, setOpen] = useState(false);
-
-//   const handleLogout = () => {
-//     localStorage.removeItem("token");
-//     navigate("/admin/login");
-//   };
-
-//   return (
-//     <aside
-//       onMouseEnter={() => setOpen(true)}
-//       onMouseLeave={() => setOpen(false)}
-//       className={`bg-slate-950 text-white min-h-screen flex flex-col
-//     transition-all duration-300 ease-in-out overflow-y-auto scrollbar-slim
-//     ${open ? "w-48" : "w-16"}
-//   `}
-//     >
-//       {/* Header */}
-//       <div className="p-4 flex items-center justify-center gap-3 border-b border-slate-600">
-//         <ProfileIcon className="text-3xl" />
-//         {open && <h2 className="text-lg font-bold">Admin Panel</h2>}
-//       </div>
-
-//       {/* Navigation */}
-//       <nav className="mt-4 space-y-2 px-3 overflow-y-auto scrollbar-slim">
-//         {/* Dashboard Icon */}
-//         <SidebarItem
-//           to="/admin/dashboard"
-//           icon={<DashboardIcon />}
-//           label="Dashboard"
-//           open={open}
-//         />
-
-//         {/* Hero Icon */}
-//         <SidebarItem
-//           to="/admin/hero"
-//           icon={<HeroIcon />}
-//           label="Hero Section"
-//           open={open}
-//         />
-
-//         {/* Banners Icon */}
-//         <SidebarItem
-//           to="/admin/banners"
-//           icon={<BannersIcon />}
-//           label="Banners"
-//           open={open}
-//         />
-
-//         {/* Courses Icon */}
-//         <SidebarItem
-//           to="/admin/courses"
-//           icon={<CoursesIcon />}
-//           label="Courses"
-//           open={open}
-//         />
-
-//         {/* Students Icon */}
-//         <SidebarItem
-//           to="/admin/students"
-//           icon={<UsersIcon />}
-//           label="Students"
-//           open={open}
-//         />
-
-//         {/* Success Stories Icon */}
-//         <SidebarItem
-//           to="/admin/stories"
-//           icon={<StarIcon />}
-//           label="Success Stories"
-//           open={open}
-//         />
-
-//         {/* Querys Icon */}
-//         <SidebarItem
-//           to="/admin/querys"
-//           icon={<QueriesIcon />}
-//           label="Querys"
-//           open={open}
-//         />
-
-//         {/* Founder Icon */}
-//         <SidebarItem
-//           to="/admin/founder"
-//           icon={<FounderIcon />}
-//           label="Founder"
-//           open={open}
-//         />
-
-//         {/* Contact Info Icon */}
-//         <SidebarItem
-//           to="/admin/contactinfo"
-//           icon={<ContactInfoIcon />}
-//           label="Contact Info"
-//           open={open}
-//         />
-
-//         {/* Enrollments Icon */}
-//         <SidebarItem
-//           to="/admin/enrollments"
-//           icon={<EnrollmentIcon />}
-//           label="Enrollments"
-//           open={open}
-//         />
-//       </nav>
-
-//       {/* Logout */}
-//       <div className="mt-3 mb-4 px-4 flex justify-center">
-//         <button
-//           onClick={handleLogout}
-//           className={`
-//       flex items-center gap-3 p-2 rounded
-//       hover:bg-red-600 transition
-//       ${open ? "justify-start w-full" : "justify-center"}
-//     `}
-//         >
-//           <LogoutIcon className="text-xl" />
-//           {open && <span>Logout</span>}
-//         </button>
-//       </div>
-//     </aside>
-//   );
-// }
-
-// export default function Sidebar() {
 export default function Sidebar({ open, setOpen, pinMode, setPinMode }) {
   const navigate = useNavigate();
 
@@ -197,12 +71,6 @@ export default function Sidebar({ open, setOpen, pinMode, setPinMode }) {
   `}
           />
         </button>
-
-        {/* <ProfileIcon
-          className={`text-2xl
-      ${open ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-3"}
-    `}
-        /> */}
 
         <span
           className={`
@@ -319,37 +187,6 @@ export default function Sidebar({ open, setOpen, pinMode, setPinMode }) {
 }
 
 /* Reusable Item */
-// function SidebarItem({ to, icon, label, open }) {
-//   return (
-//     <NavLink
-//       to={to}
-//       className={({ isActive }) =>
-//         `flex items-center gap-1 px-2 py-0 rounded-sm transition
-//          ${
-//            isActive
-//              ? "bg-slate-700 text-blue-400"
-//              : "hover:bg-slate-800 text-slate-300"
-//          }`
-//       }
-//     >
-//       {/* ICON CONTAINER */}
-//       <span
-//         className="
-//           w-10 h-10
-//           flex items-center justify-center
-//           rounded-sm
-//         "
-//       >
-//         <span className="text-xl">{icon}</span>
-//       </span>
-
-//       {/* LABEL */}
-//       {open && (
-//         <span className="whitespace-nowrap text-sm font-medium">{label}</span>
-//       )}
-//     </NavLink>
-//   );
-// }
 function SidebarItem({ to, icon, label, open }) {
   return (
     <NavLink
@@ -357,11 +194,11 @@ function SidebarItem({ to, icon, label, open }) {
       className={({ isActive }) =>
         `
         flex items-center rounded-sm transition-all duration-200
-        ${open ? "gap-0 px-1 py-0" : "justify-center"}
+        ${open ? "px-1" : "justify-center"}
           ${
             isActive
-              ? "bg-slate-700 text-blue-400"
-              : "hover:bg-slate-800 text-slate-300"
+              ? "bg-slate-800 text-cyan-400"
+              : "hover:bg-slate-900 text-slate-300"
           }`
       }
     >

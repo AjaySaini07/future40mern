@@ -61,7 +61,7 @@ export default function AdminQueries() {
   const modalRef = useRef(null);
 
   const filterOptions = [
-    { value: "all", label: "All" },
+    { value: "all", label: "All Queries" },
     { value: "pending", label: "Pending" },
     { value: "replied", label: "Replied" },
   ];
@@ -91,10 +91,25 @@ export default function AdminQueries() {
   }, [viewQuery]);
 
   /* 📩 SEND REPLY */
+  // const onReplySubmit = async (data) => {
+  //   await replyQuery(replyModal._id, data.reply);
+  //   reset();
+  //   setReplyModal(null);
+  // };
   const onReplySubmit = async (data) => {
-    await replyQuery(replyModal._id, data.reply);
-    reset();
-    setReplyModal(null);
+    const success = await replyQuery(replyModal._id, data.reply);
+
+    if (success) {
+      reset();
+      setReplyModal(null);
+
+      // 🔥 REFRESH LIST AFTER REPLY
+      fetchQueries(currentPage, search, filter, limit).then((res) => {
+        if (res?.pagination) {
+          setTotalPages(res.pagination.totalPages);
+        }
+      });
+    }
   };
 
   // Handle search change function
@@ -152,7 +167,7 @@ export default function AdminQueries() {
   return (
     <section className="bg-slate-900 border border-slate-800 min-h-screen rounded-sm p-6">
       <div className="flex flex-wrap gap-3 justify-between items-end mb-3">
-        <h1 className="text-2xl font-bold text-white">All Queries</h1>
+        <h1 className="text-2xl font-semibold text-blue-400">All Queries</h1>
 
         {/* 🔎 Searching & Filter */}
         <div className="flex flex-wrap gap-3">
@@ -176,31 +191,45 @@ export default function AdminQueries() {
             onChange={handleFilterChange}
             options={filterOptions}
             isSearchable={false}
-            className="w-40 text-sm"
+            className="w-36 text-sm"
             classNamePrefix="react-select"
             styles={{
               /* Control (closed select) */
               control: (base, state) => ({
                 ...base,
                 backgroundColor: "#0f172a", // slate-900
-                borderColor: state.isFocused ? "#38bdf8" : "#334155", // blue-400 / slate-700
+
+                /* 👇 focus-only border */
+                borderColor: state.isFocused ? "#94a3b8" : "#334155",
+
                 boxShadow: "none",
                 minHeight: "38px",
                 cursor: "pointer",
+
+                /* 👇 transition-all duration-500 */
+                transition: "all 500ms ease",
+
+                /* 👇 hover = NO visual change */
                 ":hover": {
-                  borderColor: "#38bdf8",
+                  borderColor: state.isFocused ? "#94a3b8" : "#334155",
                 },
               }),
 
               /* Dropdown menu */
               menu: (base) => ({
                 ...base,
-                backgroundColor: "#020617", // slate-950 (slightly darker)
+                backgroundColor: "#020617", // slate-950
                 border: "1px solid #334155",
                 borderRadius: "0.375rem",
-                marginTop: "4px",
+                marginTop: "4px", // 👈 minimal gap
                 overflow: "hidden",
                 zIndex: 50,
+              }),
+
+              menuList: (base) => ({
+                ...base,
+                paddingTop: "4px",
+                paddingBottom: "4px",
               }),
 
               /* Options */
@@ -213,7 +242,7 @@ export default function AdminQueries() {
                     : "transparent",
                 color: state.isSelected ? "#ffffff" : "#e5e7eb",
                 cursor: "pointer",
-                padding: "8px 12px",
+                padding: "8px 12px", // 👈 slightly tighter
                 ":active": {
                   backgroundColor: "#2563eb",
                 },
@@ -225,7 +254,7 @@ export default function AdminQueries() {
                 color: "#e5e7eb",
               }),
 
-              /* Placeholder (if ever used) */
+              /* Placeholder (if used later) */
               placeholder: (base) => ({
                 ...base,
                 color: "#94a3b8",
@@ -240,8 +269,9 @@ export default function AdminQueries() {
               dropdownIndicator: (base, state) => ({
                 ...base,
                 color: state.isFocused ? "#38bdf8" : "#94a3b8",
+                transition: "color 300ms ease",
                 ":hover": {
-                  color: "#38bdf8",
+                  color: state.isFocused ? "#38bdf8" : "#94a3b8",
                 },
               }),
             }}
@@ -377,7 +407,7 @@ export default function AdminQueries() {
         </table>
       </div>
 
-      {/* 📄 PAGINATION */}
+      {/* PAGINATION */}
       {totalPages > 1 && (
         <div className="flex justify-center items-center gap-2 mt-14 flex-wrap">
           {/* Prev */}
@@ -421,7 +451,7 @@ export default function AdminQueries() {
         </div>
       )}
 
-      {/* View Modal */}
+      {/* Query View Modal */}
       {viewQuery && (
         <div
           className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm
@@ -431,14 +461,14 @@ export default function AdminQueries() {
             ref={modalRef}
             className="
         relative
-        w-full sm:max-w-md
+        max-w-md sm:max-w-lg
         bg-slate-900/95 border border-slate-700
-        rounded-md
-        p-4 sm:p-6
+        rounded-sm
+        p-5 sm:p-6
         shadow-2xl shadow-slate-900/60
       "
           >
-            {/* ❌ Close Icon */}
+            {/* Close Icon */}
             <button
               onClick={() => setViewQuery(null)}
               className="
@@ -453,10 +483,10 @@ export default function AdminQueries() {
 
             {/* Header */}
             <div className="mb-4">
-              <h3 className="text-base sm:text-lg font-semibold text-white">
-                Query Details
+              <h3 className="text-base sm:text-lg font-semibold text-blue-400">
+                Query Details :-
               </h3>
-              <p className="text-[11px] sm:text-xs text-slate-400 mt-1">
+              <p className="text-[10px] sm:text-xs text-slate-400 mt-1">
                 {new Date(viewQuery.createdAt).toLocaleString()}
               </p>
             </div>
@@ -465,7 +495,7 @@ export default function AdminQueries() {
             <div
               className="
           bg-slate-800/60
-          rounded-md
+          rounded-sm
           p-3
           space-y-2
           text-sm
@@ -474,7 +504,7 @@ export default function AdminQueries() {
             >
               <div className="flex justify-between gap-2">
                 <span className="text-slate-400">Name</span>
-                <span className="text-slate-200 font-medium text-right">
+                <span className="text-slate-200 text-right">
                   {viewQuery.name}
                 </span>
               </div>
@@ -496,7 +526,7 @@ export default function AdminQueries() {
               <div className="flex justify-between items-center gap-2">
                 <span className="text-slate-400">Status</span>
                 <span
-                  className={`px-2 py-0.5 rounded-full text-[11px] font-semibold
+                  className={`px-2.5 py-0.5 rounded-full text-[12px] font-semibold
               ${
                 viewQuery.status === "replied"
                   ? "bg-green-900/40 text-green-400"
@@ -513,15 +543,13 @@ export default function AdminQueries() {
               <p className="text-sm text-slate-400 mb-1">Message :-</p>
               <div
                 className="
-            max-h-44 sm:max-h-40
+            max-h-40 text-sm
             overflow-y-auto
-            scrollbar-thin
-            scrollbar-thumb-slate-700
-            scrollbar-track-slate-900
-            pr-2
+            scrollbar-slim
+            pr-1
           "
               >
-                <p className="text-sm text-slate-300 leading-relaxed">
+                <p className="text-xs [@media(min-width:480px)]:text-sm text-slate-300 leading-relaxed">
                   {viewQuery.message}
                 </p>
               </div>
@@ -530,10 +558,10 @@ export default function AdminQueries() {
         </div>
       )}
 
-      {/* ✉️ REPLY MODAL (INLINE) */}
+      {/* REPLY MODAL (INLINE) */}
       {replyModal && (
         <div
-          className="fixed inset-0 z-50 bg-black/70
+          className="fixed inset-0 z-50 bg-black/90
     flex items-center justify-center px-4"
           onClick={() => {
             reset();
@@ -541,13 +569,31 @@ export default function AdminQueries() {
           }}
         >
           <div
-            className="bg-slate-900 border border-slate-800
-      rounded-sm w-full max-w-md p-6"
+            className="bg-slate-900/95 border border-slate-700
+shadow-2xl shadow-slate-900/60
+      rounded-sm w-full max-w-md sm:max-w-lg p-6"
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="text-lg font-semibold text-white italic mb-1">
-              Reply to "{replyModal.name}"
+            <h3 className="text-md [@media(min-width:480px)]:text-lg text-white mb-1">
+              Reply to - "{replyModal.name}"
             </h3>
+
+            {/* Message */}
+            <div>
+              <p className="text-sm text-blue-400 mb-0.5">Message :-</p>
+              <div
+                className="
+            max-h-40
+            overflow-y-auto
+            scrollbar-slim
+            pr-2 mb-2
+          "
+              >
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  {replyModal.message}
+                </p>
+              </div>
+            </div>
 
             <form onSubmit={handleSubmit(onReplySubmit)}>
               {/* TEXTAREA */}
@@ -560,7 +606,7 @@ export default function AdminQueries() {
                     message: "Reply must be at least 5 characters",
                   },
                 })}
-                className="w-full bg-slate-950 border border-slate-700 outline-none focus:border-slate-400 transition duration-500 px-3 py-2 text-sm text-white rounded-sm"
+                className="w-full bg-slate-900 border border-slate-700 outline-none focus:border-slate-400 transition duration-500 px-2 py-1.5 text-sm text-white rounded-sm overflow-y-auto scrollbar-slim"
                 placeholder="Type your reply..."
               />
 
@@ -608,7 +654,7 @@ export default function AdminQueries() {
                   {replyLoading ? (
                     <span className="flex items-center gap-2">
                       <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
-                      Replying...
+                      Replying..
                     </span>
                   ) : (
                     "Reply"

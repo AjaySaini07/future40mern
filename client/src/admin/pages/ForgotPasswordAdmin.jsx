@@ -1,27 +1,27 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+// import useAuth from "../hooks/useAuth";
 import { motion } from "framer-motion";
 
-export default function ForgotPassword() {
+export default function ForgotPasswordAdmin() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const { forgotPassword, forgotLoading } = useAuth();
+  //   const { forgotPassword, forgotLoading } = useAuth();
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     const res = await forgotPassword(data.email);
 
     if (res?.success) {
-      // ✅ email store for reset page
+      // email store for reset page
       sessionStorage.setItem("resetEmail", data.email);
 
-      // ✅ redirect to reset password page
-      navigate("/reset-password");
+      // redirect to reset password page
+      navigate("/admin/reset-password-admin");
     }
   };
 
@@ -83,29 +83,28 @@ export default function ForgotPassword() {
 
         <motion.button
           type="submit"
-          disabled={forgotLoading}
-          whileTap={!forgotLoading ? { scale: 0.98 } : {}}
+          //   disabled={forgotLoading}
+          //   whileTap={!forgotLoading ? { scale: 0.98 } : {}}
           className="
     w-full py-2 rounded-sm
     text-sm font-medium text-white
     flex items-center justify-center
     transition-all duration-300
-
     bg-gradient-to-r from-blue-600 to-indigo-600
     hover:brightness-110
-
     disabled:opacity-60
     disabled:cursor-not-allowed
   "
         >
-          {forgotLoading ? (
+          {/* {forgotLoading ? (
             <span className="flex items-center gap-2">
               <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
               Sending OTP...
             </span>
           ) : (
             "Send OTP"
-          )}
+          )} */}
+          Send OTP
         </motion.button>
       </form>
     </div>

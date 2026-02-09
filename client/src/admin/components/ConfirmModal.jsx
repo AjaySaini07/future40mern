@@ -133,15 +133,25 @@ export default function ConfirmModal({
               aria-disabled={loading}
               whileTap={!loading ? { scale: 0.95 } : {}}
               onClick={onConfirm}
-              className={`flex items-center gap-2
-              px-4 py-1.5 rounded-sm text-sm text-white transition
-              ${
-                loading
-                  ? "bg-red-600 opacity-70 cursor-not-allowed"
-                  : "bg-red-600 hover:bg-red-500 cursor-pointer"
-              }`}
+              className={`
+    px-4 py-1.5 rounded-sm text-sm text-white
+    flex items-center justify-center
+    transition
+    ${
+      loading
+        ? "bg-red-600 opacity-70 cursor-not-allowed"
+        : "bg-red-600 hover:bg-red-500 cursor-pointer"
+    }
+  `}
             >
-              Delete
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                  Deleting...
+                </span>
+              ) : (
+                "Delete"
+              )}
             </motion.button>
           </div>
         </motion.div>

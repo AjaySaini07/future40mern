@@ -13,12 +13,6 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      // <div className="min-h-screen w-full flex items-center justify-center bg-slate-950">
-      //   <Loader />
-      // </div>
-      // <div className="min-h-screen w-full flex items-center justify-center bg-black/60 backdrop-blur-md animate-fadeIn">
-      //   <Loader />
-      // </div>
       <div
         className="min-h-screen w-full flex items-center justify-center
       bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950"
@@ -32,8 +26,8 @@ export default function AdminDashboard() {
     <div className="text-slate-200">
       {/* Page Header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-        <p className="mt-1 text-xs text-slate-400">
+        <h1 className="text-2xl font-semibold text-blue-400">Dashboard</h1>
+        <p className="mt-0.5 text-xs text-slate-400">
           Overview of platform activity & performance
         </p>
       </div>

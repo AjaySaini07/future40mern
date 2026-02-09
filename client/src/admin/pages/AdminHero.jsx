@@ -55,47 +55,49 @@ export default function AdminHero() {
   };
 
   return (
-    <div className="max-w-3xl bg-slate-900 border border-slate-700 rounded-md p-6">
-      <h2 className="text-xl font-bold text-blue-400 mb-6">
-        Hero Section Settings
+    <div className="max-w-4xl bg-slate-900 border border-slate-800 rounded-md p-6">
+      <h2 className="text-2xl font-semibold text-blue-400 mb-4">
+        Hero Section
       </h2>
 
       {getLoading ? (
         <p className="text-slate-400">Loading hero data...</p>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
-          {/* Title */}
-          <div>
-            <label className="text-xs text-slate-400 mb-1 block">
-              Title (Badge Text)
-            </label>
-            <input
-              {...register("title", { required: "Title is required" })}
-              placeholder="e.g. Trusted by 10,000+ students"
-              className="input"
-            />
-            {errors.title && (
-              <p className="text-xs text-red-400 mt-0.5">
-                {errors.title.message}
-              </p>
-            )}
-          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-1">
+            {/* Title */}
+            <div>
+              <label className="text-xs text-slate-400 mb-1 block">
+                Title (Badge Text)
+              </label>
+              <input
+                {...register("title", { required: "Title is required" })}
+                placeholder="e.g. Trusted by 10,000+ students"
+                className="input"
+              />
+              {errors.title && (
+                <p className="text-xs text-red-400 mt-0.5">
+                  {errors.title.message}
+                </p>
+              )}
+            </div>
 
-          {/* Heading */}
-          <div>
-            <label className="text-xs text-slate-400 mb-1 block">
-              Main Heading
-            </label>
-            <input
-              {...register("heading", { required: "Heading is required" })}
-              placeholder="Main hero heading"
-              className="input"
-            />
-            {errors.heading && (
-              <p className="text-xs text-red-400 mt-0.5">
-                {errors.heading.message}
-              </p>
-            )}
+            {/* Heading */}
+            <div>
+              <label className="text-xs text-slate-400 mb-1 block">
+                Main Heading
+              </label>
+              <input
+                {...register("heading", { required: "Heading is required" })}
+                placeholder="Main hero heading"
+                className="input"
+              />
+              {errors.heading && (
+                <p className="text-xs text-red-400 mt-0.5">
+                  {errors.heading.message}
+                </p>
+              )}
+            </div>
           </div>
 
           {/* Description */}
@@ -217,18 +219,27 @@ export default function AdminHero() {
           {/* Submit Button */}
           <button
             disabled={updateLoading}
-            className={`w-full py-2 mt-2 rounded text-white transition
-          ${
-            updateLoading
-              ? "bg-slate-600 cursor-not-allowed"
-              : "bg-blue-600 hover:bg-blue-500"
-          }`}
+            className={`
+    w-full py-1.5 mt-3 rounded
+    text-white transition
+    flex items-center justify-center
+    ${
+      updateLoading
+        ? "bg-blue-600 cursor-not-allowed"
+        : "bg-blue-600 hover:bg-blue-700"
+    }
+  `}
           >
-            {updateLoading
-              ? "Saving..."
-              : heroExists
-                ? "Update Hero Section"
-                : "Create Hero Section"}
+            {updateLoading ? (
+              <span className="flex items-center gap-2">
+                <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                Updating...
+              </span>
+            ) : heroExists ? (
+              "Update Hero Section"
+            ) : (
+              "Create Hero Section"
+            )}
           </button>
         </form>
       )}

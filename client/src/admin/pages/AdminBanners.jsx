@@ -106,8 +106,8 @@ export default function AdminBanners() {
   return (
     <div className="text-slate-200 min-h-screen">
       {/* -------------- HEADER -------------- */}
-      <div className="flex justify-between items-end mb-6">
-        <h1 className="text-2xl font-semibold">All Banners</h1>
+      <div className="flex justify-between items-end mb-4">
+        <h1 className="text-2xl font-semibold text-blue-400">All Banners</h1>
 
         <motion.button
           whileTap={{ scale: 0.92 }}
@@ -129,7 +129,7 @@ export default function AdminBanners() {
           <p className="text-slate-400 text-lg">No banner found...!</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 border border-slate-700 rounded-md p-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-5 border border-slate-800 rounded-md p-6">
           <AnimatePresence>
             {banners.map((banner) => (
               <motion.div
@@ -234,7 +234,7 @@ export default function AdminBanners() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeModal}
-            className="fixed inset-0 bg-black/90 shadow-2xl flex items-center justify-center z-50"
+            className="fixed inset-0 bg-black/90 shadow-2xl flex items-center justify-center z-50 px-6"
           >
             <motion.form
               initial={{ scale: 0.9 }}
@@ -244,7 +244,7 @@ export default function AdminBanners() {
               onSubmit={handleSubmit(onSubmit)}
               className="space-y-1.5 relative bg-slate-900/90 backdrop-blur
           border border-slate-800
-          rounded-sm w-full max-w-md p-6
+          rounded-sm w-full max-w-md sm:max-w-lg p-6
           shadow-lg shadow-slate-900/50"
             >
               <button
@@ -288,7 +288,7 @@ export default function AdminBanners() {
                                file:mr-4 file:py-1 file:px-3
                                file:rounded-sm file:border-0
                                file:bg-slate-800 file:text-white
-                               hover:file:bg-slate-700 rounded-sm bg-slate-950
+                               hover:file:bg-slate-700 rounded-sm bg-slate-900
                  border border-slate-700 outline-none focus:border-blue-600 transition duration-500
                  px-2 py-1.5"
               />
@@ -328,7 +328,15 @@ export default function AdminBanners() {
     }
   `}
                 >
-                  {addLoading ? "Adding..." : "Add Banner"}
+                  {/* {addLoading ? "Adding..." : "Add Banner"} */}
+                  {addLoading ? (
+                    <span className="flex items-center gap-2">
+                      <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                      Adding...
+                    </span>
+                  ) : (
+                    "Add Banner"
+                  )}
                 </motion.button>
               </div>
             </motion.form>

@@ -4,6 +4,7 @@ import Select from "react-select";
 import useAuth from "../hooks/useAuth";
 import { useState } from "react";
 import { EyeIcon, EyeOffIcon } from "../icons/Icons";
+import { motion } from "framer-motion";
 
 export default function StudentSignup() {
   const {
@@ -80,7 +81,7 @@ export default function StudentSignup() {
             <label className="text-xs text-slate-400">Full Name *</label>
             <input
               {...register("fullname", { required: "Full name is required" })}
-              className="w-full bg-slate-900 border border-slate-700 rounded-sm px-3 py-2 text-xs [@media(min-width:480px)]:text-sm text-white outline-none focus:border-blue-500 transition"
+              className="w-full bg-slate-900 border border-slate-700 rounded-sm px-3 py-2 text-xs [@media(min-width:480px)]:text-sm text-white outline-none focus:border-slate-400 transition-all duration-500"
             />
             {errors.fullname && (
               <p className="text-xs text-red-500 mt-0.5">
@@ -100,7 +101,7 @@ export default function StudentSignup() {
                   message: "Enter valid 10 digit number",
                 },
               })}
-              className="w-full bg-slate-900 border border-slate-700 rounded-sm px-3 py-2 text-xs [@media(min-width:480px)]:text-sm text-white outline-none focus:border-blue-500 transition"
+              className="w-full bg-slate-900 border border-slate-700 rounded-sm px-3 py-2 text-xs [@media(min-width:480px)]:text-sm text-white outline-none focus:border-slate-400 transition-all duration-500"
             />
             {errors.mobile && (
               <p className="text-xs text-red-500 mt-0.5">
@@ -140,7 +141,7 @@ export default function StudentSignup() {
               })}
               className="w-full bg-slate-900 border border-slate-700 rounded-sm
     px-3 py-2 text-sm text-white outline-none
-    focus:border-blue-500 transition
+    focus:border-slate-400 transition-all duration-500
     [&::-webkit-calendar-picker-indicator]:invert"
             />
 
@@ -175,25 +176,31 @@ export default function StudentSignup() {
                   styles={{
                     control: (base, state) => ({
                       ...base,
-                      // backgroundColor: "#020617",
                       backgroundColor: "#0f172a",
-                      borderColor: "#334155",
+                      borderColor: state.isFocused ? "#94a3b8" : "#334155",
                       minHeight: "20px",
                       boxShadow: "none",
                       "&:hover": {
-                        borderColor: state.isFocused ? "#3b82f6" : "#334155",
+                        borderColor: state.isFocused ? "#94a3b8" : "#334155",
                       },
+                      transition: "border-color 500ms ease",
                     }),
+
                     menu: (base) => ({
                       ...base,
                       backgroundColor: "#020617",
                       border: "1px solid #334155",
+                      marginTop: "4px",
+                      borderRadius: "5px",
+                      zIndex: 50,
                     }),
+
                     option: (base, state) => ({
                       ...base,
                       backgroundColor: state.isFocused ? "#1e293b" : "#020617",
                       color: "#fff",
                     }),
+
                     singleValue: (base) => ({
                       ...base,
                       color: "#fff",
@@ -219,7 +226,7 @@ export default function StudentSignup() {
             <input
               type="email"
               {...register("email", { required: "Email is required" })}
-              className="w-full bg-slate-900 border border-slate-700 rounded-sm px-3 py-2 text-xs [@media(min-width:480px)]:text-sm text-white outline-none focus:border-blue-500 transition"
+              className="w-full bg-slate-900 border border-slate-700 rounded-sm px-3 py-2 text-xs [@media(min-width:480px)]:text-sm text-white outline-none focus:border-slate-400 transition-all duration-500"
             />
             {errors.email && (
               <p className="text-xs text-red-500 mt-0.5">
@@ -246,7 +253,7 @@ export default function StudentSignup() {
         w-full bg-slate-900 border border-slate-700
         rounded-sm px-3 py-2 pr-10
         text-xs [@media(min-width:480px)]:text-sm text-white outline-none
-        focus:border-blue-500 transition
+        focus:border-slate-400 transition-all duration-500
       "
               />
 
@@ -271,21 +278,31 @@ export default function StudentSignup() {
         </div>
 
         {/* Create Account Button */}
-        <button
+        <motion.button
           type="submit"
           disabled={signupLoading}
-          aria-disabled={signupLoading}
-          className={`
-    w-full mt-2 [@media(min-width:480px)]:mt-4 py-2 text-xs [@media(min-width:480px)]:text-sm font-medium rounded-sm text-white bg-blue-600 transition
-    ${
-      signupLoading
-        ? " cursor-not-allowed opacity-70"
-        : "hover:bg-blue-500 cursor-pointer"
-    }
-  `}
+          whileTap={!signupLoading ? { scale: 0.98 } : {}}
+          className="
+    w-full mt-5
+    py-2 text-xs sm:text-sm font-medium
+    rounded-sm text-white
+    flex items-center justify-center
+    transition-all duration-300
+    bg-gradient-to-r from-blue-600 to-indigo-600
+    hover:brightness-110
+    disabled:opacity-60
+    disabled:cursor-not-allowed
+  "
         >
-          {signupLoading ? "Creating..." : "Create Account"}
-        </button>
+          {signupLoading ? (
+            <span className="flex items-center gap-2">
+              <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+              Creating...
+            </span>
+          ) : (
+            "Create Account"
+          )}
+        </motion.button>
 
         <p className="text-xs [@media(min-width:480px)]:text-sm text-center text-slate-400">
           Already have an account?{" "}

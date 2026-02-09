@@ -61,10 +61,12 @@ export default function ContactInfoAdmin() {
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full bg-slate-900 border border-slate-700
+        className="w-full bg-slate-900 border border-slate-800
         rounded-md p-6 text-slate-200"
       >
-        <h2 className="text-xl font-semibold mb-4">Contact Information</h2>
+        <h2 className="text-2xl font-semibold text-blue-400 mb-4">
+          Contact Information
+        </h2>
 
         {/* Loading State */}
         {fetchLoading && (
@@ -74,8 +76,8 @@ export default function ContactInfoAdmin() {
         )}
 
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-x-6">
-          {/* ================= EMAILS ================= */}
-          <Card title="Emails" icon={<MailIcon />}>
+          {/* ------------ EMAILS ------------ */}
+          <Card title="Emails" icon={<MailIcon className="text-lg" />}>
             {contactInfo?.emails?.map((email) => (
               <Item
                 key={email}
@@ -120,8 +122,8 @@ export default function ContactInfoAdmin() {
             )}
           </Card>
 
-          {/* ================= PHONES ================= */}
-          <Card title="Phone Numbers" icon={<PhoneIcon />}>
+          {/* ---------------- PHONES ---------------- */}
+          <Card title="Phone Numbers" icon={<PhoneIcon className="text-lg" />}>
             {contactInfo?.phones?.map((phone) => (
               <Item
                 key={phone}
@@ -167,11 +169,11 @@ export default function ContactInfoAdmin() {
           </Card>
         </div>
 
-        {/* ================= ADDRESS ================= */}
-        <Card title="Address" icon={<LocationIcon />}>
+        {/* -------------- ADDRESS -------------- */}
+        <Card title="Address" icon={<LocationIcon className="text-lg" />}>
           <form
             onSubmit={addressForm.handleSubmit((data) =>
-              setAddress(data.address)
+              setAddress(data.address),
             )}
           >
             <textarea
@@ -179,8 +181,8 @@ export default function ContactInfoAdmin() {
                 required: "Address is required",
               })}
               rows={3}
-              className="w-full bg-slate-950 border border-slate-700
-              rounded-md px-3 py-2 text-sm outline-none"
+              className="w-full bg-slate-900 border border-slate-700
+              rounded-sm px-3 py-2 text-sm outline-none overflow-y-auto scrollbar-slim"
             />
 
             {addressForm.formState.errors.address && (
@@ -192,22 +194,32 @@ export default function ContactInfoAdmin() {
             <div className="flex justify-end mt-1">
               <button
                 disabled={addressLoading}
-                className={`px-5 py-2 rounded-md text-sm transition
-        ${
-          addressLoading
-            ? "bg-blue-600 opacity-60 cursor-not-allowed"
-            : "bg-blue-600 hover:bg-blue-500 cursor-pointer"
-        }
-      `}
+                className={`
+      px-5 py-2 rounded-sm text-sm font-semibold
+      transition
+      flex items-center justify-center
+      ${
+        addressLoading
+          ? "bg-blue-600 opacity-60 cursor-not-allowed"
+          : "bg-blue-600 hover:bg-blue-500 cursor-pointer"
+      }
+    `}
               >
-                {addressLoading ? "Saving..." : "Save"}
+                {addressLoading ? (
+                  <span className="flex items-center gap-2">
+                    <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                    Saving...
+                  </span>
+                ) : (
+                  "Save"
+                )}
               </button>
             </div>
           </form>
         </Card>
       </motion.div>
 
-      {/* ================= CONFIRM MODAL ================= */}
+      {/* --------------- CONFIRM MODAL --------------- */}
       <ConfirmModal
         open={confirm.open}
         title="Confirm Delete..!"
@@ -239,10 +251,10 @@ export default function ContactInfoAdmin() {
   );
 }
 
-/* ================= UI COMPONENTS ================= */
+/* ------------------ UI COMPONENTS ------------------ */
 const Card = ({ title, icon, children }) => (
-  <div className="mb-6 bg-slate-950 border border-slate-700 rounded-md p-4">
-    <h3 className="flex items-center gap-2 text-slate-300 text-sm mb-3">
+  <div className="mb-6 bg-slate-900 border border-slate-700 rounded-md p-4">
+    <h3 className="flex items-center font-semibold gap-2 text-blue-400 mb-2">
       {icon} {title}
     </h3>
     {children}
@@ -252,16 +264,19 @@ const Card = ({ title, icon, children }) => (
 const Item = ({ text, onDelete }) => (
   <div
     className="flex justify-between items-center
-    bg-slate-900 border border-slate-700 rounded-md
+    bg-slate-900 border border-slate-700 rounded-sm
     px-3 py-2 mb-2"
   >
     <span className="text-sm">{text}</span>
-    <button
+
+    <motion.button
       onClick={onDelete}
-      className="text-red-500 hover:text-red-400 text-xl"
+      whileTap={{ scale: 0.85, rotate: -6 }}
+      transition={{ duration: 0.12, ease: "easeInOut" }}
+      className="text-red-500 hover:text-red-600 text-lg"
     >
       <DeleteIcon />
-    </button>
+    </motion.button>
   </div>
 );
 
@@ -271,24 +286,33 @@ const Input = ({ placeholder, register, error }) => (
       {...register}
       placeholder={placeholder}
       className="w-full bg-slate-900 border border-slate-700
-      rounded-md px-3 py-2 text-sm outline-none"
+      rounded-sm px-3 py-2 text-sm outline-none focus:border-cyan-600 transition duration-500"
     />
     {error && <p className="text-red-400 text-xs mt-1">{error.message}</p>}
   </div>
 );
 
 const AddButton = ({ loading, disabled }) => (
-  <button
+  <motion.button
+    whileTap={{ scale: 0.85, rotate: -6 }}
+    transition={{ duration: 0.12, ease: "easeInOut" }}
     type="submit"
     disabled={loading || disabled}
-    className={`px-3 rounded-md text-xl py-2 flex items-center justify-center
-      ${
-        disabled
-          ? "bg-slate-700 cursor-not-allowed"
-          : "bg-green-600 hover:bg-green-500"
-      }
-    `}
+    className={`
+    px-3 py-2 rounded-sm text-xl
+    flex items-center justify-center
+    transition-all duration-300
+    ${
+      disabled
+        ? "bg-slate-700 cursor-not-allowed"
+        : "bg-green-600 hover:bg-green-700"
+    }
+  `}
   >
-    {loading ? <PlusIcon /> : <PlusIcon />}
-  </button>
+    {loading ? (
+      <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+    ) : (
+      <PlusIcon />
+    )}
+  </motion.button>
 );

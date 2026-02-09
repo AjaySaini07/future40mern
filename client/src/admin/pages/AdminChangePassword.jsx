@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-
+import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useAuthAdmin } from "../hooks/useAuthAdmin";
 import { EyeIcon, EyeOffIcon } from "../../icons/Icons";
@@ -105,22 +105,29 @@ export default function AdminChangePassword() {
         />
 
         {/* Button */}
-        <button
+        <motion.button
           type="submit"
           disabled={changePasswordLoading}
-          className={`
-            w-full mt-2 py-2.5 rounded-sm
-            text-sm font-semibold text-white
-            transition-all
-            ${
-              changePasswordLoading
-                ? "bg-blue-600/60 cursor-not-allowed"
-                : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:brightness-110"
-            }
-          `}
+          whileTap={!changePasswordLoading ? { scale: 0.98 } : {}}
+          className="
+    w-full mt-4 py-2 rounded-sm
+    text-sm font-semibold text-white
+    flex items-center justify-center
+    transition-all duration-300
+    bg-gradient-to-r from-blue-600 to-indigo-600
+    hover:brightness-110
+    disabled:opacity-60 disabled:cursor-not-allowed
+  "
         >
-          {changePasswordLoading ? "Updating..." : "Change Password"}
-        </button>
+          {changePasswordLoading ? (
+            <span className="flex items-center gap-2">
+              <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+              Changing...
+            </span>
+          ) : (
+            "Change Password"
+          )}
+        </motion.button>
       </form>
     </div>
   );
@@ -137,11 +144,11 @@ function Field({ label, error, type, toggle, show, register }) {
           {...register}
           className="
             w-full bg-slate-900 border border-slate-700
-            rounded-sm px-4 py-2.5 pr-10
+            rounded-sm px-3 py-2 pr-10
             text-sm text-white
             outline-none
-            focus:border-blue-500 focus:ring-0.5 focus:ring-blue-500
-            transition
+            focus:border-slate-400
+            transition-all duration-500
           "
         />
 

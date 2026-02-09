@@ -31,6 +31,8 @@ import Profile from "./pages/Profile";
 import AdminBanners from "./admin/pages/AdminBanners";
 import AdminHero from "./admin/pages/AdminHero";
 import AdminChangePassword from "./admin/pages/AdminChangePassword";
+import ForgotPasswordAdmin from "./admin/pages/ForgotPasswordAdmin";
+import ResetPasswordAdmin from "./admin/pages/ResetPasswordAdmin";
 
 export default function App() {
   return (
@@ -93,7 +95,7 @@ export default function App() {
         </Route>
       </Routes> */}
 
-      {/* 🔝 Auto scroll on route change */}
+      {/* Auto scroll on route change */}
       <ScrollToTop />
 
       <Routes>
@@ -114,6 +116,14 @@ export default function App() {
 
         {/* Admin Login */}
         <Route path="/admin/login" element={<AdminLogin />} />
+        <Route
+          path="/admin/forgot-password-admin"
+          element={<ForgotPasswordAdmin />}
+        />
+        <Route
+          path="/admin/reset-password-admin"
+          element={<ResetPasswordAdmin />}
+        />
 
         {/* 🔐 Admin Protected */}
         <Route

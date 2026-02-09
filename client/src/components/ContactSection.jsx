@@ -4,6 +4,7 @@ import useQuery from "../hooks/useQuery";
 import useContactInfo from "../hooks/useContactInfo";
 import { useEffect } from "react";
 import { LocationIcon, MailIcon, PhoneIcon } from "../icons/Icons";
+import { motion } from "framer-motion";
 
 export default function ContactSection() {
   const {
@@ -178,10 +179,10 @@ export default function ContactSection() {
                     message: "Message must be at least 10 characters.",
                   },
                 })}
-                className="w-full rounded-sm bg-slate-900
+                className="w-full h-24 rounded-sm bg-slate-900
             border border-slate-700 outline-none
             focus:border-slate-400 transition duration-300
-            px-3 py-2 text-sm text-white"
+            px-2 py-1.5 text-sm text-white overflow-y-auto scrollbar-slim"
                 placeholder="Your message..."
               />
               {errors.message && (
@@ -192,20 +193,32 @@ export default function ContactSection() {
             </div>
 
             {/* Button */}
-            <button
+            <motion.button
               type="submit"
               disabled={submitLoading}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.15, ease: "easeInOut" }}
               className={`
-          w-full rounded-sm py-2 text-sm font-semibold transition duration-300
-          ${
-            submitLoading
-              ? "bg-blue-500 opacity-60 cursor-not-allowed"
-              : "bg-blue-600 hover:bg-blue-500 cursor-pointer shadow-lg"
-          }
-        `}
+    w-full rounded-sm py-2
+    text-sm font-semibold
+    transition duration-300
+    flex items-center justify-center
+    ${
+      submitLoading
+        ? "bg-blue-500 opacity-60 cursor-not-allowed"
+        : "bg-blue-600 hover:bg-blue-500 cursor-pointer shadow-lg"
+    }
+  `}
             >
-              {submitLoading ? "Sending..." : "Send Message"}
-            </button>
+              {submitLoading ? (
+                <span className="flex items-center gap-2">
+                  <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                  Sending...
+                </span>
+              ) : (
+                "Send Message"
+              )}
+            </motion.button>
           </form>
         </Reveal>
       </div>

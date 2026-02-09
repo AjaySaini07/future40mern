@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+// import useAuth from "../hooks/useAuth";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { EyeIcon, EyeOffIcon } from "../icons/Icons";
+import { EyeIcon, EyeOffIcon } from "../../icons/Icons";
 
-export default function ResetPassword() {
+export default function ResetPasswordAdmin() {
   const {
     register,
     handleSubmit,
@@ -14,7 +14,7 @@ export default function ResetPassword() {
     formState: { errors },
   } = useForm();
 
-  const { resetPassword, resetLoading } = useAuth();
+  //   const { resetPassword, resetLoading } = useAuth();
   const navigate = useNavigate();
 
   const newPassword = watch("newPassword");
@@ -22,23 +22,23 @@ export default function ResetPassword() {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  useEffect(() => {
-    const email = sessionStorage.getItem("resetEmail");
+  //   useEffect(() => {
+  //     const email = sessionStorage.getItem("resetEmail");
 
-    if (!email) {
-      // direct access block
-      navigate("/forgot-password");
-    } else {
-      setValue("email", email);
-    }
-  }, [navigate, setValue]);
+  //     if (!email) {
+  //       // direct access block
+  //       navigate("/forgot-password");
+  //     } else {
+  //       setValue("email", email);
+  //     }
+  //   }, [navigate, setValue]);
 
   const onSubmit = async (data) => {
-    const res = await resetPassword(data);
-    if (res?.success) {
-      sessionStorage.removeItem("resetEmail");
-      navigate("/login");
-    }
+    // const res = await resetPassword(data);
+    // if (res?.success) {
+    //   sessionStorage.removeItem("resetEmail");
+    //   navigate("/admin/login");
+    // }
   };
 
   return (
@@ -194,8 +194,8 @@ export default function ResetPassword() {
         {/* Submit */}
         <motion.button
           type="submit"
-          disabled={resetLoading}
-          whileTap={!resetLoading ? { scale: 0.98 } : {}}
+          //   disabled={resetLoading}
+          //   whileTap={!resetLoading ? { scale: 0.98 } : {}}
           className="
     w-full mt-2 py-2 rounded-sm
     text-sm font-medium text-white
@@ -209,14 +209,15 @@ export default function ResetPassword() {
     disabled:cursor-not-allowed
   "
         >
-          {resetLoading ? (
+          {/* {resetLoading ? (
             <span className="flex items-center gap-2">
               <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
               Updating...
             </span>
           ) : (
             "Reset Password"
-          )}
+          )} */}
+          Reset Password
         </motion.button>
       </form>
     </div>

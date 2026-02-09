@@ -9,7 +9,7 @@ const bannerSchema = new mongoose.Schema(
 
     isActive: {
       type: Boolean,
-      default: true,
+      default: false,
     },
 
     order: {
@@ -17,7 +17,7 @@ const bannerSchema = new mongoose.Schema(
       default: 0,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("Banner", bannerSchema);

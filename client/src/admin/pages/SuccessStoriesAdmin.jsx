@@ -201,10 +201,12 @@ export default function SuccessStoriesAdmin() {
 
   return (
     <>
-      <div className="space-y-8 min-h-screen">
+      <div className="space-y-4 min-h-screen">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between gap-4">
-          <h1 className="text-xl sm:text-2xl font-bold">All Success Stories</h1>
+          <h1 className="text-2xl font-semibold text-blue-400 pt-1">
+            All Success Stories
+          </h1>
 
           <div className="flex flex-wrap gap-3">
             {/* Search */}
@@ -338,7 +340,7 @@ export default function SuccessStoriesAdmin() {
 
         {/* Cards Grid */}
         {!fetchLoading && stories.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 border-t border-slate-800 pt-4 rounded-sm">
             {stories.map((story) => (
               <motion.div
                 key={story._id}

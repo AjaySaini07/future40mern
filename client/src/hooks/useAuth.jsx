@@ -14,7 +14,7 @@ export default function useAuth() {
   const [forgotLoading, setForgotLoading] = useState(false);
   const [resetLoading, setResetLoading] = useState(false);
 
-  /* ================= SIGNUP ================= */
+  // --------------------- SIGNUP ---------------------
   const signup = async (payload) => {
     if (signupLoading) return { success: false };
 
@@ -33,7 +33,7 @@ export default function useAuth() {
     }
   };
 
-  /* ================= VERIFY OTP ================= */
+  // -------------------- VERIFY OTP --------------------
   const verifyOtp = async ({ email, otp }) => {
     if (verifyLoading) return { success: false };
 
@@ -54,7 +54,7 @@ export default function useAuth() {
     }
   };
 
-  /* ================= RESEND OTP ================= */
+  // -------------------- RESEND OTP --------------------
   const resendOtp = async (email) => {
     if (resendLoading) return { success: false };
 
@@ -72,7 +72,7 @@ export default function useAuth() {
     }
   };
 
-  /* ================= LOGIN ================= */
+  // ----------------------- LOGIN -----------------------
   const login = async (data) => {
     if (loginLoading) return { success: false };
 
@@ -98,7 +98,7 @@ export default function useAuth() {
     }
   };
 
-  /* ================= CHANGE PASSWORD ================= */
+  // ------------------ CHANGE PASSWORD ------------------
   const changePassword = async (payload) => {
     if (changePasswordLoading) return { success: false };
 
@@ -127,7 +127,7 @@ export default function useAuth() {
     }
   };
 
-  /* ================= FORGOT PASSWORD ================= */
+  // ------------------ FORGOT PASSWORD ------------------
   const forgotPassword = async (email) => {
     if (forgotLoading) return { success: false };
 
@@ -147,7 +147,7 @@ export default function useAuth() {
     }
   };
 
-  /* ================= RESET PASSWORD ================= */
+  // ------------------- RESET PASSWORD -------------------
   const resetPassword = async (payload) => {
     if (resetLoading) return { success: false };
 

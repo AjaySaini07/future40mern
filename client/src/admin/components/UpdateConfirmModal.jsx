@@ -56,7 +56,7 @@ export default function UpdateConfirmModal({
               Cancel
             </motion.button>
 
-            <motion.button
+            {/* <motion.button
               disabled={loading}
               aria-disabled={loading}
               whileTap={!loading ? { scale: 0.95 } : {}}
@@ -70,6 +70,31 @@ export default function UpdateConfirmModal({
               }`}
             >
               {confirmText}
+            </motion.button> */}
+            <motion.button
+              disabled={loading}
+              aria-disabled={loading}
+              whileTap={!loading ? { scale: 0.95 } : {}}
+              onClick={onConfirm}
+              className={`
+    px-4 py-1.5 rounded-sm text-sm text-white
+    flex items-center justify-center
+    transition
+    ${
+      loading
+        ? "bg-blue-600 opacity-70 cursor-not-allowed"
+        : "bg-blue-600 hover:bg-blue-500 cursor-pointer"
+    }
+  `}
+            >
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                  {confirmText}...
+                </span>
+              ) : (
+                confirmText
+              )}
             </motion.button>
           </div>
         </motion.div>

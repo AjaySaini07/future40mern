@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useAdminFounder from "../hooks/useAdminFounder";
-import { CrossIcon } from "../../icons/Icons";
+import { CrossIcon, TooltipIcon } from "../../icons/Icons";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Loader from "../components/loader/Loader";
@@ -23,8 +23,10 @@ export default function AdminFounder() {
   }, []);
 
   return (
-    <div className="px-2 min-h-screen">
-      <h2 className="text-xl font-semibold text-white mb-4">Founder Section</h2>
+    <div className="min-h-screen">
+      <h2 className="text-2xl font-semibold text-blue-400 mb-3">
+        Founder Section
+      </h2>
 
       {/* Preview Card */}
       <div
@@ -44,7 +46,7 @@ export default function AdminFounder() {
             </div>
           ) : founder ? (
             <div className="flex flex-col md:flex-row gap-5 md:gap-6">
-              {/* ===== Image ===== */}
+              {/* -------- Image -------- */}
               <div className="shrink-0 flex justify-center md:justify-start">
                 {founder.image?.url ? (
                   <img
@@ -53,7 +55,7 @@ export default function AdminFounder() {
                     className="
                 h-42 w-42 md:h-54 md:w-54
     rounded-md p-2 object-cover
-    border border-slate-800
+    border border-cyan-900/40
     shadow-sm shadow-blue-500/10
     transition-transform duration-500 ease-out
     hover:scale-[1.03] hover:shadow-blue-500/30
@@ -73,7 +75,7 @@ export default function AdminFounder() {
                 )}
               </div>
 
-              {/* ===== Content ===== */}
+              {/* ------- Content ------- */}
               <div className="flex-1 space-y-3">
                 {/* Name & Title */}
                 <div>
@@ -187,7 +189,7 @@ export default function AdminFounder() {
         </div>
       </div>
 
-      {/* ================= MODAL ================= */}
+      {/* ---------- MODAL ---------- */}
       {open && (
         <EditFounderModal
           founder={founder}
@@ -201,7 +203,7 @@ export default function AdminFounder() {
   );
 }
 
-/* ================= MODAL COMPONENT ================= */
+/* --------------- MODAL COMPONENT --------------- */
 function EditFounderModal({
   founder,
   onClose,
@@ -254,32 +256,36 @@ function EditFounderModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur px-3 sm:px-6"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur px-6"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-2xl bg-slate-900 border border-slate-800
+        className="w-full max-w-lg sm:max-w-xl md:max-w-2xl bg-slate-900 border border-slate-800
         rounded-md shadow-xl p-4 sm:p-6
         max-h-[90vh] overflow-y-auto scrollbar-slim"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-base sm:text-lg font-semibold text-white">
+          <h3 className="text-lg font-semibold text-blue-400">
             {founder ? "Edit Founder Details" : "Add Founder Details"}
           </h3>
-          <button onClick={onClose} className="text-slate-400 hover:text-white">
+          <button
+            onClick={onClose}
+            className="text-slate-400 hover:text-white text-xl"
+          >
             <CrossIcon />
           </button>
         </div>
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+          className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3"
         >
           {/* Name */}
           <Field
             placeholder="Name"
+            tooltip="Full Name"
             register={register("name", { required: "Name is required" })}
             error={errors.name}
           />
@@ -287,6 +293,7 @@ function EditFounderModal({
           {/* Title */}
           <Field
             placeholder="Title"
+            tooltip="Professional Title"
             register={register("title", { required: "Title is required" })}
             error={errors.title}
           />
@@ -295,6 +302,7 @@ function EditFounderModal({
           <Field
             type="number"
             placeholder="Experience (Years)"
+            tooltip="Experience (Years)"
             register={register("experienceYears", {
               required: "Experience is required",
               min: { value: 1, message: "At least 1 year" },
@@ -306,6 +314,7 @@ function EditFounderModal({
           <Field
             type="number"
             placeholder="Students Trained"
+            tooltip="Students Trained"
             register={register("studentsTrained", {
               required: "Required",
               min: { value: 1, message: "Must be greater than 0" },
@@ -315,8 +324,8 @@ function EditFounderModal({
 
           {/* Specialization */}
           <Field
-            // className="sm:col-span-2"
             placeholder="Specialization"
+            tooltip="Area of Expertise"
             register={register("specialization", {
               required: "Specialization is required",
             })}
@@ -325,8 +334,8 @@ function EditFounderModal({
 
           {/* Teaching Style */}
           <Field
-            // className="sm:col-span-2"
             placeholder="Teaching Style"
+            tooltip="Teaching Style"
             register={register("teachingStyle", {
               required: "Teaching style is required",
             })}
@@ -345,7 +354,7 @@ function EditFounderModal({
               })}
               rows={4}
               placeholder="Bio"
-              className="input resize-none"
+              className="input resize-none overflow-y-auto scrollbar-slim"
             />
             {errors.bio && (
               <p className="text-xs text-red-500 -mt-1">{errors.bio.message}</p>
@@ -383,7 +392,7 @@ function EditFounderModal({
                                file:mr-4 file:py-1 file:px-3
                                file:rounded-sm file:border-0
                                file:bg-slate-800 file:text-white
-                               hover:file:bg-slate-700 rounded-sm bg-slate-950
+                               hover:file:bg-slate-700 rounded-sm bg-slate-900
                  border border-slate-700 outline-none focus:border-slate-400 transition duration-500
                  px-2 py-1.5"
             />
@@ -411,14 +420,14 @@ function EditFounderModal({
 
           {/* Actions Buttons */}
           <div
-            className="sm:col-span-2 flex flex-col sm:flex-row
-            justify-end gap-3 mt-3"
+            className="sm:col-span-2 flex
+            justify-end gap-3"
           >
             <motion.button
               type="button"
               whileTap={{ scale: 0.95 }}
               onClick={onClose}
-              className="w-full sm:w-auto px-4 py-2 rounded-sm text-sm
+              className="px-4 py-2 rounded-sm text-sm
               bg-slate-700 hover:bg-slate-600 text-slate-300"
             >
               Cancel
@@ -428,15 +437,23 @@ function EditFounderModal({
               type="submit"
               disabled={loading}
               whileTap={!loading ? { scale: 0.95 } : {}}
-              className={`w-full sm:w-auto px-5 py-2 rounded-sm text-sm
+              className={`px-4 py-2 rounded-sm text-sm
               font-medium text-white
               ${
                 loading
-                  ? "bg-slate-600 cursor-not-allowed"
+                  ? "bg-blue-600 cursor-not-allowed"
                   : "bg-blue-600 hover:bg-blue-500"
               }`}
             >
-              {loading ? "Saving..." : "Save Changes"}
+              {/* {loading ? "Saving..." : "Save Changes"} */}
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                  Saving...
+                </span>
+              ) : (
+                "Save Changes"
+              )}
             </motion.button>
           </div>
         </form>
@@ -445,16 +462,48 @@ function EditFounderModal({
   );
 }
 
-/* ================= SMALL FIELD COMPONENT ================= */
-function Field({ register, error, placeholder, type = "text", className }) {
+/* -------------------- SMALL FIELD COMPONENT -------------------- */
+function Field({
+  register,
+  error,
+  placeholder,
+  type = "text",
+  className,
+  tooltip,
+}) {
   return (
-    <div className={className}>
+    <div className={`relative ${className}`}>
+      {/* Input */}
       <input
         type={type}
         {...register}
         placeholder={placeholder}
-        className="input"
+        className="input pr-9"
       />
+
+      {tooltip && (
+        <div className="absolute right-2 top-1/2 -translate-y-1/2 group">
+          <span className="cursor-pointer text-slate-600 hover:text-blue-400 transition-all duration-300">
+            <TooltipIcon />
+          </span>
+
+          {/* 🔥 Tooltip (UPWARDS) */}
+          <div
+            className="
+              pointer-events-none absolute right-6 -bottom-3 mb-2
+              z-50
+              whitespace-nowrap rounded-sm
+              bg-slate-950 px-2 py-1 text-[11px] text-slate-200
+              opacity-0 scale-95
+              transition-all duration-200
+              group-hover:opacity-100 group-hover:scale-100
+            "
+          >
+            {tooltip}
+          </div>
+        </div>
+      )}
+
       {error && <p className="text-xs text-red-500 mt-0.5">{error.message}</p>}
     </div>
   );

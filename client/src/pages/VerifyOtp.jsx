@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
+import { motion } from "framer-motion";
 
 export default function VerifyOtp() {
   const { state } = useLocation();
@@ -67,14 +68,14 @@ export default function VerifyOtp() {
     <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-md p-6 space-y-4 shadow-xl"
+        className="w-full max-w-sm sm:max-w-md bg-slate-900 border border-slate-800 rounded-md p-6 space-y-4 shadow-xl"
       >
         {/* Header */}
         <div className="text-center space-y-1">
           <h2 className="text-2xl font-bold text-white drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]">
             Verify OTP
           </h2>
-          <p className="text-sm text-slate-400">
+          <p className="text-xs text-slate-400">
             Enter the 4-digit code sent to your email
           </p>
           <div className="mx-auto mt-2 h-1 w-12 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500"></div>
@@ -93,9 +94,9 @@ export default function VerifyOtp() {
               },
             })}
             className="w-full mt-0.5 text-center tracking-[10px]
-                       bg-slate-950 border border-slate-700
-                       rounded-md py-2.5 text-xl text-white
-                       outline-none focus:border-blue-500 transition"
+                       bg-slate-900 border border-slate-700
+                       rounded-sm py-2 text-xl text-white
+                       outline-none focus:border-blue-500 transition-all duration-300"
           />
           {errors.otp && (
             <p className="text-xs text-red-500 mt-0.5">{errors.otp.message}</p>
@@ -108,12 +109,13 @@ export default function VerifyOtp() {
         )}
 
         {/* VERIFY BUTTON */}
-        <button
+        <motion.button
           type="submit"
+          whileTap={!verifyLoading ? { scale: 0.98 } : {}}
           disabled={verifyLoading}
           aria-disabled={verifyLoading}
           className={`
-    w-full rounded-md py-2 text-sm text-white font-medium bg-blue-600 transition
+    w-full rounded-sm py-2 text-sm text-white font-medium bg-blue-600 transition-all flex items-center justify-center
     ${
       verifyLoading
         ? "opacity-60 cursor-not-allowed"
@@ -121,8 +123,16 @@ export default function VerifyOtp() {
     }
   `}
         >
-          {verifyLoading ? "Verifying..." : "Verify OTP"}
-        </button>
+          {/* {verifyLoading ? "Verifying..." : "Verify OTP"} */}
+          {verifyLoading ? (
+            <span className="flex items-center gap-2">
+              <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+              Verifying...
+            </span>
+          ) : (
+            "Verify OTP"
+          )}
+        </motion.button>
 
         {/* 🔥 RESEND WITH TIMER */}
         <p className="text-sm text-center text-slate-400">
@@ -132,14 +142,6 @@ export default function VerifyOtp() {
               Resend in <span className="text-blue-400">{timer}s</span>
             </span>
           ) : (
-            // <button
-            //   type="button"
-            //   onClick={handleResend}
-            //   disabled={resendLoading}
-            //   className="text-blue-400 hover:underline ml-1 disabled:opacity-60 cursor-pointer"
-            // >
-            //   {resendLoading ? "Sending..." : "Resend"}
-            // </button>
             <button
               type="button"
               onClick={handleResend}
