@@ -9,6 +9,7 @@ import { IoMdSearch } from "react-icons/io";
 import UpdateConfirmModal from "../components/UpdateConfirmModal";
 import { BsEmojiTearFill } from "react-icons/bs";
 import Loader from "../components/loader/Loader";
+import { CrossIcon } from "../../icons/Icons";
 
 const cardVariant = {
   hidden: {
@@ -28,7 +29,7 @@ const cardVariant = {
   hover: {
     y: -3,
     transition: {
-      duration: 0.25,
+      duration: 0.4,
       ease: "easeOut",
     },
   },
@@ -66,7 +67,6 @@ export default function SuccessStoriesAdmin() {
   } = useAdminStories();
 
   const [stories, setStories] = useState([]);
-  console.log("stories --------", stories);
 
   const [search, setSearch] = useState("");
 
@@ -79,7 +79,7 @@ export default function SuccessStoriesAdmin() {
 
   const [openUpdate, setOpenUpdate] = useState(false);
   const [selectedStory, setSelectedStory] = useState(null);
-  const [nextStatus, setNextStatus] = useState(null);
+  const isCurrentlyApproved = selectedStory?.approved;
 
   const ITEMS_PER_PAGE = 8;
   const [currentPage, setCurrentPage] = useState(1);
@@ -173,15 +173,13 @@ export default function SuccessStoriesAdmin() {
   const handleUpdate = async () => {
     if (!selectedStory) return;
 
-    if (typeof nextStatus !== "boolean") {
-      console.error("Invalid approved value:", nextStatus);
-      return;
-    }
+    const newStatus = !selectedStory.approved;
 
-    await updateStatus(selectedStory._id, nextStatus);
+    await updateStatus(selectedStory._id, newStatus);
+
     setOpenUpdate(false);
     setSelectedStory(null);
-    setNextStatus(null);
+
     loadStories();
   };
 
@@ -351,7 +349,7 @@ export default function SuccessStoriesAdmin() {
                 className="relative
     bg-gradient-to-b from-slate-900 to-slate-950
     border border-slate-800 hover:border-slate-700
-    rounded-md p-5 text-center"
+    rounded-md p-4 text-center"
               >
                 {/* Status Badge */}
                 <span
@@ -388,24 +386,23 @@ export default function SuccessStoriesAdmin() {
                 </div>
 
                 {/* Story */}
-                <p className="text-sm text-slate-300 mt-3 italic line-clamp-3">
+                <p className="text-sm text-slate-400 mt-3 line-clamp-4">
                   “{story.story}”
                 </p>
 
                 {/* Name */}
-                <h4 className="mt-3 text-white italic font-semibold">
+                <h4 className="mt-2 text-blue-400 font-semibold">
                   {story.name}
                 </h4>
 
                 {/* Actions Buttons */}
-                <div className="mt-4 flex justify-center gap-2">
+                <div className="mt-3 flex justify-center gap-2">
                   {/* Approve / Unapprove */}
                   <motion.button
                     whileTap={{ scale: 0.95 }}
-                    // whileHover={{ scale: 1.05 }}
                     onClick={() => {
                       setSelectedStory(story);
-                      setNextStatus(!story.approved);
+                      // setNextStatus(!story.approved);
                       setOpenUpdate(true);
                     }}
                     className={`px-3 py-1.5 rounded-xs text-xs font-medium
@@ -514,14 +511,21 @@ export default function SuccessStoriesAdmin() {
       {/* Update Confirm Modal */}
       <UpdateConfirmModal
         open={openUpdate}
-        title={nextStatus ? "Approve Success Story" : "Unapprove Success Story"}
+        title={
+          isCurrentlyApproved
+            ? "Unapprove Success Story"
+            : "Approve Success Story"
+        }
         message={`Are you sure you want to ${
-          nextStatus ? "approve" : "unapprove"
+          isCurrentlyApproved ? "unapprove" : "approve"
         } this success story?`}
-        confirmText={nextStatus ? "Approve" : "Unapprove"}
+        confirmText={isCurrentlyApproved ? "Unapprove" : "Approve"}
         loading={statusLoading}
         onConfirm={handleUpdate}
-        onCancel={() => setOpenUpdate(false)}
+        onCancel={() => {
+          setOpenUpdate(false);
+          setSelectedStory(null);
+        }}
       />
 
       {/* View Story Modal */}
@@ -542,13 +546,13 @@ export default function SuccessStoriesAdmin() {
               animate="visible"
               exit="exit"
               className="relative bg-slate-900 border border-slate-700
-        rounded-md max-w-lg w-full p-6"
+        rounded-md max-w-lg sm:max-w-xl w-full p-6"
             >
               <button
                 onClick={() => setViewStory(null)}
-                className="absolute top-4 right-4 text-slate-400 hover:text-white transition-transform duration-300 hover:scale-110"
+                className="absolute top-4 right-4 text-slate-400 hover:text-white transition-transform duration-300 hover:scale-105"
               >
-                <FaTimes size={24} />
+                <CrossIcon size={24} />
               </button>
 
               {/* Header */}
@@ -592,10 +596,10 @@ export default function SuccessStoriesAdmin() {
               {/* Story */}
               <div
                 className="mt-4 max-h-50 overflow-y-auto scrollbar-slim
-  pr-2 scroll-smooth"
+  pr-1.5 scroll-smooth"
               >
-                <p className="text-xs sm:text-sm text-slate-300 italic font-semibold leading-relaxed">
-                  “{viewStory.story}”
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  {viewStory.story}
                 </p>
               </div>
 
@@ -605,43 +609,41 @@ export default function SuccessStoriesAdmin() {
               </p>
 
               {/* Meta Info */}
-              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div className="mt-4 grid grid-cols-2 gap-3 text-xs">
                 {/* Email */}
-                <div className="rounded-sm border border-slate-700 hover:border-cyan-700 bg-slate-900/60 p-3 transition-all duration-500">
+                <div className="rounded-sm border border-slate-700 hover:border-cyan-700 bg-slate-900/60 p-2 sm:p-3 transition-all duration-500">
                   <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold mb-1">
                     Email
                   </p>
-                  <p className="break-all text-slate-300 font-medium">
-                    {viewStory.email}
-                  </p>
+                  <p className="break-all text-slate-300">{viewStory.email}</p>
                 </div>
 
                 {/* Gender */}
-                <div className="rounded-sm border border-slate-700 hover:border-cyan-700 bg-slate-900/60 p-3 transition-all duration-500">
+                <div className="rounded-sm border border-slate-700 hover:border-cyan-700 bg-slate-900/60 p-2 sm:p-3 transition-all duration-500">
                   <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold mb-1">
                     Gender
                   </p>
-                  <p className="text-slate-300 font-medium capitalize">
+                  <p className="text-slate-300 capitalize">
                     {viewStory.gender}
                   </p>
                 </div>
 
                 {/* Created At */}
-                <div className="rounded-sm border border-slate-700 hover:border-cyan-700 bg-slate-900/60 p-3 transition-all duration-500">
+                <div className="rounded-sm border border-slate-700 hover:border-cyan-700 bg-slate-900/60 p-2 sm:p-3 transition-all duration-500">
                   <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold mb-1">
                     Created At
                   </p>
-                  <p className="text-slate-300 font-medium">
+                  <p className="text-slate-300">
                     {new Date(viewStory.createdAt).toLocaleString()}
                   </p>
                 </div>
 
                 {/* Updated At */}
-                <div className="rounded-sm border border-slate-700 hover:border-cyan-700 bg-slate-900/60 p-3 transition-all duration-500">
+                <div className="rounded-sm border border-slate-700 hover:border-cyan-700 bg-slate-900/60 p-2 sm:p-3 transition-all duration-500">
                   <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold mb-1">
                     Updated At
                   </p>
-                  <p className="text-slate-300 font-medium">
+                  <p className="text-slate-300">
                     {new Date(viewStory.updatedAt).toLocaleString()}
                   </p>
                 </div>

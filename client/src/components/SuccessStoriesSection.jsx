@@ -3,6 +3,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 
 const stories = [
   {
@@ -38,6 +40,8 @@ const stories = [
 ];
 
 export default function SuccessStoriesSection() {
+  const [selectedStory, setSelectedStory] = useState(null);
+
   return (
     <section
       id="success"
@@ -139,6 +143,7 @@ export default function SuccessStoriesSection() {
           </Swiper>
         </div>
 
+        {/* View All Stories */}
         <Reveal>
           <div className="flex justify-center mt-8 mb-6 sm:mb-4">
             <Link
@@ -161,6 +166,107 @@ export default function SuccessStoriesSection() {
           </div>
         </Reveal>
       </div>
+
+      {/* Modal – Synced Reveal */}
+      <AnimatePresence>
+        {selectedStory && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedStory(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 30 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 30 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-md sm:max-w-lg rounded-lg bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-700 p-7 shadow-2xl"
+            >
+              <button
+                onClick={() => setSelectedStory(null)}
+                className="absolute top-4 right-4 text-slate-400 hover:text-white transition-transform duration-300 hover:scale-110"
+              >
+                <CrossIcon size={24} />
+              </button>
+
+              {/* Photo */}
+              <div className="flex justify-center -mt-18 sm:-mt-21 mb-2">
+                <img
+                  src={selectedStory.photo.url}
+                  alt={selectedStory.name}
+                  className="w-20 h-20 sm:w-28 sm:h-28 rounded-full border-4 border-slate-700 bg-slate-900"
+                />
+              </div>
+              {/* Avatar Section */}
+              {/* <div className="flex justify-center mb-4">
+                      <div className="relative">
+                        <div className="absolute inset-0 rounded-full bg-blue-500/20 blur-xl" />
+      
+                        <img
+                          src={selectedStory.photo.url}
+                          alt={selectedStory.name}
+                          className="
+                relative w-20 h-20 sm:w-28 sm:h-28
+                rounded-full
+                border-4 border-slate-800
+                object-cover
+                shadow-lg
+              "
+                        />
+                      </div>
+                    </div> */}
+
+              {/* Rating */}
+              <div className="flex justify-center gap-1 mb-2">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <StarIcon
+                    key={index}
+                    className={
+                      index < selectedStory.rating
+                        ? "text-yellow-400"
+                        : "text-slate-600"
+                    }
+                  />
+                ))}
+              </div>
+
+              <div className="text-center">
+                <div className="flex flex-wrap justify-center items-center gap-1 mb-2 text-center">
+                  {/* Name */}
+                  <h3 className="text-sm sm:text-md md:text-lg font-semibold text-white">
+                    {selectedStory.name}
+                  </h3>
+
+                  {/* Icon */}
+                  {/* <FaMedal className="text-red-500 drop-shadow-sm text-sm sm:text-lg md:text-xl" /> */}
+                  <span>🏆</span>
+
+                  {/* Achievement */}
+                  <p className="text-sm sm:text-md md:text-lg font-semibold text-sky-400">
+                    {selectedStory.achievement}
+                  </p>
+                </div>
+
+                {/* Divider */}
+                <div className="h-px w-full bg-slate-700/60 mb-3" />
+
+                {/* Story */}
+                <div
+                  className="max-h-30 sm:max-h-50 overflow-y-auto scrollbar-slim
+        pr-2 scroll-smooth"
+                >
+                  <p className="text-xs sm:text-sm text-slate-300 leading-normal">
+                    “{selectedStory.story}”
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

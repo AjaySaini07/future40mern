@@ -1,6 +1,6 @@
 Admin Cridintials -:----------------
 email: admin@future40.com
-password: Admin@123
+password: Admin@123 or 123456
 
 Student Cridintials -:----------------
 All Students account/emails passwords are - 123456
@@ -8,16 +8,14 @@ All Students account/emails passwords are - 123456
 GMAIL_USER = nodetest0708@gmail.com
 GMAIL_APP_PASSWORD = abcd efgh ijkl mnop
 
-2. Admin Pannel per navbar add karo also (dark/light mode)
-3. Sidbar ko smooth kro
-4. Notifications per work
-5. Admin pannel ko mobile responsive bnaao
-
-<div className="text-sm [@media(min-width:360px)]:text-base [@media(min-width:480px)]:text-lg">
-
-<div className="grid grid-cols-1 [@media(min-width:480px)]:grid-cols-2 md:grid-cols-3">
-
-<div className="flex flex-col [@media(min-width:480px)]:flex-row">
+1. Update success story option for student
+2. Admin Pannel per navbar (dark/light mode)
+3. Notifications per work
+4. Success story default avatar image issue
+5.
+6.
+7.
+8.
 
 Git Push commands -:
 git add

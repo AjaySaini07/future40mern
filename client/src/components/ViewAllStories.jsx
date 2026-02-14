@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import Reveal from "./Reveal";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaTimes, FaMedal, FaStar } from "react-icons/fa";
 import { useSuccessStory } from "../hooks/useSuccessStory";
-import { IoMdSearch } from "react-icons/io";
 import { BsEmojiTearFill } from "react-icons/bs";
 import Loader from "../admin/components/loader/Loader";
+import { CrossIcon, SearchIcon, StarIcon } from "../icons/Icons";
 
 const container = {
   hidden: { opacity: 0 },
@@ -88,7 +87,7 @@ export default function ViewAllStories() {
   }, [search]);
 
   return (
-    <section className="bg-slate-950 min-h-screen px-6 md:px-12 py-6">
+    <section className="bg-slate-950 min-h-screen px-6 md:px-10 py-5">
       {/* Header */}
       <Reveal>
         <div className="text-center max-w-2xl mx-auto mb-4">
@@ -108,7 +107,7 @@ export default function ViewAllStories() {
       {/* Search – Reveal */}
       <Reveal>
         <div className="max-w-xl mx-auto relative mb-4">
-          <IoMdSearch
+          <SearchIcon
             className="absolute left-3 top-1/2 -translate-y-1/2
             text-slate-400 text-lg"
           />
@@ -154,7 +153,7 @@ export default function ViewAllStories() {
         variants={container}
         initial="hidden"
         animate="show"
-        className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 pt-4 border-t border-slate-900 rounded-l-md rounded-r-md"
+        className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 pt-4 border-t border-slate-900 rounded-l-md rounded-r-md"
       >
         {fetchLoading ? (
           <p className="col-span-full flex justify-center text-center text-slate-400 text-sm">
@@ -167,7 +166,7 @@ export default function ViewAllStories() {
               variants={item}
               whileHover={{ y: -4 }}
               onClick={() => setSelectedStory(story)}
-              className="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 hover:border-slate-600 cursor-pointer rounded-sm p-6 shadow-xl duration-300"
+              className="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 hover:border-slate-600 cursor-pointer rounded-sm p-4 [@media(min-width:480px)]:p-5 shadow-xl duration-300"
             >
               {/* Avatar */}
               <div className="flex justify-center mb-3">
@@ -181,7 +180,7 @@ export default function ViewAllStories() {
               {/* Rating */}
               <div className="flex justify-center gap-1 mb-3">
                 {Array.from({ length: 5 }).map((_, index) => (
-                  <FaStar
+                  <StarIcon
                     key={index}
                     className={
                       index < story.rating
@@ -193,13 +192,13 @@ export default function ViewAllStories() {
               </div>
 
               {/* Story */}
-              <p className="text-slate-400 text-sm font-semibold text-center italic leading-relaxed mb-2 line-clamp-3">
+              <p className="text-slate-400 text-xs [@media(min-width:480px)]:text-sm text-center leading-normal mb-2 line-clamp-4">
                 “{story.story}”
               </p>
 
               {/* Name */}
               <div className="text-center">
-                <h3 className="text-white italic font-semibold">
+                <h3 className="text-blue-400 text-sm [@media(min-width:480px)]:text-base font-semibold">
                   {story.name}
                 </h3>
               </div>
@@ -273,28 +272,46 @@ export default function ViewAllStories() {
               exit={{ scale: 0.9, y: 30 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-lg rounded-md bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-700 p-7 shadow-2xl"
+              className="relative w-full max-w-md sm:max-w-lg rounded-lg bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-700 p-7 shadow-2xl"
             >
               <button
                 onClick={() => setSelectedStory(null)}
                 className="absolute top-4 right-4 text-slate-400 hover:text-white transition-transform duration-300 hover:scale-110"
               >
-                <FaTimes size={24} />
+                <CrossIcon size={24} />
               </button>
 
               {/* Photo */}
-              <div className="flex justify-center -mt-20 mb-2">
+              <div className="flex justify-center -mt-18 sm:-mt-21 mb-2">
                 <img
                   src={selectedStory.photo.url}
                   alt={selectedStory.name}
-                  className="w-28 h-28 rounded-full border-4 border-slate-700 bg-slate-900"
+                  className="w-20 h-20 sm:w-28 sm:h-28 rounded-full border-4 border-slate-700 bg-slate-900"
                 />
               </div>
+              {/* Avatar Section */}
+              {/* <div className="flex justify-center mb-4">
+                <div className="relative">
+                  <div className="absolute inset-0 rounded-full bg-blue-500/20 blur-xl" />
+
+                  <img
+                    src={selectedStory.photo.url}
+                    alt={selectedStory.name}
+                    className="
+          relative w-20 h-20 sm:w-28 sm:h-28
+          rounded-full
+          border-4 border-slate-800
+          object-cover
+          shadow-lg
+        "
+                  />
+                </div>
+              </div> */}
 
               {/* Rating */}
               <div className="flex justify-center gap-1 mb-2">
                 {Array.from({ length: 5 }).map((_, index) => (
-                  <FaStar
+                  <StarIcon
                     key={index}
                     className={
                       index < selectedStory.rating
@@ -306,27 +323,31 @@ export default function ViewAllStories() {
               </div>
 
               <div className="text-center">
-                <div className="flex flex-wrap justify-center items-center gap-1 sm:gap-2 mb-3 text-center">
+                <div className="flex flex-wrap justify-center items-center gap-1 mb-2 text-center">
                   {/* Name */}
-                  <h3 className="text-sm sm:text-md md:text-lg italic font-semibold text-white">
+                  <h3 className="text-sm sm:text-md md:text-lg font-semibold text-white">
                     {selectedStory.name}
                   </h3>
 
                   {/* Icon */}
-                  <FaMedal className="text-red-500 drop-shadow-sm text-sm sm:text-lg md:text-xl" />
+                  {/* <FaMedal className="text-red-500 drop-shadow-sm text-sm sm:text-lg md:text-xl" /> */}
+                  <span>🏆</span>
 
                   {/* Achievement */}
-                  <p className="text-sm sm:text-md md:text-lg italic font-semibold text-sky-400">
+                  <p className="text-sm sm:text-md md:text-lg font-semibold text-sky-400">
                     {selectedStory.achievement}
                   </p>
                 </div>
 
+                {/* Divider */}
+                <div className="h-px w-full bg-slate-700/60 mb-3" />
+
                 {/* Story */}
                 <div
-                  className="mt-4 max-h-50 overflow-y-auto scrollbar-slim
+                  className="max-h-30 sm:max-h-50 overflow-y-auto scrollbar-slim
   pr-2 scroll-smooth"
                 >
-                  <p className="text-xs sm:text-sm text-slate-300 italic font-semibold leading-relaxed">
+                  <p className="text-xs sm:text-sm text-slate-300 leading-normal">
                     “{selectedStory.story}”
                   </p>
                 </div>

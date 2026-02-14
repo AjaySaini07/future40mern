@@ -10,25 +10,25 @@ const features = [
   {
     icon: <FiUserCheck />,
     title: "Personalised Live Training",
-    desc: "Small batches + 1:1 feedback to fix grammar, fluency and confidence issues.",
+    desc: "Small focused batches with 1:1 feedback sessions to improve grammar, fluency, pronunciation and real speaking confidence. Get personalised correction and individual attention in every class.",
     glow: "from-pink-500 to-purple-500",
   },
   {
     icon: <FiTrendingUp />,
     title: "Result-Oriented Approach",
-    desc: "Structured roadmap for interviews, presentations and speaking improvement.",
+    desc: "A structured roadmap designed for interviews, presentations, business communication and daily speaking. We focus on practical outcomes — promotions, job offers and confidence transformation.",
     glow: "from-cyan-400 to-blue-500",
   },
   {
     icon: <FiBookOpen />,
     title: "Premium Study Material",
-    desc: "Worksheets, speaking tasks, vocabulary lists & guided daily practice.",
+    desc: "Well-designed worksheets, vocabulary builders, real-life speaking tasks, mock interview scripts and guided daily practice plans to accelerate your improvement consistently.",
     glow: "from-green-400 to-emerald-500",
   },
   {
     icon: <FiBarChart2 />,
     title: "Support & Progress Tracking",
-    desc: "Assessments, weekly speaking reviews & personal improvement roadmap.",
+    desc: "Regular assessments, weekly speaking reviews, performance tracking and personalised improvement roadmaps to ensure continuous measurable progress in your communication skills.",
     glow: "from-orange-400 to-yellow-500",
   },
 ];
@@ -78,11 +78,15 @@ export default function NeonFeatureCards() {
                     {f.icon}
                   </div>
 
-                  <h3 className="mt-4 text-[18px] font-semibold text-white">
+                  <h3 className="mt-4 text-xl font-semibold text-white">
                     {f.title}
                   </h3>
                   <p className="mt-2 text-slate-300 text-sm leading-relaxed">
                     {f.desc}
+                  </p>
+
+                  <p className="mt-3 text-xs text-blue-400 font-medium">
+                    Learn more →
                   </p>
 
                   {/* Bottom glow beam */}

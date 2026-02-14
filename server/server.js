@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
+const { generalLimiter } = require("./middlewares/rateLimiter");
 
 dotenv.config();
 const app = express();
@@ -10,6 +11,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
+app.use(generalLimiter);
+app.set("trust proxy", 1);
 
 // Database connect
 connectDB();

@@ -51,7 +51,7 @@ export default function ForgotPassword() {
     bg-gradient-to-r from-blue-500 to-indigo-500"
           />
 
-          <p className="text-[11px] text-slate-400">
+          <p className="text-[10px] text-slate-400">
             We’ll send a one-time otp to your email
           </p>
         </div>

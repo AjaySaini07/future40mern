@@ -454,13 +454,13 @@ export default function AdminQueries() {
       {/* Query View Modal */}
       {viewQuery && (
         <div
-          className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm
-    flex items-center justify-center px-3 sm:px-4"
+          className="fixed inset-0 z-50 bg-black/90
+    flex items-center justify-center px-4 sm:px-6"
         >
           <div
             ref={modalRef}
             className="
-        relative
+        relative w-full 
         max-w-md sm:max-w-lg
         bg-slate-900/95 border border-slate-700
         rounded-sm

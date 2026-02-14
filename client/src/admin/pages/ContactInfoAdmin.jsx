@@ -273,7 +273,7 @@ const Item = ({ text, onDelete }) => (
       onClick={onDelete}
       whileTap={{ scale: 0.85, rotate: -6 }}
       transition={{ duration: 0.12, ease: "easeInOut" }}
-      className="text-red-500 hover:text-red-600 text-lg"
+      className="text-red-500 hover:text-red-600 text-lg transition-all duration-300"
     >
       <DeleteIcon />
     </motion.button>
@@ -288,7 +288,7 @@ const Input = ({ placeholder, register, error }) => (
       className="w-full bg-slate-900 border border-slate-700
       rounded-sm px-3 py-2 text-sm outline-none focus:border-cyan-600 transition duration-500"
     />
-    {error && <p className="text-red-400 text-xs mt-1">{error.message}</p>}
+    {error && <p className="text-red-500 text-xs mt-0.5">{error.message}</p>}
   </div>
 );
 

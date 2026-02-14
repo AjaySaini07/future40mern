@@ -299,11 +299,20 @@ import { Link, useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { MdMenu, MdClose } from "react-icons/md";
 import { FaUserCircle, FaUser, FaKey, FaSignOutAlt } from "react-icons/fa";
+import { motion } from "framer-motion";
+import { LogoutIcon } from "../icons/Icons";
 
 /* 🔹 Profile Icon */
 function ProfileIcon() {
   return (
-    <FaUserCircle className="text-2xl [@media(min-width:480px)]:text-3xl text-slate-200 hover:text-blue-400 transition cursor-pointer" />
+    <motion.div
+      // whileHover={{ scale: 1.15, y: -2 }}
+      whileTap={{ scale: 0.9 }}
+      transition={{ type: "spring", stiffness: 250, damping: 15 }}
+      className="cursor-pointer"
+    >
+      <FaUserCircle className="text-2xl [@media(min-width:480px)]:text-3xl text-slate-200 hover:text-blue-400 transition-all duration-300 cursor-pointer" />
+    </motion.div>
   );
 }
 
@@ -361,7 +370,7 @@ export default function Navbar() {
       value: "logout",
       label: (
         <>
-          <FaSignOutAlt className="text-red-400" />
+          <LogoutIcon className="text-red-400" />
           Logout
         </>
       ),
@@ -380,42 +389,6 @@ export default function Navbar() {
   };
 
   /* 🎨 react-select styles */
-  // const selectStyles = {
-  //   control: (base) => ({
-  //     ...base,
-  //     backgroundColor: "transparent",
-  //     border: "none",
-  //     boxShadow: "none",
-  //     minHeight: "auto",
-  //     cursor: "pointer",
-  //     padding: 0,
-  //   }),
-  //   valueContainer: (base) => ({ ...base, padding: 0 }),
-  //   indicatorsContainer: () => ({ display: "none" }),
-  //   singleValue: () => ({ display: "none" }),
-  //   menu: (base) => ({
-  //     ...base,
-  //     background:
-  //       "linear-gradient(180deg, rgba(15,23,42,0.95), rgba(2,6,23,0.95))",
-  //     border: "1px solid rgba(148,163,184,0.2)",
-  //     borderRadius: "6px",
-  //     width: "200px",
-  //     right: 0,
-  //     left: "auto",
-  //   }),
-  //   option: (base, state) => ({
-  //     ...base,
-  //     display: "flex",
-  //     alignItems: "center",
-  //     gap: "10px",
-  //     padding: "12px 14px",
-  //     color: "#e5e7eb",
-  //     backgroundColor: state.isFocused
-  //       ? "rgba(59,130,246,0.25)"
-  //       : "transparent",
-  //     cursor: "pointer",
-  //   }),
-  // };
   const selectStyles = {
     control: (base) => ({
       ...base,
@@ -443,7 +416,7 @@ export default function Navbar() {
       backdropFilter: "blur(10px)",
       border: "1px solid rgba(148,163,184,0.2)",
       borderRadius: "5px",
-      padding: "3px",
+      padding: "1px",
       width: "200px",
       right: 0,
       left: "auto",
@@ -461,10 +434,10 @@ export default function Navbar() {
       display: "flex",
       alignItems: "center",
       gap: "10px",
-      padding: "12px 14px",
-      borderRadius: "4px",
+      padding: "10px",
+      borderRadius: "2px",
       fontSize: "14px",
-      fontWeight: 500,
+      fontWeight: 400,
       color: "#e5e7eb",
       backgroundColor: state.isFocused
         ? "rgba(59,130,246,0.25)"
@@ -497,22 +470,56 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-6 text-sm text-slate-200">
-          <a href="/" className="hover:text-blue-400">
-            Home
-          </a>
-          <a href="#courses" className="hover:text-blue-400">
-            Courses
-          </a>
-          <a href="#success" className="hover:text-blue-400">
-            Success Stories
-          </a>
-          <a href="#founder" className="hover:text-blue-400">
-            Founder
-          </a>
-          <a href="#contact" className="hover:text-blue-400">
-            Contact
-          </a>
+        <div className="hidden md:flex items-center gap-2 text-sm font-medium">
+          {[
+            { label: "Home", href: "/" },
+            { label: "Courses", href: "#courses" },
+            { label: "Success Stories", href: "#success" },
+            { label: "Founder", href: "#founder" },
+            { label: "Contact", href: "#contact" },
+          ].map((item) => (
+            <a
+              key={item.label}
+              href={item.href}
+              //         className="
+              //   relative px-4 py-2 rounded-full
+              //   text-slate-300
+              //   transition-all duration-300
+              //   hover:text-white
+              //   group overflow-hidden
+              // "
+              className="
+  relative px-4 py-1.5 rounded-full
+  text-slate-400 
+  transition-all duration-500
+  hover:bg-slate-900 hover:text-cyan-500
+"
+            >
+              {/* Animated Background Pill */}
+              <span
+                className="
+          absolute inset-0
+          bg-gradient-to-r from-blue-600/20 to-purple-600/20
+          scale-0 group-hover:scale-100
+          transition-transform duration-300
+          rounded-full
+        "
+              />
+
+              {/* Soft Border Glow */}
+              <span
+                className="
+          absolute inset-0
+          border border-blue-500/20
+          opacity-0 group-hover:opacity-100
+          transition duration-300
+          rounded-full
+        "
+              />
+
+              <span className="relative z-10">{item.label}</span>
+            </a>
+          ))}
         </div>
 
         {/* Auth (Desktop + Mobile) */}
@@ -527,32 +534,49 @@ export default function Navbar() {
               placeholder={<ProfileIcon />}
             />
           ) : (
-            <Link
-              to="/login"
-              className="hidden md:inline-block text-white rounded-full
-      border border-blue-500 px-4 py-2 text-sm font-medium
-      hover:bg-blue-600 transition"
+            <motion.div
+              // whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: "spring", stiffness: 250, damping: 15 }}
             >
-              Login / Register
-            </Link>
+              <Link
+                to="/login"
+                className="
+      hidden md:inline-block 
+      text-white 
+      rounded-full
+      border border-blue-500 
+      px-4 py-2 
+      text-sm font-medium
+      bg-transparent
+      hover:bg-blue-600
+      hover:shadow-[0_0_15px_rgba(59,130,246,0.5)]
+      transition-all duration-300
+    "
+              >
+                Login / Register
+              </Link>
+            </motion.div>
           )}
 
           {/* Mobile menu toggle */}
-          <button
+          <motion.div
             ref={toggleBtnRef}
             onClick={() => setOpen((prev) => !prev)}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 250, damping: 15 }}
             className="
     md:hidden relative h-6 w-8 [@media(min-width:480px)]:h-8 [@media(min-width:480px)]:w-10
     flex items-center justify-center
     rounded-sm
     bg-slate-800 hover:bg-slate-700
-    transition-colors duration-200
+    transition-colors duration-300
   "
           >
             {/* Menu Icon */}
             <span
               className={`absolute flex items-center justify-center
-      transition-all duration-300 ease-in-out
+      transition-all duration-500 ease-in-out
       ${
         open ? "opacity-0 rotate-90 scale-75" : "opacity-100 rotate-0 scale-100"
       }`}
@@ -563,7 +587,7 @@ export default function Navbar() {
             {/* Close Icon */}
             <span
               className={`absolute flex items-center justify-center
-      transition-all duration-300 ease-in-out
+      transition-all duration-500 ease-in-out
       ${
         open
           ? "opacity-100 rotate-0 scale-100"
@@ -572,7 +596,7 @@ export default function Navbar() {
             >
               <MdClose className="twxt-xl [@media(min-width:480px)]:text-2xl text-slate-200" />
             </span>
-          </button>
+          </motion.div>
         </div>
       </nav>
 
@@ -617,7 +641,7 @@ export default function Navbar() {
   text-slate-200
 
   border border-transparent
-  transition-all duration-200 ease-out
+  transition-all duration-300 ease-out
 
   hover:border-cyan-400/60
   hover:bg-slate-800
@@ -647,9 +671,9 @@ export default function Navbar() {
           text-xs [@media(min-width:480px)]:text-sm
           font-medium text-white
 
-          transition
+          transition-all duration-300
           hover:bg-cyan-600 hover:border-cyan-600
-          active:scale-[0.98]
+          active:scale-[0.97]
         "
             >
               Login / Register

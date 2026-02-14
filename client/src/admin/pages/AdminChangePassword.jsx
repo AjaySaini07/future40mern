@@ -54,11 +54,11 @@ export default function AdminChangePassword() {
             Change Password
           </h2>
           <div
-            className="mx-auto mt-2 h-1 w-20 rounded-full
+            className="mx-auto mt-2 h-1 w-32 rounded-full
             bg-gradient-to-r from-blue-500 to-indigo-500"
           />
-          <p className="text-[10px] sm:text-xs text-slate-400 mt-1">
-            Change your admin account password
+          <p className="text-[11px] sm:text-xs text-slate-400 mt-1">
+            Admin Account
           </p>
         </div>
 
@@ -162,7 +162,7 @@ function Field({ label, error, type, toggle, show, register }) {
         </button>
       </div>
 
-      {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
+      {error && <p className="text-xs text-red-500 mt-0.5">{error}</p>}
     </div>
   );
 }

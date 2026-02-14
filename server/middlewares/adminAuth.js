@@ -1,6 +1,6 @@
 //----------------------- middlewares/adminAuth.js -----------------------
 const jwt = require("jsonwebtoken");
-const authModel = require("../models/authModel");
+const authModel = require("../models/adminAuthModel");
 
 exports.adminAuth = async (req, res, next) => {
   try {

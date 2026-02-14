@@ -1,12 +1,12 @@
 import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import Reveal from "./Reveal";
-import { RxCross1 } from "react-icons/rx";
 import { useSuccessStory } from "../hooks/useSuccessStory";
 import { CrossIcon, StarIcon } from "../icons/Icons";
 
 import Cropper from "react-easy-crop";
 import { getCroppedImg } from "../utils/cropImage";
+import { motion } from "framer-motion";
 
 export default function SuccessForm() {
   const [open, setOpen] = useState(false);
@@ -110,8 +110,7 @@ export default function SuccessForm() {
               ref={modalRef}
               className="bg-slate-900 border border-slate-700
                          rounded-md w-[99%] [@media(min-width:480px)]:w-[90%] md:max-w-xl
-                         max-h-[90vh] overflow-y-auto scrollbar-slim
-  pr-3 scroll-smooth
+                         max-h-[90vh] overflow-y-auto scrollbar-slim pr-3 scroll-smooth
                          p-4 sm:p-6 animate-fadeInScale"
             >
               {/* Header */}
@@ -146,7 +145,7 @@ export default function SuccessForm() {
                  px-2 [@media(min-width:480px)]:px-3 py-2 [@media(min-width:480px)]:py-2 text-xs sm:text-sm"
                       />
                       {errors.name && (
-                        <p className="text-red-500 text-xs mt-0.5">
+                        <p className="text-red-500 sm:font-semibold text-xs">
                           Name is required
                         </p>
                       )}
@@ -163,7 +162,7 @@ export default function SuccessForm() {
                  px-2 [@media(min-width:480px)]:px-3 py-2 [@media(min-width:480px)]:py-2 text-xs sm:text-sm"
                       />
                       {errors.email && (
-                        <p className="text-red-500 text-xs mt-0.5">
+                        <p className="text-red-500 sm:font-semibold text-xs">
                           Email is required
                         </p>
                       )}
@@ -194,7 +193,7 @@ export default function SuccessForm() {
                       />
 
                       {errors.achievement && (
-                        <p className="text-red-500 text-xs mt-0.5">
+                        <p className="text-red-500 sm:font-semibold text-xs">
                           {errors.achievement.message}
                         </p>
                       )}
@@ -214,7 +213,7 @@ export default function SuccessForm() {
                         })}
                       />
 
-                      <div className="flex flex-wrap items-center gap-2 text-xl mt-0.5">
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-0 text-xl mt-0.5">
                         {[1, 2, 3, 4, 5].map((star) => (
                           <button
                             type="button"
@@ -234,7 +233,7 @@ export default function SuccessForm() {
                         ))}
 
                         {errors.rating && (
-                          <p className="text-red-500 text-xs ms-1 [@media(min-width:380px)]:mt-1">
+                          <p className="text-red-500 sm:font-semibold text-xs ms-1 mt-1">
                             {errors.rating.message}
                           </p>
                         )}
@@ -293,19 +292,21 @@ export default function SuccessForm() {
                     />
 
                     {errors.story && (
-                      <p className="text-xs text-red-500 -mt-1">
+                      <p className="text-xs sm:font-semibold text-red-500 -mt-1.5">
                         {errors.story.message}
                       </p>
                     )}
                   </div>
 
                   {/* Submit Button*/}
-                  <button
+                  <motion.button
                     type="submit"
                     disabled={submitLoading}
                     aria-disabled={submitLoading}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ duration: 0.15, ease: "easeInOut" }}
                     className={`
-    w-full mt-0.5 py-2 text-xs [@media(min-width:480px)]:text-sm font-medium rounded-sm text-white bg-blue-600 transition
+    w-full mt-0.5 py-2 text-xs [@media(min-width:480px)]:text-sm font-medium rounded-sm text-white bg-blue-600 transition-all duration-300 flex items-center justify-center
     ${
       submitLoading
         ? " cursor-not-allowed opacity-70"
@@ -313,8 +314,16 @@ export default function SuccessForm() {
     }
   `}
                   >
-                    {submitLoading ? "Submitting..." : "Submit Story"}
-                  </button>
+                    {/* {submitLoading ? "Submitting..." : "Submit Story"} */}
+                    {submitLoading ? (
+                      <span className="flex items-center gap-2">
+                        <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                        Submitting...
+                      </span>
+                    ) : (
+                      "Submit Story"
+                    )}
+                  </motion.button>
 
                   <p className="text-center text-[10px] [@media(min-width:480px)]:text-[11px] text-slate-400">
                     Your story will be reviewed before publishing.

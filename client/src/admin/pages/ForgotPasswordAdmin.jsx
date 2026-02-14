@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-// import useAuth from "../hooks/useAuth";
+import { useAuthAdmin } from "../hooks/useAuthAdmin";
 import { motion } from "framer-motion";
 
 export default function ForgotPasswordAdmin() {
@@ -10,17 +10,14 @@ export default function ForgotPasswordAdmin() {
     formState: { errors },
   } = useForm();
 
-  //   const { forgotPassword, forgotLoading } = useAuth();
+  const { forgotPassword, forgotLoading } = useAuthAdmin();
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    const res = await forgotPassword(data.email);
+    const res = await forgotPassword({ email: data.email });
 
     if (res?.success) {
-      // email store for reset page
       sessionStorage.setItem("resetEmail", data.email);
-
-      // redirect to reset password page
       navigate("/admin/reset-password-admin");
     }
   };
@@ -51,7 +48,7 @@ export default function ForgotPasswordAdmin() {
     bg-gradient-to-r from-blue-500 to-indigo-500"
           />
 
-          <p className="text-[11px] text-slate-400">
+          <p className="text-[10px] text-slate-400">
             We’ll send a one-time otp to your email
           </p>
         </div>
@@ -83,8 +80,8 @@ export default function ForgotPasswordAdmin() {
 
         <motion.button
           type="submit"
-          //   disabled={forgotLoading}
-          //   whileTap={!forgotLoading ? { scale: 0.98 } : {}}
+          disabled={forgotLoading}
+          whileTap={!forgotLoading ? { scale: 0.98 } : {}}
           className="
     w-full py-2 rounded-sm
     text-sm font-medium text-white
@@ -96,15 +93,14 @@ export default function ForgotPasswordAdmin() {
     disabled:cursor-not-allowed
   "
         >
-          {/* {forgotLoading ? (
+          {forgotLoading ? (
             <span className="flex items-center gap-2">
               <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
               Sending OTP...
             </span>
           ) : (
             "Send OTP"
-          )} */}
-          Send OTP
+          )}
         </motion.button>
       </form>
     </div>

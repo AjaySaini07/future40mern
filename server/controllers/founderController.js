@@ -110,6 +110,31 @@ exports.upsertFounder = async (req, res) => {
   }
 };
 
+// 🔒 GET FOUNDER ADMIN -------------------------------------------------------
+exports.getFounderAdmin = async (req, res) => {
+  try {
+    const founder = await Founder.findOne({ isActive: true });
+
+    if (!founder) {
+      return res.status(404).json({
+        success: false,
+        message: "Founder not found",
+      });
+    }
+
+    res.json({
+      success: true,
+      founder,
+    });
+  } catch (error) {
+    console.error("Get founder error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch founder",
+    });
+  }
+};
+
 // GET FOUNDER (PUBLIC) -------------------------------------------------------
 exports.getFounder = async (req, res) => {
   try {

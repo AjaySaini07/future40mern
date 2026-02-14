@@ -6,7 +6,6 @@ import { toast } from "sonner";
 const API = import.meta.env.VITE_API_URL;
 
 export default function useAdminFounder() {
-  // Separate loading states
   const [getLoading, setGetLoading] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
 
@@ -14,7 +13,13 @@ export default function useAdminFounder() {
   const getFounder = async () => {
     setGetLoading(true);
     try {
-      const res = await axios.get(`${API}/api/founder/founder-info`);
+      const token = localStorage.getItem("token");
+
+      const res = await axios.get(`${API}/api/founder/admin/founder-info`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return res.data.founder;
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to fetch founder");
@@ -24,7 +29,7 @@ export default function useAdminFounder() {
     }
   };
 
-  // ------------------------- UPDATE FOUNDER -------------------------
+  // ------------------------ UPDATE FOUNDER -----------------------
   const updateFounder = async (formData) => {
     if (updateLoading) return false;
 
@@ -53,11 +58,9 @@ export default function useAdminFounder() {
   };
 
   return {
-    // actions
     getFounder,
     updateFounder,
 
-    // loading states
     getLoading,
     updateLoading,
   };

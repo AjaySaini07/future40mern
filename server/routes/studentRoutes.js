@@ -11,26 +11,30 @@ const {
   deleteStudent,
   getStudentProfile,
 } = require("../controllers/studentController");
-const { queryLimiter } = require("../middlewares/rateLimiter");
+const { otpLimiter, authLimiter } = require("../middlewares/rateLimiter");
 const { studentAuth } = require("../middlewares/studentAuth");
 const { adminAuth } = require("../middlewares/adminAuth");
 
 const router = express.Router();
 
-// 🌍 Public Routes
-router.post("/signup", queryLimiter, studentSignup);
-router.post("/verify-otp", queryLimiter, verifyStudentOtp);
-router.post("/resend-otp", queryLimiter, resendStudentOtp);
+// ----------------- 🌍 Public Routes -----------------
+// Signup & Login
+router.post("/signup", authLimiter, studentSignup);
+router.post("/login", authLimiter, studentLogin);
 
-router.post("/login", studentLogin);
+// OTP Related
+router.post("/verify-otp", otpLimiter, verifyStudentOtp);
+router.post("/resend-otp", otpLimiter, resendStudentOtp);
 
-router.post("/forgot-password", queryLimiter, forgotStudentPassword);
-router.post("/reset-password", resetStudentPassword);
+// Forgot & Reset
+router.post("/forgot-password", otpLimiter, forgotStudentPassword);
+router.post("/reset-password", authLimiter, resetStudentPassword);
 
-router.post("/change-password", studentAuth, changePassword);
+// Authenticated Student
+router.post("/change-password", studentAuth, authLimiter, changePassword);
 router.get("/profile-details", studentAuth, getStudentProfile);
 
-// 🔒 Admin Routes
+// ------------------ 🔒 Admin Routes ------------------
 router.get("/admin/all", adminAuth, getAllStudents);
 router.delete("/admin/delete/:id", adminAuth, deleteStudent);
 
