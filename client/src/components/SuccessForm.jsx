@@ -363,14 +363,14 @@ export default function SuccessForm() {
 
             <div className="flex gap-3 mt-4">
               <button
-                className="flex-1 bg-slate-700 py-2 rounded hover:bg-slate-600 transition"
+                className="flex-1 text-sm sm:text-base text-white bg-slate-700 py-2 rounded hover:bg-slate-600 transition-all duration-300"
                 onClick={() => setShowCrop(false)}
               >
                 Cancel
               </button>
 
               <button
-                className="flex-1 bg-blue-600 py-2 rounded hover:bg-blue-700 transition"
+                className="flex-1 text-sm sm:text-base text-white bg-blue-600 hover:bg-blue-800 py-2 rounded transition-all duration-300"
                 onClick={async () => {
                   const blob = await getCroppedImg(imageSrc, croppedPixels);
                   const file = new File([blob], "photo.jpg", {

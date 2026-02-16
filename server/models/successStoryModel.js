@@ -17,14 +17,14 @@ const successStorySchema = new mongoose.Schema(
       match: [/^\S+@\S+\.\S+$/, "Invalid email address"],
     },
 
-    gender: {
-      type: String,
-      required: [true, "Gender is required"],
-      enum: {
-        values: ["male", "female"],
-        message: "Gender must be Male or Female",
-      },
-    },
+    // gender: {
+    //   type: String,
+    //   required: [true, "Gender is required"],
+    //   enum: {
+    //     values: ["male", "female"],
+    //     message: "Gender must be Male or Female",
+    //   },
+    // },
 
     rating: {
       type: Number,
@@ -63,7 +63,7 @@ const successStorySchema = new mongoose.Schema(
       default: false,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("successStoryModel", successStorySchema);

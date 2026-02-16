@@ -6,10 +6,10 @@ const otpEmailTemplate = require("../templates/otpEmailTemplate");
 const transporter = require("../utils/mailer");
 const adminAuthModel = require("../models/adminAuthModel");
 
-// -------- OTP generator
+// -------- OTP generator --------------------------------------------
 const generateOTP = () => Math.floor(1000 + Math.random() * 9000);
 
-// --------------------------- Admin Signup ---------------------------
+// --------------------------- Admin Signup --------------------------
 exports.signup = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -44,7 +44,7 @@ exports.signup = async (req, res) => {
   }
 };
 
-// ---------------------------- Admin Login ---------------------------
+// ---------------------------- Admin Login --------------------------
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -90,7 +90,7 @@ exports.login = async (req, res) => {
   }
 };
 
-// ------------------------- Change Password --------------------------
+// ------------------------- Change Password -------------------------
 exports.changePassword = async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
@@ -131,7 +131,7 @@ exports.changePassword = async (req, res) => {
   }
 };
 
-// -------------------------- Resend Admin Otp ------------------------
+// -------------------------- Resend Admin Otp -----------------------
 // exports.resendAdminOtp = async (req, res) => {
 //   try {
 //     const { email } = req.body;
@@ -178,7 +178,7 @@ exports.changePassword = async (req, res) => {
 //   }
 // };
 
-// ------------------------- Forgot Password --------------------------
+// ------------------------- Forgot Password -------------------------
 exports.forgotAdminPassword = async (req, res) => {
   console.log("req.body ------->", req.body);
   try {
@@ -224,7 +224,7 @@ exports.forgotAdminPassword = async (req, res) => {
   }
 };
 
-// -------------------------- Reset Password ---------------------------
+// -------------------------- Reset Password -------------------------
 exports.resetAdminPassword = async (req, res) => {
   try {
     const { email, otp, newPassword } = req.body;

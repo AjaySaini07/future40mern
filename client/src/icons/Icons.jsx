@@ -26,6 +26,8 @@ import { RiLogoutCircleRLine } from "react-icons/ri";
 import { IoMdSettings } from "react-icons/io";
 import { FaEyeSlash } from "react-icons/fa";
 import { BsInfoCircleFill } from "react-icons/bs";
+import { PiWarningFill } from "react-icons/pi";
+import { HiMiniCheckBadge } from "react-icons/hi2";
 
 export const DashboardIcon = FaTachometerAlt;
 export const CoursesIcon = GiBookCover;
@@ -54,3 +56,5 @@ export const SattingIcon = IoMdSettings;
 export const EyeIcon = FaEye;
 export const EyeOffIcon = FaEyeSlash;
 export const TooltipIcon = BsInfoCircleFill;
+export const WarningIcon = PiWarningFill;
+export const VerifiedIcon = HiMiniCheckBadge;

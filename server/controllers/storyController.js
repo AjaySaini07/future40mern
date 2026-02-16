@@ -1,95 +1,9 @@
 const successStoryModel = require("../models/successStoryModel");
 const cloudinary = require("../config/cloudinary");
 
-// ------------------------ SUBMIT STORY ------------------------
-// exports.submitStory = async (req, res) => {
-//   try {
-//     const { story, rating, achievement } = req.body;
-
-//     if (!story || !rating || !achievement) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "All fields are required",
-//       });
-//     }
-
-//     if (!req.user) {
-//       return res.status(401).json({
-//         success: false,
-//         message: "Unauthorized",
-//       });
-//     }
-
-//     // User data from token
-//     console.log("Token console ------>", req.user);
-//     const userName = req.user.FullName;
-//     const userEmail = req.user.Email;
-//     const userGender = req.user.Gender;
-
-//     /* ------------------- PHOTO LOGIC ------------------- */
-//     let photo;
-
-//     if (req.file) {
-//       photo = {
-//         url: req.file.path,
-//         public_id: req.file.filename,
-//       };
-//     } else {
-//       photo = {
-//         url:
-//           userGender?.toLowerCase() === "male"
-//             ? "https://avatar.iran.liara.run/public/boy"
-//             : "https://avatar.iran.liara.run/public/girl",
-//         public_id: null,
-//       };
-//     }
-
-//     const existingStory = await successStoryModel.findOne({
-//       email: userEmail,
-//     });
-
-//     if (existingStory) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "You have already submitted a success story",
-//       });
-//     }
-
-//     const newStory = await successStoryModel.create({
-//       name: userName,
-//       email: userEmail,
-//       gender: userGender,
-//       rating: Number(rating),
-//       story,
-//       achievement,
-//       photo,
-//     });
-
-//     res.status(201).json({
-//       success: true,
-//       message: "Your story submitted successfully.",
-//       story: newStory,
-//     });
-//   } catch (err) {
-//     console.error("Submit Story Error:", err);
-
-//     res.status(500).json({
-//       success: false,
-//       message: "Server error while submitting story",
-//     });
-//   }
-// };
+// ------------------------------ SUBMIT STORY ------------------------------
 exports.submitStory = async (req, res) => {
   try {
-    const { story, rating, achievement } = req.body;
-
-    if (!story || !rating || !achievement) {
-      return res.status(400).json({
-        success: false,
-        message: "All fields are required",
-      });
-    }
-
     if (!req.user) {
       return res.status(401).json({
         success: false,
@@ -97,30 +11,30 @@ exports.submitStory = async (req, res) => {
       });
     }
 
-    // User data from token
-    const userName = req.user.FullName;
-    const userEmail = req.user.Email;
-    const userGender = req.user.Gender;
+    const { story, rating, achievement } = req.body;
 
-    /* ------------------- PHOTO LOGIC ------------------- */
-    let photo;
+    const userName = req.user.FullName?.trim();
+    const userEmail = req.user.Email?.toLowerCase();
 
-    if (req.file) {
-      // ✅ Already uploaded by multer-storage-cloudinary
-      photo = {
-        url: req.file.path,
-        public_id: req.file.filename,
-      };
-    } else {
-      // ✅ Default avatar (never stored in Cloudinary)
-      photo = {
-        url:
-          userGender?.toLowerCase() === "male"
-            ? "https://avatar.iran.liara.run/public/boy"
-            : "https://avatar.iran.liara.run/public/girl",
-        public_id: null,
-      };
+    /* ---------------- VALIDATION ---------------- */
+
+    if (!story?.trim() || !achievement?.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required",
+      });
     }
+
+    const numericRating = Number(rating);
+
+    if (!numericRating || numericRating < 1 || numericRating > 5) {
+      return res.status(400).json({
+        success: false,
+        message: "Rating must be between 1 and 5",
+      });
+    }
+
+    /* ---------------- CHECK DUPLICATE ---------------- */
 
     const existingStory = await successStoryModel.findOne({
       email: userEmail,
@@ -133,32 +47,48 @@ exports.submitStory = async (req, res) => {
       });
     }
 
+    /* ---------------- PHOTO LOGIC ---------------- */
+
+    let photo;
+
+    if (req.file) {
+      photo = {
+        url: req.file.path,
+        public_id: req.file.filename,
+      };
+    } else {
+      photo = {
+        url: "https://avatar.iran.liara.run/public",
+        public_id: null,
+      };
+    }
+
+    /* ---------------- CREATE STORY ---------------- */
+
     const newStory = await successStoryModel.create({
       name: userName,
       email: userEmail,
-      gender: userGender,
-      rating: Number(rating),
-      story,
-      achievement,
+      rating: numericRating,
+      story: story.trim(),
+      achievement: achievement.trim(),
       photo,
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: "Your story submitted successfully.",
-      story: newStory,
     });
   } catch (err) {
     console.error("Submit Story Error:", err);
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Server error while submitting story",
     });
   }
 };
 
-// ------------------------ GET APPROVED STORIES (PAGINATION + SEARCH) ------------------------
+// -------------- GET APPROVED STORIES (PAGINATION + SEARCH) ----------------
 exports.getApprovedStories = async (req, res) => {
   try {
     // query params
@@ -215,7 +145,107 @@ exports.getApprovedStories = async (req, res) => {
   }
 };
 
-// ------------------------ 🔐 ADMIN: GET ALL STORY ------------------------
+// ------------------------------ UPDATE STORY ------------------------------
+exports.updateStory = async (req, res) => {
+  try {
+    const { name, email, achievement, rating, story } = req.body;
+
+    const loggedInEmail = req.user.Email.toLowerCase();
+
+    /* -------------------- EMAIL CHANGE BLOCK -------------------- */
+    if (email && email.toLowerCase() !== loggedInEmail) {
+      return res.status(400).json({
+        success: false,
+        message: "You cannot change your registered email",
+      });
+    }
+
+    /* -------------------- VALIDATION -------------------- */
+    if (!name?.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Name is required",
+      });
+    }
+
+    if (!achievement?.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Achievement is required",
+      });
+    }
+
+    if (!story?.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Story is required",
+      });
+    }
+
+    const numericRating = Number(rating);
+
+    if (!numericRating || numericRating < 1 || numericRating > 5) {
+      return res.status(400).json({
+        success: false,
+        message: "Rating must be between 1 and 5",
+      });
+    }
+
+    /* -------------------- FIND STORY -------------------- */
+    const existingStory = await successStoryModel.findOne({
+      email: loggedInEmail,
+    });
+
+    if (!existingStory) {
+      return res.status(404).json({
+        success: false,
+        message: "Story not found",
+      });
+    }
+
+    /* -------------------- UPDATE FIELDS -------------------- */
+    existingStory.name = name.trim();
+    existingStory.achievement = achievement.trim();
+    existingStory.rating = numericRating;
+    existingStory.story = story.trim();
+
+    /* -------------------- PHOTO UPDATE -------------------- */
+    if (req.file) {
+      try {
+        if (existingStory.photo?.public_id) {
+          await cloudinary.uploader.destroy(existingStory.photo.public_id);
+        }
+      } catch (err) {
+        console.warn("Cloudinary delete warning:", err.message);
+      }
+
+      existingStory.photo = {
+        url: req.file.path,
+        public_id: req.file.filename,
+      };
+    }
+
+    /* -------------------- RESET APPROVAL -------------------- */
+    existingStory.approved = false;
+
+    await existingStory.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Story updated and sent for review",
+      updatedAt: existingStory.updatedAt,
+    });
+  } catch (error) {
+    console.error("Update Story Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update story",
+    });
+  }
+};
+
+// ------------------------ 🔐 ADMIN: GET ALL STORY -------------------------
 exports.getAllStories = async (req, res) => {
   try {
     const page = Number(req.query.page) || 1;
@@ -271,7 +301,7 @@ exports.getAllStories = async (req, res) => {
   }
 };
 
-// ---------------- 🔐 ADMIN: APPROVE / UNAPPROVE STORY ----------------
+// ------------------ 🔐 ADMIN: APPROVE / UNAPPROVE STORY -------------------
 exports.approveStory = async (req, res) => {
   try {
     const { id } = req.params;
@@ -313,40 +343,7 @@ exports.approveStory = async (req, res) => {
   }
 };
 
-//----------------------------- 🔐 ADMIN: DELETE STORY -----------------------------
-// exports.deleteStory = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-
-//     const story = await successStoryModel.findById(id);
-//     if (!story) {
-//       return res.status(404).json({
-//         success: false,
-//         message: "Story not found",
-//       });
-//     }
-
-//     // 🔥 delete image ONLY if uploaded to cloudinary
-//     if (story.photo?.public_id) {
-//       await cloudinary.uploader.destroy(story.photo.public_id);
-//     }
-
-//     await successStoryModel.findByIdAndDelete(id);
-
-//     res.json({
-//       success: true,
-//       message: "Story deleted successfully",
-//     });
-//   } catch (err) {
-//     console.error("Delete Story Error:", err);
-
-//     res.status(500).json({
-//       success: false,
-//       message: "Failed to delete story",
-//       error: err.message,
-//     });
-//   }
-// };
+// ------------------------- 🔐 ADMIN: DELETE STORY -------------------------
 exports.deleteStory = async (req, res) => {
   try {
     const { id } = req.params;
@@ -389,7 +386,7 @@ exports.deleteStory = async (req, res) => {
   }
 };
 
-//-------------------- 🔐 Admin: Get all pending stories --------------------
+// -------------------- 🔐 Admin: Get all pending stories -------------------
 exports.getPendingStories = async (req, res) => {
   try {
     const stories = await successStoryModel.find({ status: "pending" }).sort({

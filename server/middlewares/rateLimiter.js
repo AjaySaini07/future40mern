@@ -13,6 +13,7 @@ const rateLimit = require("express-rate-limit");
 
 /* ------------------- GENERAL LIMIT ------------------- */
 const generalLimiter = rateLimit({
+  // windowMs: 1 * 60 * 1000, // 1 minutes
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // max 100 requests per IP
   message: {

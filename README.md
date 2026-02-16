@@ -8,7 +8,7 @@ All Students account/emails passwords are - 123456
 GMAIL_USER = nodetest0708@gmail.com
 GMAIL_APP_PASSWORD = abcd efgh ijkl mnop
 
-1. Update success story option for student
+1. Update profile option for student
 2. Admin Pannel per navbar (dark/light mode)
 3. Notifications per work
 4. Success story default avatar image issue

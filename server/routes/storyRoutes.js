@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-// const upload = require("../middlewares/cloudinaryUpload");
 const cloudinaryUpload = require("../middlewares/cloudinaryUpload");
 const uploadStory = cloudinaryUpload("success-stories");
 const {
   submitStory,
+  updateStory,
   getApprovedStories,
   getAllStories,
   approveStory,
@@ -16,6 +16,7 @@ const { adminAuth } = require("../middlewares/adminAuth");
 
 // 🌍 Public Routes
 router.post("/submit", studentAuth, uploadStory.single("photo"), submitStory);
+router.put("/update", studentAuth, uploadStory.single("photo"), updateStory);
 router.get("/approved", getApprovedStories);
 
 // 🔐 Admin-Only Routes

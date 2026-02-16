@@ -1,8 +1,9 @@
-const studentModel = require("../models/studentModel");
+const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
+const studentModel = require("../models/studentModel");
 const otpEmailTemplate = require("../templates/otpEmailTemplate");
 const transporter = require("../utils/mailer");
 const successStoryModel = require("../models/successStoryModel");
@@ -10,7 +11,7 @@ const successStoryModel = require("../models/successStoryModel");
 /* OTP generator */
 const generateOTP = () => Math.floor(1000 + Math.random() * 9000);
 
-/* -------------------- STUDENT SIGNUP -------------------- */
+/* -------------------- STUDENT SIGNUP --------------------- */
 exports.studentSignup = async (req, res) => {
   try {
     console.log("Body Console ----->", req.body);
@@ -78,7 +79,7 @@ exports.studentSignup = async (req, res) => {
   }
 };
 
-/* ---------------------- VERIFY OTP ---------------------- */
+/* ---------------------- VERIFY OTP ----------------------- */
 exports.verifyStudentOtp = async (req, res) => {
   try {
     const { email, otp } = req.body;
@@ -126,7 +127,7 @@ exports.verifyStudentOtp = async (req, res) => {
   }
 };
 
-/* ---------------------- RESEND OTP ---------------------- */
+/* ---------------------- RESEND OTP ----------------------- */
 exports.resendStudentOtp = async (req, res) => {
   try {
     const { email } = req.body;
@@ -227,7 +228,7 @@ exports.studentLogin = async (req, res) => {
         role: "student",
       },
       process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN || "7d" }
+      { expiresIn: process.env.JWT_EXPIRES_IN || "7d" },
     );
 
     res.json({
@@ -297,7 +298,7 @@ exports.forgotStudentPassword = async (req, res) => {
   }
 };
 
-/* --------------------- RESET PASSWORD --------------------- */
+/* --------------------- RESET PASSWORD -------------------- */
 exports.resetStudentPassword = async (req, res) => {
   try {
     const { email, otp, newPassword } = req.body;
@@ -351,7 +352,7 @@ exports.resetStudentPassword = async (req, res) => {
   }
 };
 
-/* --------------------- CHANGE PASSWORD --------------------- */
+/* --------------------- CHANGE PASSWORD ------------------- */
 exports.changePassword = async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
@@ -398,46 +399,176 @@ exports.changePassword = async (req, res) => {
   }
 };
 
-/* --------------------- GET STUDENT PROFILE --------------------- */
+/* --------------------- GET STUDENT PROFILE --------------- */
+// exports.getStudentProfile = async (req, res) => {
+//   try {
+//     const studentId = req.user.id;
+
+//     /* -------------------- GET STUDENT -------------------- */
+//     const student = await studentModel
+//       .findById(studentId)
+//       .select("-password -otp -otpExpiry -__v")
+//       .lean();
+
+//     if (!student) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Student not found",
+//       });
+//     }
+
+//     /* -------------------- GET SUCCESS STORY -------------------- */
+//     const story = await successStoryModel
+//       .findOne({ email: student.email.toLowerCase() })
+//       .select(
+//         "_id name email rating achievement story approved createdAt updatedAt photo",
+//       )
+//       .lean();
+
+//     /* -------------------- RESPONSE -------------------- */
+//     res.status(200).json({
+//       success: true,
+//       student: {
+//         ...student,
+//         hasSubmittedStory: !!story,
+
+//         story: story
+//           ? {
+//               id: story._id,
+//               fullName: story.name,
+//               email: story.email,
+//               rating: story.rating,
+//               achievement: story.achievement,
+//               story: story.story,
+//               approved: story.approved,
+//               photo: story.photo,
+//               createdAt: story.createdAt,
+//               updatedAt: story.updatedAt,
+//             }
+//           : null,
+//       },
+//     });
+//   } catch (error) {
+//     console.error("Get Student Profile Error:", error);
+
+//     res.status(500).json({
+//       success: false,
+//       message: "Failed to fetch profile",
+//     });
+//   }
+// };
+//
+
+// Aggregation Based Api
 exports.getStudentProfile = async (req, res) => {
   try {
-    const studentId = req.user.id;
+    const studentId = new mongoose.Types.ObjectId(req.user.id);
 
-    const student = await studentModel
-      .findById(studentId)
-      .select("-password -otp -otpExpiry")
-      .lean();
+    const result = await studentModel.aggregate([
+      /* ---------------- MATCH STUDENT ---------------- */
+      {
+        $match: { _id: studentId },
+      },
 
-    if (!student) {
+      /* ---------------- REMOVE SENSITIVE FIELDS ---------------- */
+      {
+        $project: {
+          password: 0,
+          otp: 0,
+          otpExpiry: 0,
+          __v: 0,
+        },
+      },
+
+      /* ---------------- LOOKUP SUCCESS STORY ---------------- */
+      {
+        $lookup: {
+          from: "successstorymodels", // Mongo collection name (lowercase + plural)
+          let: { studentEmail: { $toLower: "$email" } },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: [{ $toLower: "$email" }, "$$studentEmail"],
+                },
+              },
+            },
+            {
+              $project: {
+                _id: 1,
+                name: 1,
+                email: 1,
+                rating: 1,
+                achievement: 1,
+                story: 1,
+                approved: 1,
+                photo: 1,
+                createdAt: 1,
+                updatedAt: 1,
+              },
+            },
+          ],
+          as: "story",
+        },
+      },
+
+      /* ---------------- CONVERT ARRAY TO OBJECT ---------------- */
+      {
+        $addFields: {
+          story: { $arrayElemAt: ["$story", 0] },
+          hasSubmittedStory: {
+            $gt: [{ $size: "$story" }, 0],
+          },
+        },
+      },
+
+      /* ---------------- FINAL DTO STRUCTURE ---------------- */
+      {
+        $project: {
+          _id: 1,
+          fullName: "$fullName",
+          email: 1,
+          mobile: 1,
+          gender: 1,
+          dob: 1,
+          isVerified: 1,
+          hasSubmittedStory: 1,
+
+          story: {
+            $cond: [
+              { $ifNull: ["$story", false] },
+              {
+                id: "$story._id",
+                name: "$story.name",
+                email: "$story.email",
+                rating: "$story.rating",
+                achievement: "$story.achievement",
+                story: "$story.story",
+                approved: "$story.approved",
+                photo: "$story.photo",
+                createdAt: "$story.createdAt",
+                updatedAt: "$story.updatedAt",
+              },
+              null,
+            ],
+          },
+        },
+      },
+    ]);
+
+    if (!result.length) {
       return res.status(404).json({
         success: false,
         message: "Student not found",
       });
     }
 
-    // 🔍 Find success story by email
-    const story = await successStoryModel.findOne({
-      email: student.email.toLowerCase(),
-    });
-
     res.status(200).json({
       success: true,
-      student: {
-        ...student,
-        hasSubmittedStory: !!story,
-        story: story
-          ? {
-              rating: story.rating,
-              achievement: story.achievement,
-              story: story.story,
-              approved: story.approved,
-              createdAt: story.createdAt,
-            }
-          : null,
-      },
+      student: result[0],
     });
   } catch (error) {
-    console.error("Get Student Profile Error:", error);
+    console.error("Optimized Profile Error:", error);
     res.status(500).json({
       success: false,
       message: "Failed to fetch profile",
@@ -485,7 +616,7 @@ exports.getAllStudents = async (req, res) => {
     /* -------------------- SUCCESS STORY CHECK -------------------- */
     const stories = await successStoryModel.find(
       { email: { $in: studentEmails } },
-      { email: 1 }
+      { email: 1 },
     );
 
     const storyEmailSet = new Set(stories.map((s) => s.email.toLowerCase()));
