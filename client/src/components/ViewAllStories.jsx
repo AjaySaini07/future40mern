@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSuccessStory } from "../hooks/useSuccessStory";
 import { BsEmojiTearFill } from "react-icons/bs";
 import Loader from "../admin/components/loader/Loader";
-import { CrossIcon, SearchIcon, StarIcon } from "../icons/Icons";
+import { AwardIcon, CrossIcon, SearchIcon, StarIcon } from "../icons/Icons";
 
 const container = {
   hidden: { opacity: 0 },
@@ -30,14 +30,6 @@ export default function ViewAllStories() {
 
   const ITEMS_PER_PAGE = 8;
   const [currentPage, setCurrentPage] = useState(1);
-
-  // 2️⃣ then pagination logic
-  //   const totalPages = Math.ceil(filteredStories.length / ITEMS_PER_PAGE);
-
-  //   const paginatedStories = filteredStories.slice(
-  //     (currentPage - 1) * ITEMS_PER_PAGE,
-  //     currentPage * ITEMS_PER_PAGE
-  //   );
 
   const getVisiblePages = (current, total, delta = 2) => {
     const pages = [];
@@ -156,9 +148,9 @@ export default function ViewAllStories() {
         className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 pt-4 border-t border-slate-900 rounded-l-md rounded-r-md"
       >
         {fetchLoading ? (
-          <p className="col-span-full flex justify-center text-center text-slate-400 text-sm">
+          <div className="col-span-full flex justify-center text-center text-slate-400 text-sm">
             <Loader />
-          </p>
+          </div>
         ) : (
           stories.map((story) => (
             <motion.div
@@ -166,41 +158,67 @@ export default function ViewAllStories() {
               variants={item}
               whileHover={{ y: -4 }}
               onClick={() => setSelectedStory(story)}
-              className="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 hover:border-slate-600 cursor-pointer rounded-sm p-4 [@media(min-width:480px)]:p-5 shadow-xl duration-300"
+              className="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 hover:border-cyan-500/30 shadow-lg hover:shadow-cyan-900/20 cursor-pointer rounded-sm p-4 [@media(min-width:480px)]:p-5 duration-300"
             >
-              {/* Avatar */}
+              {/* Photo */}
               <div className="flex justify-center mb-3">
                 <img
                   src={story.photo.url}
                   alt={story.name}
-                  className="w-20 h-20 rounded-full border-2 border-sky-600/80"
+                  className="w-20 h-20 bg-cover rounded-full border-2 border-slate-600/80"
                 />
               </div>
 
               {/* Rating */}
-              <div className="flex justify-center gap-1 mb-3">
+              <div className="flex justify-center gap-1 mb-0.5">
                 {Array.from({ length: 5 }).map((_, index) => (
                   <StarIcon
                     key={index}
                     className={
                       index < story.rating
-                        ? "text-yellow-400"
+                        ? "text-yellow-400 drop-shadow-[0_0_3px_rgba(250,204,21,0.5)]"
                         : "text-slate-600"
                     }
                   />
                 ))}
               </div>
 
-              {/* Story */}
-              <p className="text-slate-400 text-xs [@media(min-width:480px)]:text-sm text-center leading-normal mb-2 line-clamp-4">
-                “{story.story}”
-              </p>
-
               {/* Name */}
-              <div className="text-center">
-                <h3 className="text-blue-400 text-sm [@media(min-width:480px)]:text-base font-semibold">
+              <div className="flex justify-center mt-2">
+                <h3
+                  className="
+      px-4 py-0.5 rounded-full
+      text-xs sm:text-sm font-semibold
+      bg-blue-500/10
+      text-blue-400
+      border border-blue-500/20
+    "
+                >
                   {story.name}
                 </h3>
+              </div>
+
+              {/* Story */}
+              <div
+                className="relative mt-3 px-3.5 py-2
+          bg-slate-800/10 border border-slate-900
+          rounded-md backdrop-blur-sm"
+              >
+                <span className="absolute -top-3 left-3 text-3xl text-blue-500/40 font-serif">
+                  “
+                </span>
+
+                <p
+                  className="text-slate-300 text-xs sm:text-sm
+            leading-normal text-center tracking-wide
+            line-clamp-4"
+                >
+                  {story.story}
+                </p>
+
+                <span className="absolute -bottom-7 right-3 text-3xl text-blue-500/40 font-serif">
+                  ”
+                </span>
               </div>
             </motion.div>
           ))
@@ -272,50 +290,32 @@ export default function ViewAllStories() {
               exit={{ scale: 0.9, y: 30 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-md sm:max-w-lg rounded-lg bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-700 p-7 shadow-2xl"
+              className="relative w-full max-w-lg sm:max-w-xl rounded-md bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-700 p-4 sm:p-6 shadow-2xl"
             >
               <button
                 onClick={() => setSelectedStory(null)}
                 className="absolute top-4 right-4 text-slate-400 hover:text-white transition-transform duration-300 hover:scale-110"
               >
-                <CrossIcon size={24} />
+                <CrossIcon className="text-xl sm:text-2xl" />
               </button>
 
               {/* Photo */}
-              <div className="flex justify-center -mt-18 sm:-mt-21 mb-2">
+              <div className="flex justify-center -mt-15 sm:-mt-20 mb-1 sm:mb-2">
                 <img
                   src={selectedStory.photo.url}
                   alt={selectedStory.name}
-                  className="w-20 h-20 sm:w-28 sm:h-28 rounded-full border-4 border-slate-700 bg-slate-900"
+                  className="w-20 h-20 sm:w-28 sm:h-28 bg-cover rounded-full border-4 border-slate-700 bg-slate-900"
                 />
               </div>
-              {/* Avatar Section */}
-              {/* <div className="flex justify-center mb-4">
-                <div className="relative">
-                  <div className="absolute inset-0 rounded-full bg-blue-500/20 blur-xl" />
-
-                  <img
-                    src={selectedStory.photo.url}
-                    alt={selectedStory.name}
-                    className="
-          relative w-20 h-20 sm:w-28 sm:h-28
-          rounded-full
-          border-4 border-slate-800
-          object-cover
-          shadow-lg
-        "
-                  />
-                </div>
-              </div> */}
 
               {/* Rating */}
-              <div className="flex justify-center gap-1 mb-2">
+              <div className="flex justify-center text-sm sm:text-base gap-1">
                 {Array.from({ length: 5 }).map((_, index) => (
                   <StarIcon
                     key={index}
                     className={
                       index < selectedStory.rating
-                        ? "text-yellow-400"
+                        ? "text-yellow-400 drop-shadow-[0_0_3px_rgba(250,204,21,0.5)]"
                         : "text-slate-600"
                     }
                   />
@@ -323,32 +323,61 @@ export default function ViewAllStories() {
               </div>
 
               <div className="text-center">
-                <div className="flex flex-wrap justify-center items-center gap-1 mb-2 text-center">
-                  {/* Name */}
-                  <h3 className="text-sm sm:text-md md:text-lg font-semibold text-white">
-                    {selectedStory.name}
-                  </h3>
+                {/* Name */}
+                <h3
+                  className="sm:mb-0.5
+    text-md sm:text-lg font-semibold
+    text-transparent bg-clip-text
+    bg-gradient-to-r from-blue-400 to-cyan-400
+    tracking-wide
+  "
+                >
+                  {selectedStory.name}
+                </h3>
 
-                  {/* Icon */}
-                  {/* <FaMedal className="text-red-500 drop-shadow-sm text-sm sm:text-lg md:text-xl" /> */}
-                  <span>🏆</span>
-
-                  {/* Achievement */}
-                  <p className="text-sm sm:text-md md:text-lg font-semibold text-sky-400">
+                {/* Achievement Badge */}
+                <div className="flex justify-center">
+                  <span
+                    className="flex items-center gap-2 px-4 py-1 rounded-full mb-1.5 sm:mb-2
+                  text-xs sm:text-sm font-medium
+                  bg-gradient-to-r from-sky-500/10 to-blue-500/10
+                  text-sky-400
+                  border border-sky-500/20
+                "
+                  >
+                    <AwardIcon className="text-sky-400 text-sm drop-shadow-sm" />
                     {selectedStory.achievement}
-                  </p>
+                    <AwardIcon className="text-sky-400 text-sm drop-shadow-sm" />
+                  </span>
                 </div>
 
-                {/* Divider */}
-                <div className="h-px w-full bg-slate-700/60 mb-3" />
+                {/* Accent Divider */}
+                {/* <div
+                  className="w-16 h-1 mx-auto rounded-full 
+    bg-gradient-to-r from-blue-500 to-cyan-400"
+                /> */}
 
-                {/* Story */}
+                {/* Story Box */}
                 <div
-                  className="max-h-30 sm:max-h-50 overflow-y-auto scrollbar-slim
-  pr-2 scroll-smooth"
+                  className="
+    max-h-40 sm:max-h-52 overflow-y-auto scrollbar-slim
+    pl-3 pr-1.5 py-2.5
+    bg-slate-800/20
+    border border-slate-700/30
+    rounded-sm
+    backdrop-blur-sm
+    relative
+  "
                 >
-                  <p className="text-xs sm:text-sm text-slate-300 leading-normal">
-                    “{selectedStory.story}”
+                  <p
+                    className="
+      text-sm sm:text-base
+      text-slate-300
+      leading-normal tracking-wide
+
+    "
+                  >
+                    {selectedStory.story}
                   </p>
                 </div>
               </div>

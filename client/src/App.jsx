@@ -62,39 +62,6 @@ export default function App() {
         }}
       />
 
-      {/* <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/all-stories" element={<ViewAllStories />} />
-
-        <Route path="/login" element={<StudentLogin />} />
-        <Route path="/signup" element={<StudentSignup />} />
-        <Route path="/verify-otp" element={<VerifyOtp />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/change-password" element={<ChangePassword />} />
-        <Route path="/profile" element={<Profile />} />
-
-        <Route path="/admin/login" element={<AdminLogin />} />
-
-        <Route
-          path="/admin"
-          element={
-            <AdminRoute>
-              <AdminLayout />
-            </AdminRoute>
-          }
-        >
-          <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="stories" element={<SuccessStoriesAdmin />} />
-          <Route path="querys" element={<AdminQueries />} />
-          <Route path="contactinfo" element={<ContactInfoAdmin />} />
-          <Route path="founder" element={<AdminFounder />} />
-          <Route path="students" element={<StudentAdmin />} />
-          <Route path="banners" element={<AdminBanners />} />
-          <Route path="hero" element={<AdminHero />} />
-        </Route>
-      </Routes> */}
-
       {/* Auto scroll on route change */}
       <ScrollToTop />
 
@@ -103,6 +70,8 @@ export default function App() {
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/all-stories" element={<ViewAllStories />} />
+          <Route path="/change-password" element={<ChangePassword />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
 
         {/* Auth */}
@@ -111,8 +80,6 @@ export default function App() {
         <Route path="/verify-otp" element={<VerifyOtp />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/change-password" element={<ChangePassword />} />
-        <Route path="/profile" element={<Profile />} />
 
         {/* Admin Login */}
         <Route path="/admin/login" element={<AdminLogin />} />

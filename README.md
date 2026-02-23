@@ -11,7 +11,7 @@ GMAIL_APP_PASSWORD = abcd efgh ijkl mnop
 1. Update profile option for student
 2. Admin Pannel per navbar (dark/light mode)
 3. Notifications per work
-4. Success story default avatar image issue
+4.
 5.
 6.
 7.

@@ -160,6 +160,12 @@ import { useEffect, useState } from "react";
 import useFounder from "../hooks/useFounder";
 import Reveal from "./Reveal";
 import { motion } from "framer-motion";
+import {
+  FaBriefcase,
+  FaUsers,
+  FaBullseye,
+  FaChalkboardTeacher,
+} from "react-icons/fa";
 
 export default function FounderSection() {
   const { getFounder, getFounderLoading } = useFounder();
@@ -191,29 +197,19 @@ export default function FounderSection() {
         your success.
       </p>
 
-      <div className="mt-9 relative">
-        <div className="max-w-6xl mx-auto px-4 grid lg:grid-cols-2 gap-5 lg:gap-0">
-          {/* ----------- IMAGE SECTION ----------- */}
-          {/* <Reveal>
-            <div className="flex justify-center">
-              <motion.img
-                src={founder?.image.url}
-                alt="Founder"
-                className="w-[240px] sm:w-[320px] rounded-lg object-cover"
-                whileHover={{ scale: 1.03 }}
-              />
-            </div>
-          </Reveal> */}
+      <section className="mt-9 relative overflow-hidden bg-slate-950">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-6 items-center">
+          {/* LEFT IMAGE (IMAGE SECTION) */}
           <Reveal>
-            <div className="flex justify-center relative">
-              {/* ===== Ambient Gradient Light ===== */}
+            <div className="lg:col-span-1 flex justify-center relative">
+              {/* Ambient Gradient Light */}
               <div
-                className="absolute w-[280px] sm:w-[360px] h-[280px] sm:h-[360px]
+                className="absolute
       bg-gradient-to-tr from-blue-500/20 via-purple-500/20 to-pink-500/20
       blur-[80px] rounded-full -z-10"
               />
 
-              {/* ===== Premium Glass Card ===== */}
+              {/* Premium Glass Card */}
               <motion.div
                 whileHover={{ y: -1 }}
                 transition={{ type: "spring", stiffness: 120 }}
@@ -251,7 +247,7 @@ export default function FounderSection() {
                     src={founder?.image?.url}
                     alt="Founder"
                     className="
-            w-[230px] h-[220px] sm:w-[300px] sm:h-[285px]
+            w-[230px] sm:w-[310px]
             object-contain transition-transform duration-800 ease-out hover:scale-105 transform-gpu
           "
                   />
@@ -280,61 +276,129 @@ export default function FounderSection() {
             </div>
           </Reveal>
 
-          {/* ---------------------- TEXT SECTION ---------------------- */}
-          <Reveal>
-            <div className="w-full text-center lg:text-left lg:self-center">
-              {getFounderLoading ? (
-                <p className="text-slate-400">Loading founder info...</p>
-              ) : (
-                <>
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
-                    {founder?.name || "Ajay Saini"} –{" "}
-                    <span className="text-blue-400 block sm:inline">
-                      {founder?.title || "Spoken English Coach"}
-                    </span>
-                  </h2>
+          {/* RIGHT CONTENT (TEXT SECTION) */}
+          <div className="lg:col-span-2 text-center lg:text-left">
+            {getFounderLoading ? (
+              <p className="text-slate-400">Loading founder info...</p>
+            ) : (
+              <>
+                {/* Founder Name */}
+                <h2 className="lg:text-center text-xl sm:text-2xl font-semibold text-white">
+                  {founder?.name || "Ajay Saini"} -{" "}
+                  <span className="text-cyan-400 block sm:inline">
+                    {founder?.title || "Spoken English Coach"}
+                  </span>
+                </h2>
 
-                  <p className="mt-4 text-sm sm:text-base text-slate-300 leading-relaxed">
+                {/* Founder Bio */}
+                {/* <p className="mt-2 lg:mt-4 text-sm sm:text-base text-slate-300 leading-relaxed">
+                    {founder?.bio}
+                  </p> */}
+                <div
+                  className="relative mt-3 px-4 py-3
+          bg-slate-800/10 border border-slate-900
+          rounded-md backdrop-blur-sm"
+                >
+                  <span className="absolute -top-2 left-3 text-5xl text-blue-500/40 font-serif">
+                    “
+                  </span>
+
+                  <p
+                    className="text-slate-300 text-sm sm:text-base
+            leading-normal text-start tracking-wide"
+                  >
                     {founder?.bio}
                   </p>
 
-                  <div className="mt-6 grid grid-cols-2 gap-6 text-sm">
-                    <div>
-                      <p className="text-slate-400">Experience</p>
-                      <p className="font-semibold text-white">
-                        {founder?.experienceYears}
-                        {"+ Years"}
-                      </p>
+                  <span className="absolute -bottom-9 right-3 text-5xl text-blue-500/40 font-serif">
+                    ”
+                  </span>
+                </div>
+
+                {/* Founder Info */}
+                <div className="mt-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {/* Experience */}
+                    <div className="rounded-md bg-slate-900/70 border border-slate-800 p-3 sm:p-4 hover:border-blue-500/40 transition-all duration-300">
+                      <div className="flex items-start gap-2 sm:gap-3">
+                        <div className="p-2 rounded-lg bg-blue-500/10 text-blue-400 text-2xl">
+                          <FaBriefcase />
+                        </div>
+
+                        <div className="text-start">
+                          <p className="text-xs uppercase tracking-wider text-slate-400">
+                            Experience
+                          </p>
+                          <p className="mt-0.5 text-md sm:font-semibold text-white">
+                            {founder?.experienceYears}
+                            <span className="text-blue-400 ml-1">+ Years</span>
+                          </p>
+                        </div>
+                      </div>
                     </div>
 
-                    <div>
-                      <p className="text-slate-400">Students Trained</p>
-                      <p className="font-semibold text-white">
-                        {founder?.studentsTrained}
-                        {"+"}
-                      </p>
+                    {/* Students */}
+                    <div className="rounded-md bg-slate-900/70 border border-slate-800 p-3 sm:p-4 hover:border-emerald-500/40 transition-all duration-300">
+                      <div className="flex items-start gap-2 sm:gap-3">
+                        <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 text-2xl">
+                          <FaUsers />
+                        </div>
+
+                        <div className="text-start">
+                          <p className="text-xs uppercase tracking-wider text-slate-400">
+                            Students Trained
+                          </p>
+                          <p className="mt-0.5 text-md sm:font-semibold text-white">
+                            {founder?.studentsTrained}
+                            <span className="text-emerald-400 ml-1">+</span>
+                          </p>
+                        </div>
+                      </div>
                     </div>
 
-                    <div>
-                      <p className="text-slate-400">Specialisation</p>
-                      <p className="font-semibold text-white">
-                        {founder?.specialization || "Spoken & Business English"}
-                      </p>
+                    {/* Teaching Style */}
+                    <div className="rounded-md bg-slate-900/70 border border-slate-800 p-3 sm:p-4 hover:border-purple-500/40 transition-all duration-300">
+                      <div className="flex items-start gap-2 sm:gap-3">
+                        <div className="p-2 rounded-lg bg-purple-500/10 text-purple-400 text-2xl">
+                          <FaChalkboardTeacher />
+                        </div>
+
+                        <div className="text-start">
+                          <p className="text-xs uppercase tracking-wider text-slate-400">
+                            Teaching Style
+                          </p>
+                          <p className="mt-0.5 text-md sm:font-medium text-white">
+                            {founder?.teachingStyle || "Friendly & Practical"}
+                          </p>
+                        </div>
+                      </div>
                     </div>
 
-                    <div>
-                      <p className="text-slate-400">Teaching Style</p>
-                      <p className="font-semibold text-white">
-                        {founder?.teachingStyle || "Friendly & Practical"}
-                      </p>
+                    {/* Specialisation */}
+                    <div className="rounded-md bg-slate-900/70 border border-slate-800 p-3 sm:p-4 hover:border-cyan-500/40 transition-all duration-300">
+                      <div className="flex items-start gap-2 sm:gap-3">
+                        <div className="p-2 rounded-lg bg-cyan-500/10 text-cyan-400 text-2xl">
+                          <FaBullseye />
+                        </div>
+
+                        <div className="text-start">
+                          <p className="text-xs uppercase tracking-wider text-slate-400">
+                            Specialisation
+                          </p>
+                          <p className="mt-0.5 text-md sm:font-medium text-white">
+                            {founder?.specialization ||
+                              "Spoken & Business English"}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </>
-              )}
-            </div>
-          </Reveal>
+                </div>
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      </section>
     </section>
   );
 }

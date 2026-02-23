@@ -1,0 +1,72 @@
+/* ---------------- Stable Premium Bike Loader ---------------- */
+
+.loader {
+  display: block;
+  width: 100px;
+  height: auto;
+  color: #6366f1;
+  filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.35));
+}
+
+/* ---------------- STATIC BODY ---------------- */
+
+.loader_body,
+.loader_front,
+.loader_handlebars,
+.loader_seat {
+  stroke: #3b82f6;
+  animation: none;
+}
+
+/* ---------------- OUTER TIRE (STABLE) ---------------- */
+
+.loader_tire {
+  stroke: #979797;
+  stroke-width: 1.1;
+  animation: none;
+}
+
+/* ---------------- INNER SPOKES (FIXED ROTATION) ---------------- */
+
+.loader_spokes {
+  stroke: #cbd5e1;
+  stroke-width: 0.5;
+}
+
+.loader_spokes-spin {
+  animation: spokesSpin 1.2s linear infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* ---------------- PEDALS ---------------- */
+
+.loader_pedals {
+  stroke: #8b5cf6;
+}
+
+.loader_pedals-spin {
+  animation: pedalSpin 0.9s linear infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* ---------------- KEYFRAMES ---------------- */
+
+@keyframes spokesSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pedalSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

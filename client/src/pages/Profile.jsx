@@ -204,7 +204,7 @@ export default function Profile() {
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-950 px-4 py-10">
-        <div className="max-w-5xl mx-auto space-y-6 animate-pulse">
+        <div className="max-w-5xl mx-auto space-y-3 animate-pulse">
           <div className="h-24 bg-slate-800 rounded-xl" />
           <div className="grid lg:grid-cols-3 gap-6">
             <div className="h-40 bg-slate-800 rounded-xl" />
@@ -218,7 +218,7 @@ export default function Profile() {
   if (!profile) return null;
 
   return (
-    <div className="min-h-screen bg-slate-950 px-4 py-10">
+    <div className="min-h-screen bg-slate-950 px-4 py-4">
       <div className="max-w-5xl mx-auto space-y-2">
         {/* ------------------ HERO CARD ------------------ */}
         <motion.div
@@ -282,7 +282,20 @@ export default function Profile() {
     "
               >
                 <Info label="Mobile" value={profile.mobile} />
-                <Info label="Gender" value={profile.gender} />
+
+                <Info label="Email" value={profile.email} />
+
+                {/* <Info label="Gender" value={profile.gender} /> */}
+                <Info
+                  label="Gender"
+                  value={
+                    profile.gender
+                      ? profile.gender.charAt(0).toUpperCase() +
+                        profile.gender.slice(1)
+                      : "-"
+                  }
+                />
+
                 <Info
                   label="DOB"
                   value={
@@ -527,7 +540,7 @@ function Info({ label, value }) {
     <div
       className="
       px-3 py-2
-      rounded-md
+      rounded-sm
       bg-slate-800/40
       border border-slate-700
       backdrop-blur
@@ -538,9 +551,7 @@ function Info({ label, value }) {
         {label}
       </p>
 
-      <p className="text-sm text-slate-200 font-semibold capitalize break-words mt-1">
-        {value || "-"}
-      </p>
+      <p className="text-sm text-slate-200 mt-1">{value || "-"}</p>
     </div>
   );
 }
@@ -801,7 +812,6 @@ function UpdateStoryModal({ story, onClose, onSuccess }) {
 
             <textarea
               rows={4}
-              // maxLength={1500}
               {...register("story", {
                 required: "Story is required",
                 minLength: {
@@ -809,8 +819,8 @@ function UpdateStoryModal({ story, onClose, onSuccess }) {
                   message: "Story must be at least 20 characters",
                 },
                 maxLength: {
-                  value: 2500,
-                  message: "Story cannot exceed 2500 characters",
+                  value: 5000,
+                  message: "Story cannot exceed 5000 characters",
                 },
               })}
               className={`w-full rounded-sm bg-slate-900 border px-3 py-2 
@@ -833,8 +843,14 @@ function UpdateStoryModal({ story, onClose, onSuccess }) {
                 <span />
               )}
 
-              <p className="text-[10px] text-slate-500">
-                {watch("story")?.length || 0}/2500
+              <p
+                className={`text-[11px] -mt-1 ${
+                  (watch("story")?.length || 0) > 5000
+                    ? "text-red-400"
+                    : "text-slate-500"
+                }`}
+              >
+                {watch("story")?.length || 0}/5000
               </p>
             </div>
           </div>
@@ -845,7 +861,7 @@ function UpdateStoryModal({ story, onClose, onSuccess }) {
             disabled={updateLoading}
             whileTap={{ scale: 0.98 }}
             className={`
-    w-full flex items-center justify-center mt-1 sm:mt-3 py-2 text-sm font-medium rounded-sm text-white
+    w-full flex items-center justify-center py-2 text-xs sm:text-sm font-medium rounded-sm text-white
     bg-blue-600 transition-all duration-300
     ${
       updateLoading

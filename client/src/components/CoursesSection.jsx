@@ -79,7 +79,7 @@ export default function CoursesSection() {
 
                 {/* <button className="w-full py-2 mt-6 rounded-md bg-blue-600 hover:bg-blue-500 text-sm font-semibold"> */}
                 <button
-                  className={`w-full py-2 mt-6 rounded-md bg-${c.color} text-sm font-semibold`}
+                  className={`w-full py-2 mt-6 rounded-md border border-${c.color} hover:bg-${c.color} text-sm font-semibold transition-all duration-300`}
                 >
                   Apply Now
                 </button>

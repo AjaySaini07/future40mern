@@ -4,7 +4,9 @@ import useAdminFounder from "../hooks/useAdminFounder";
 import { CrossIcon, TooltipIcon } from "../../icons/Icons";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import Loader from "../components/loader/Loader";
+import Cropper from "react-easy-crop";
+import { getCroppedImg } from "../../utils/cropImage";
+import AdminLoader from "../components/loader/AdminLoader";
 
 export default function AdminFounder() {
   const { getFounder, updateFounder, getLoading, updateLoading } =
@@ -42,7 +44,7 @@ export default function AdminFounder() {
         <div className="relative z-10 space-y-8">
           {getLoading ? (
             <div className="w-full flex items-center justify-center">
-              <Loader />
+              <AdminLoader />
             </div>
           ) : founder ? (
             <div className="flex flex-col md:flex-row gap-5 md:gap-6">
@@ -151,7 +153,7 @@ export default function AdminFounder() {
             </p>
           )}
 
-          {/* ===== Buttons ===== */}
+          {/* ------ Buttons ------ */}
           <div className="flex flex-wrap justify-center md:justify-start items-center gap-3">
             <motion.button
               // whileHover={{ scale: 1.02 }}
@@ -218,6 +220,13 @@ function EditFounderModal({
     formState: { errors },
   } = useForm({ mode: "onTouched" });
 
+  const [imageSrc, setImageSrc] = useState(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedPixels, setCroppedPixels] = useState(null);
+  const [showCrop, setShowCrop] = useState(false);
+  const [croppedFile, setCroppedFile] = useState(null);
+
   useEffect(() => {
     if (founder) reset(founder);
   }, [founder, reset]);
@@ -243,7 +252,9 @@ function EditFounderModal({
       if (key !== "image") formData.append(key, data[key] ?? "");
     });
 
-    if (data.image?.[0]) {
+    if (croppedFile) {
+      formData.append("image", croppedFile);
+    } else if (data.image?.[0]) {
       formData.append("image", data.image[0]);
     }
 
@@ -366,53 +377,56 @@ function EditFounderModal({
             <input
               type="file"
               accept="image/*"
-              {...register("image", {
-                required: !founder ? "Image is required" : false,
-                validate: {
-                  size: (files) =>
-                    !files?.[0] ||
-                    files[0].size < 5 * 1024 * 1024 ||
-                    "Max 5MB allowed",
-                  type: (files) =>
-                    !files?.[0] ||
-                    ["image/jpeg", "image/png", "image/webp"].includes(
-                      files[0].type,
-                    ) ||
-                    "Only JPG, PNG, WEBP allowed",
-                },
-              })}
               onChange={(e) => {
                 const file = e.target.files[0];
-                if (file) {
-                  const url = URL.createObjectURL(file);
-                  setPreview(url);
+                if (!file) return;
+
+                // validation manually (optional safety)
+                if (file.size > 5 * 1024 * 1024) {
+                  alert("Max 5MB allowed");
+                  return;
                 }
+
+                if (
+                  !["image/jpeg", "image/png", "image/webp"].includes(file.type)
+                ) {
+                  alert("Only JPG, PNG, WEBP allowed");
+                  return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = () => {
+                  setImageSrc(reader.result);
+                  setShowCrop(true);
+                };
+                reader.readAsDataURL(file);
               }}
               className="block w-full text-sm text-slate-400
-                               file:mr-4 file:py-1 file:px-3
-                               file:rounded-sm file:border-0
-                               file:bg-slate-800 file:text-white
-                               hover:file:bg-slate-700 rounded-sm bg-slate-900
-                 border border-slate-700 outline-none focus:border-slate-400 transition duration-500
-                 px-2 py-1.5"
+      file:mr-4 file:py-1 file:px-3
+      file:rounded-sm file:border-0
+      file:bg-slate-800 file:text-white
+      hover:file:bg-slate-700 rounded-sm bg-slate-900
+      border border-slate-700 outline-none 
+      focus:border-slate-400 transition duration-300
+      px-2 py-1.5"
             />
 
             {preview && (
-              <div className="mt-1 flex items-center gap-2">
+              <div className="mt-2 flex items-center gap-3">
                 <img
                   src={preview}
                   alt="Preview"
                   className="h-16 w-16 object-cover rounded-sm
-      border border-slate-700 shadow-sm"
+        border border-slate-700 shadow-sm"
                 />
                 <p className="text-xs text-slate-500">
-                  {founder ? "<- Current image" : "<- Selected image"}
+                  {founder ? "Current image" : "Selected image"}
                 </p>
               </div>
             )}
 
             {errors.image && (
-              <p className="text-xs text-red-500 mt-0.5">
+              <p className="text-xs text-red-500 mt-1">
                 {errors.image.message}
               </p>
             )}
@@ -458,6 +472,69 @@ function EditFounderModal({
           </div>
         </form>
       </div>
+
+      {/* Image Crop Modal */}
+      {showCrop && (
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="bg-slate-900 p-4 rounded-md w-[90%] max-w-md"
+          >
+            <div className="relative h-64 bg-black">
+              <Cropper
+                image={imageSrc}
+                crop={crop}
+                zoom={zoom}
+                aspect={1}
+                onCropChange={setCrop}
+                onZoomChange={setZoom}
+                onCropComplete={(_, pixels) => setCroppedPixels(pixels)}
+              />
+            </div>
+
+            <input
+              type="range"
+              min={1}
+              max={3}
+              step={0.1}
+              value={zoom}
+              onChange={(e) => setZoom(e.target.value)}
+              className="w-full mt-3"
+            />
+
+            <div className="flex gap-3 mt-4">
+              <button
+                type="button"
+                className="flex-1 text-sm text-white bg-slate-700 py-2 rounded hover:bg-slate-600 transition-all duration-300"
+                onClick={() => setShowCrop(false)}
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                className="flex-1 text-sm text-white bg-blue-600 hover:bg-blue-800 py-2 rounded transition-all duration-300"
+                onClick={async () => {
+                  const blob = await getCroppedImg(imageSrc, croppedPixels);
+
+                  const file = new File([blob], "founder.jpg", {
+                    type: "image/jpeg",
+                  });
+
+                  setCroppedFile(file);
+                  setPreview(URL.createObjectURL(file));
+                  setShowCrop(false);
+                }}
+              >
+                Crop & Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

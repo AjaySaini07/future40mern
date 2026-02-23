@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useAdminHero from "../hooks/useAdminHero";
-// import useAdminHero from "@/hooks/useAdminHero";
+import AdminLoader from "../components/loader/AdminLoader";
 
 export default function AdminHero() {
   const {
@@ -17,7 +17,6 @@ export default function AdminHero() {
   const [heroExists, setHeroExists] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
 
-  /* ================= LOAD HERO ================= */
   useEffect(() => {
     getHero().then((data) => {
       if (data) {
@@ -28,7 +27,6 @@ export default function AdminHero() {
     });
   }, []);
 
-  /* ================= IMAGE PREVIEW ================= */
   const imageFile = watch("backgroundImage");
 
   useEffect(() => {
@@ -38,7 +36,6 @@ export default function AdminHero() {
     }
   }, [imageFile]);
 
-  /* ================= SUBMIT ================= */
   const onSubmit = async (data) => {
     const formData = new FormData();
 
@@ -61,7 +58,10 @@ export default function AdminHero() {
       </h2>
 
       {getLoading ? (
-        <p className="text-slate-400">Loading hero data...</p>
+        // <p className="text-slate-400">Loading hero data...</p>
+        <div className="w-full flex items-center justify-center">
+          <AdminLoader />
+        </div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-1">

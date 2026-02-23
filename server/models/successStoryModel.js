@@ -7,6 +7,7 @@ const successStorySchema = new mongoose.Schema(
       required: [true, "Name is required"],
       trim: true,
       minlength: [2, "Name must be at least 2 characters"],
+      maxlength: [100, "Name too long"],
     },
 
     email: {
@@ -14,17 +15,17 @@ const successStorySchema = new mongoose.Schema(
       required: [true, "Email is required"],
       lowercase: true,
       trim: true,
+      unique: true,
+      index: true,
       match: [/^\S+@\S+\.\S+$/, "Invalid email address"],
     },
 
-    // gender: {
-    //   type: String,
-    //   required: [true, "Gender is required"],
-    //   enum: {
-    //     values: ["male", "female"],
-    //     message: "Gender must be Male or Female",
-    //   },
-    // },
+    gender: {
+      type: String,
+      enum: ["male", "female"],
+      required: true,
+      index: true,
+    },
 
     rating: {
       type: Number,
@@ -37,6 +38,7 @@ const successStorySchema = new mongoose.Schema(
       type: String,
       required: [true, "Success story is required"],
       minlength: [20, "Story must be at least 20 characters"],
+      maxlength: [5000, "Story cannot exceed 5000 characters"],
       trim: true,
     },
 
@@ -44,6 +46,7 @@ const successStorySchema = new mongoose.Schema(
       type: String,
       required: [true, "Achievement is required"],
       minlength: [5, "Achievement must be at least 5 characters"],
+      maxlength: [200, "Achievement too long"],
       trim: true,
     },
 
@@ -61,6 +64,7 @@ const successStorySchema = new mongoose.Schema(
     approved: {
       type: Boolean,
       default: false,
+      index: true,
     },
   },
   { timestamps: true },

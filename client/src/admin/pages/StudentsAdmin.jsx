@@ -4,7 +4,7 @@ import Select from "react-select";
 import useAdminStudents from "../hooks/useAdminStudents";
 import ConfirmModal from "../components/ConfirmModal";
 import { CrossIcon, DeleteIcon, EyeIcon, SearchIcon } from "../../icons/Icons";
-import Loader from "../components/loader/Loader";
+import AdminLoader from "../components/loader/AdminLoader";
 
 export default function StudentAdmin() {
   const {
@@ -225,7 +225,7 @@ export default function StudentAdmin() {
                 <td colSpan="6" className="text-center py-5 text-slate-400">
                   {/* Loading students... */}
                   <div className="w-full flex justify-center">
-                    <Loader />
+                    <AdminLoader />
                   </div>
                 </td>
               </tr>
@@ -377,7 +377,7 @@ export default function StudentAdmin() {
         </div>
       )}
 
-      {/* ------------------- VIEW STUDENT MODAL ------------------- */}
+      {/* ----------- VIEW STUDENT MODAL ----------- */}
       <AnimatePresence>
         {viewStudent && (
           <motion.div
@@ -397,7 +397,7 @@ export default function StudentAdmin() {
               className="relative w-full max-w-xl
         bg-gradient-to-br from-slate-900 to-slate-950
         border border-slate-700/60
-        rounded-md shadow-2xl p-6"
+        rounded-md shadow-2xl p-4 [@media(min-width:480px)]:p-6 overflow-y-auto scrollbar-slim"
             >
               {/* Close */}
               <button
@@ -405,21 +405,21 @@ export default function StudentAdmin() {
                 className="absolute top-4 right-4
           text-slate-400 hover:text-white transition"
               >
-                <CrossIcon className="text-lg" />
+                <CrossIcon className="text-xl [@media(min-width:480px)]:text-2xl" />
               </button>
 
               {/* Header */}
-              <div className="mb-6">
-                <h3 className="text-2xl font-semibold text-blue-400">
+              <div className="mb-4 [@media(min-width:480px)]:mb-6">
+                <h3 className="text-xl [@media(min-width:480px)]:text-2xl font-semibold text-blue-400">
                   Student Details
                 </h3>
-                <p className="text-xs text-slate-400 mt-0.5">
+                <p className="text-xs text-slate-400">
                   Complete student profile information
                 </p>
               </div>
 
               {/* MAIN CONTENT */}
-              <div className="space-y-2 sm:space-y-3 text-sm">
+              <div className="space-y-2 [@media(min-width:480px)]:space-y-3 text-sm">
                 {/* BASIC INFO */}
                 <Section title="Basic Information">
                   <InfoGrid>
@@ -435,27 +435,44 @@ export default function StudentAdmin() {
                   <InfoGrid>
                     <Info
                       label="Date of Birth"
-                      value={new Date(viewStudent.dob).toLocaleDateString()}
+                      value={
+                        viewStudent.dob
+                          ? new Date(viewStudent.dob).toLocaleDateString(
+                              "en-IN",
+                              {
+                                day: "numeric",
+                                month: "short",
+                                year: "numeric",
+                              },
+                            )
+                          : "-"
+                      }
                     />
+
                     <Info
                       label="Account Created"
-                      value={new Date(
-                        viewStudent.createdAt,
-                      ).toLocaleDateString()}
+                      value={
+                        viewStudent.createdAt
+                          ? new Date(viewStudent.createdAt).toLocaleString(
+                              "en-IN",
+                              {
+                                day: "numeric",
+                                month: "short",
+                                year: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                hour12: true,
+                              },
+                            )
+                          : "-"
+                      }
                     />
                   </InfoGrid>
-
-                  {/* <div className="mt-3">
-                    <Info
-                      label="Last Updated"
-                      value={new Date(viewStudent.updatedAt).toLocaleString()}
-                    />
-                  </div> */}
                 </Section>
 
                 {/* STATUS */}
                 <Section title="Status">
-                  <div className="flex gap-3 flex-wrap">
+                  <div className="flex gap-2 flex-wrap">
                     <StatusBadge
                       label="Email Verified "
                       active={viewStudent.isVerified}
@@ -496,7 +513,7 @@ function Section({ title, children }) {
     <div>
       <p
         className="text-xs uppercase font-semibold tracking-wide
-      text-slate-500 mb-1"
+      text-slate-500 mb-1.5"
       >
         {title}
       </p>
@@ -507,7 +524,7 @@ function Section({ title, children }) {
 
 function InfoGrid({ children }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+    <div className="grid grid-cols-1 [@media(min-width:400px)]:grid-cols-2 gap-2 [@media(min-width:480px)]:gap-3">
       {children}
     </div>
   );
@@ -520,7 +537,7 @@ function Info({ label, value }) {
     rounded-sm px-3 py-2 md:px-4 md:py-3 transition-all duration-500"
     >
       <p className="text-xs text-slate-400 mb-1">{label}</p>
-      <p className="text-slate-300 font-medium break-all">{value || "-"}</p>
+      <p className="text-slate-300  break-all">{value || "-"}</p>
     </div>
   );
 }

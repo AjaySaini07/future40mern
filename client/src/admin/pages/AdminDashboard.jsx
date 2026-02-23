@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import StatCard from "../components/StatCard";
 import StatsCharts from "../components/StatsCharts";
 import { useAdminStats } from "../hooks/useAdminStats";
-import Loader from "../components/loader/Loader";
+import AdminLoader from "../components/loader/AdminLoader";
 
 export default function AdminDashboard() {
   const { stats, loading, fetchAdminStats } = useAdminStats();
@@ -17,7 +17,7 @@ export default function AdminDashboard() {
         className="min-h-screen w-full flex items-center justify-center
       bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950"
       >
-        <Loader />
+        <AdminLoader />
       </div>
     );
   }

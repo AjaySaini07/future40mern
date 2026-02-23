@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
-/* ================= GLOBAL ================= */
+/* ---------------------- GLOBAL ---------------------- */
 html,
 body {
   background-color: #020617;
   font-family: system-ui, sans-serif;
 }
 
-/* ================= SONNER THEME (GLOBAL) ================= */
+/* --------------- SONNER THEME (GLOBAL) --------------- */
 :root {
   --sonner-bg: #020617 !important;
   --sonner-border: #1e293b !important;
@@ -15,7 +15,7 @@ body {
   --sonner-radius: 6px;
 }
 
-/* ================= SONNER BASE TOAST ================= */
+/* ----------------- SONNER BASE TOAST ----------------- */
 [data-sonner-toast] {
   background-color: var(--sonner-bg) !important;
 
@@ -39,7 +39,7 @@ body {
   }
 }
 
-/* ================= TYPE COLORS ================= */
+/* ----------------- TYPE COLORS ----------------- */
 /* ✅ SUCCESS */
 [data-sonner-toast][data-type="success"] {
   --sonner-icon-color: #0fe85e !important;
@@ -68,7 +68,7 @@ body {
   border-left-color: #f59e0b !important;
 }
 
-/* ================= COMPONENTS ================= */
+/* ----------------- COMPONENTS ----------------- */
 @layer components {
   .input {
     @apply w-full bg-slate-900 border border-slate-700 rounded-sm
@@ -78,7 +78,7 @@ body {
   }
 }
 
-/* ================= UTILITIES ================= */
+/* ------------------ UTILITIES ------------------ */
 @layer utilities {
   /* Avatar soft glow */
   @keyframes glowPulse {
@@ -122,30 +122,7 @@ body {
     transition-timing-function: linear !important;
   }
 
-  /* 🖤 Dark Thin Scrollbar */
-  /* .scrollbar-slim {
-  scrollbar-width: thin;
-  scrollbar-color: #475569 #020917;
-}
-
-.scrollbar-slim::-webkit-scrollbar {
-  width: 5px;
-}
-
-.scrollbar-slim::-webkit-scrollbar-track {
-  background: #020617;
-}
-
-.scrollbar-slim::-webkit-scrollbar-thumb {
-  background-color: rgba(148, 163, 184, 0.4);
-  border-radius: 999px;
-}
-
-.scrollbar-slim::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(148, 163, 184, 0.7);
-} */
-
-  /* 🖤 Dark Thin Scrollbar – Transparent Track */
+  /*----------- Dark Thin Scrollbar – Transparent Track  -----------*/
   .scrollbar-slim {
     scrollbar-width: thin;
     scrollbar-color: rgba(148, 163, 184, 0.5) transparent;
@@ -156,7 +133,7 @@ body {
   }
 
   .scrollbar-slim::-webkit-scrollbar-track {
-    background: transparent; /* 👈 fully transparent */
+    background: transparent;
   }
 
   .scrollbar-slim::-webkit-scrollbar-thumb {
@@ -172,7 +149,7 @@ body {
     transition: background-color 0.2s ease;
   }
 
-  /* ================= Swiper-desktop/mobile sattings ================= */
+  /* --------------- Swiper-desktop/mobile sattings --------------- */
   /* Desktop */
   .home-banner-swiper {
     --swiper-navigation-size: 30px;
@@ -185,18 +162,18 @@ body {
     color: #38bdf8;
   }
   .home-banner-swiper .swiper-button-prev {
-    left: 10px !important; /* 👈 left se andar */
+    left: 10px !important;
     color: #38bdf8;
   }
   .home-banner-swiper .swiper-button-next {
-    right: 10px !important; /* 👈 right se andar */
+    right: 10px !important;
     color: #38bdf8;
   }
 
   .home-banner-swiper .swiper-pagination-bullet {
     width: 6px !important;
     height: 6px !important;
-    background-color: #38bdf8; /* blue-400 */
+    background-color: #38bdf8;
     opacity: 0.4;
     transition: all 0.3s ease;
   }

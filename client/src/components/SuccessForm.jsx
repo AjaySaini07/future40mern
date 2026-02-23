@@ -271,7 +271,7 @@ export default function SuccessForm() {
                   </div>
 
                   {/* Story */}
-                  <div>
+                  <div className="space-y-0">
                     <label className="text-xs text-slate-400">
                       Success Story *
                     </label>
@@ -279,23 +279,49 @@ export default function SuccessForm() {
                     <textarea
                       rows={4}
                       {...register("story", {
-                        required: "Success Story is required",
+                        required: "Story is required",
                         minLength: {
                           value: 20,
                           message: "Story must be at least 20 characters",
                         },
+                        maxLength: {
+                          value: 5000,
+                          message: "Story cannot exceed 5000 characters",
+                        },
                       })}
-                      className="w-full h-15 [@media(min-width:480px)]:h-20 rounded-sm bg-slate-900
-      border border-slate-700 outline-none
-      focus:border-slate-400 transition duration-500
-      px-2 py-1.5 text-xs sm:text-sm"
+                      className="
+      w-full rounded-sm bg-slate-900 
+      border border-slate-700
+      px-3 py-2 
+      text-xs sm:text-sm 
+      outline-none text-white 
+      h-25 [@media(min-width:480px)]:h-30
+      overflow-y-auto scrollbar-slim 
+      transition duration-500
+      focus:border-slate-400
+    "
                     />
 
-                    {errors.story && (
-                      <p className="text-xs sm:font-semibold text-red-500 -mt-1.5">
-                        {errors.story.message}
+                    {/* Bottom Row: Error + Counter */}
+                    <div className="flex justify-between items-center">
+                      {errors.story ? (
+                        <p className="text-red-500 sm:font-semibold text-xs -mt-2">
+                          {errors.story.message}
+                        </p>
+                      ) : (
+                        <span />
+                      )}
+
+                      <p
+                        className={`text-[11px] -mt-1 ${
+                          (watch("story")?.length || 0) > 5000
+                            ? "text-red-400"
+                            : "text-slate-500"
+                        }`}
+                      >
+                        {watch("story")?.length || 0}/5000
                       </p>
-                    )}
+                    </div>
                   </div>
 
                   {/* Submit Button*/}
@@ -306,7 +332,7 @@ export default function SuccessForm() {
                     whileTap={{ scale: 0.98 }}
                     transition={{ duration: 0.15, ease: "easeInOut" }}
                     className={`
-    w-full mt-0.5 py-2 text-xs [@media(min-width:480px)]:text-sm font-medium rounded-sm text-white bg-blue-600 transition-all duration-300 flex items-center justify-center
+    w-full py-2 text-xs [@media(min-width:480px)]:text-sm font-medium rounded-sm text-white bg-blue-600 transition-all duration-300 flex items-center justify-center
     ${
       submitLoading
         ? " cursor-not-allowed opacity-70"

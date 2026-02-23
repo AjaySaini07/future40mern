@@ -36,7 +36,7 @@ export default function StudentLogin() {
         onSubmit={handleSubmit(onSubmit)}
         className="w-full max-w-sm [@media(min-width:480px)]:max-w-md
           bg-slate-900/90 backdrop-blur border border-slate-800 shadow-[0_0_40px_rgba(0,0,0,0.6)]
-      rounded-md p-6 space-y-2 [@media(min-width:480px)]:space-y-3"
+      rounded-md p-4 sm:p-6 space-y-2 [@media(min-width:480px)]:space-y-3"
       >
         {/* Header */}
         <div className="text-center space-y-1">
@@ -44,7 +44,7 @@ export default function StudentLogin() {
             Student Login
           </h2>
           <div
-            className="mx-auto mt-1.5 h-1 w-16 rounded-full
+            className="mx-auto mt-1 h-1 w-20 rounded-full
           bg-gradient-to-r from-blue-500 to-indigo-500"
           ></div>
         </div>
@@ -113,7 +113,7 @@ export default function StudentLogin() {
           whileTap={!loginLoading ? { scale: 0.98 } : {}}
           className={`
           w-full mt-5 py-2 rounded-sm flex items-center justify-center
-          text-sm [@media(min-width:480px)]:text-sm font-semibold text-white
+          text-xs [@media(min-width:480px)]:text-sm font-semibold text-white
     transition-all duration-300
     bg-gradient-to-r from-blue-600 to-indigo-600
     hover:brightness-110
@@ -146,7 +146,7 @@ export default function StudentLogin() {
           </Link>
 
           {/* Signup */}
-          <p className="text-xs mt-2 [@media(min-width:480px)]:text-sm text-center text-slate-400">
+          <p className="text-xs mt-0.5 sm:mt-2 [@media(min-width:480px)]:text-sm text-center text-slate-400">
             New user?{" "}
             <Link to="/signup" className="text-blue-400 hover:underline">
               Create account

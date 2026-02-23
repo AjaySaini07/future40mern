@@ -1,6 +1,13 @@
 const successStoryModel = require("../models/successStoryModel");
 const cloudinary = require("../config/cloudinary");
 
+const MALE_DEFAULT =
+  "https://res.cloudinary.com/dwdgbrng0/image/upload/v1771397624/Boy-Photo_nzzanm.jpg";
+// "https://res.cloudinary.com/dwdgbrng0/image/upload/v1771393374/2151134012_1_s8gfhw.jpg";
+
+const FEMALE_DEFAULT =
+  "https://res.cloudinary.com/dwdgbrng0/image/upload/v1771320061/2151107459_1_jj35lo.jpg";
+
 // ------------------------------ SUBMIT STORY ------------------------------
 exports.submitStory = async (req, res) => {
   try {
@@ -11,12 +18,46 @@ exports.submitStory = async (req, res) => {
       });
     }
 
-    const { story, rating, achievement } = req.body;
+    const { email, story, rating, achievement } = req.body;
 
     const userName = req.user.FullName?.trim();
     const userEmail = req.user.Email?.toLowerCase();
+    const userGender = req.user.Gender?.toLowerCase();
+    const bodyEmail = email?.toLowerCase().trim();
 
-    /* ---------------- VALIDATION ---------------- */
+    /* ---------------- EMAIL VALIDATION ---------------- */
+
+    if (!bodyEmail) {
+      return res.status(400).json({
+        success: false,
+        message: "Email is required",
+      });
+    }
+
+    if (bodyEmail !== userEmail) {
+      return res.status(400).json({
+        success: false,
+        message: "You can only use your registered email.",
+      });
+    }
+
+    /* ---------------- SESSION VALIDATION ---------------- */
+
+    if (!userEmail) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid user session",
+      });
+    }
+
+    if (!["male", "female"].includes(userGender)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid gender",
+      });
+    }
+
+    /* ---------------- FIELD VALIDATION ---------------- */
 
     if (!story?.trim() || !achievement?.trim()) {
       return res.status(400).json({
@@ -37,7 +78,7 @@ exports.submitStory = async (req, res) => {
     /* ---------------- CHECK DUPLICATE ---------------- */
 
     const existingStory = await successStoryModel.findOne({
-      email: userEmail,
+      email: bodyEmail,
     });
 
     if (existingStory) {
@@ -57,21 +98,26 @@ exports.submitStory = async (req, res) => {
         public_id: req.file.filename,
       };
     } else {
+      const defaultUrl =
+        userGender === "female" ? FEMALE_DEFAULT : MALE_DEFAULT;
+
       photo = {
-        url: "https://avatar.iran.liara.run/public",
+        url: defaultUrl,
         public_id: null,
       };
     }
 
     /* ---------------- CREATE STORY ---------------- */
 
-    const newStory = await successStoryModel.create({
+    await successStoryModel.create({
       name: userName,
-      email: userEmail,
+      email: bodyEmail, // ✅ save body email (already verified)
       rating: numericRating,
       story: story.trim(),
+      gender: userGender,
       achievement: achievement.trim(),
       photo,
+      approved: false,
     });
 
     return res.status(201).json({
@@ -80,6 +126,22 @@ exports.submitStory = async (req, res) => {
     });
   } catch (err) {
     console.error("Submit Story Error:", err);
+
+    if (err.name === "ValidationError") {
+      const firstError = Object.values(err.errors)[0].message;
+
+      return res.status(400).json({
+        success: false,
+        message: firstError,
+      });
+    }
+
+    if (err.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        message: "You have already submitted a success story",
+      });
+    }
 
     return res.status(500).json({
       success: false,
@@ -148,19 +210,17 @@ exports.getApprovedStories = async (req, res) => {
 // ------------------------------ UPDATE STORY ------------------------------
 exports.updateStory = async (req, res) => {
   try {
-    const { name, email, achievement, rating, story } = req.body;
-
-    const loggedInEmail = req.user.Email.toLowerCase();
-
-    /* -------------------- EMAIL CHANGE BLOCK -------------------- */
-    if (email && email.toLowerCase() !== loggedInEmail) {
-      return res.status(400).json({
+    if (!req.user) {
+      return res.status(401).json({
         success: false,
-        message: "You cannot change your registered email",
+        message: "Unauthorized",
       });
     }
 
-    /* -------------------- VALIDATION -------------------- */
+    const loggedInEmail = req.user.Email?.toLowerCase();
+    const { name, achievement, rating, story } = req.body;
+
+    /* ---------------- VALIDATION ---------------- */
     if (!name?.trim()) {
       return res.status(400).json({
         success: false,
@@ -191,7 +251,7 @@ exports.updateStory = async (req, res) => {
       });
     }
 
-    /* -------------------- FIND STORY -------------------- */
+    /* ---------------- FIND STORY ---------------- */
     const existingStory = await successStoryModel.findOne({
       email: loggedInEmail,
     });
@@ -203,20 +263,22 @@ exports.updateStory = async (req, res) => {
       });
     }
 
-    /* -------------------- UPDATE FIELDS -------------------- */
+    /* ---------------- UPDATE TEXT FIELDS ---------------- */
     existingStory.name = name.trim();
     existingStory.achievement = achievement.trim();
     existingStory.rating = numericRating;
     existingStory.story = story.trim();
+    existingStory.gender = req.user.Gender?.toLowerCase();
 
-    /* -------------------- PHOTO UPDATE -------------------- */
+    /* ---------------- PHOTO UPDATE ---------------- */
     if (req.file) {
-      try {
-        if (existingStory.photo?.public_id) {
+      // delete old cloudinary image only if it is not default
+      if (existingStory.photo?.public_id) {
+        try {
           await cloudinary.uploader.destroy(existingStory.photo.public_id);
+        } catch (err) {
+          console.warn("Cloudinary delete warning:", err.message);
         }
-      } catch (err) {
-        console.warn("Cloudinary delete warning:", err.message);
       }
 
       existingStory.photo = {
@@ -225,7 +287,7 @@ exports.updateStory = async (req, res) => {
       };
     }
 
-    /* -------------------- RESET APPROVAL -------------------- */
+    /* ---------------- RESET APPROVAL ---------------- */
     existingStory.approved = false;
 
     await existingStory.save();
@@ -237,6 +299,15 @@ exports.updateStory = async (req, res) => {
     });
   } catch (error) {
     console.error("Update Story Error:", error);
+
+    if (error.name === "ValidationError") {
+      const firstError = Object.values(error.errors)[0].message;
+
+      return res.status(400).json({
+        success: false,
+        message: firstError,
+      });
+    }
 
     return res.status(500).json({
       success: false,

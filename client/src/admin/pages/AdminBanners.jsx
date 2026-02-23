@@ -6,7 +6,7 @@ import useAdminBanners from "../hooks/useAdminBanners";
 import ConfirmModal from "../components/ConfirmModal";
 import UpdateConfirmModal from "../components/UpdateConfirmModal";
 import { CrossIcon, DeleteIcon } from "../../icons/Icons";
-import Loader from "../components/loader/Loader";
+import AdminLoader from "../components/loader/AdminLoader";
 
 export default function AdminBanners() {
   const {
@@ -29,7 +29,7 @@ export default function AdminBanners() {
 
   const [fileKey, setFileKey] = useState(Date.now());
 
-  // 🔄 toggle confirmation
+  // toggle confirmation
   const [openUpdate, setOpenUpdate] = useState(false);
   const [updateItem, setUpdateItem] = useState(null);
   const [nextStatus, setNextStatus] = useState(false);
@@ -42,7 +42,7 @@ export default function AdminBanners() {
     formState: { errors },
   } = useForm();
 
-  /* ================= FETCH ================= */
+  /* ------------- Fetch Banner ------------- */
   const fetchBanners = async () => {
     const data = await getBanners();
     setBanners(data);
@@ -52,7 +52,7 @@ export default function AdminBanners() {
     fetchBanners();
   }, []);
 
-  /* ================= ADD ================= */
+  /* ---------- Add Banner Function ---------- */
   const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append("image", data.image[0]);
@@ -66,7 +66,7 @@ export default function AdminBanners() {
     closeModal();
   };
 
-  /* ================= TOGGLE CONFIRM ================= */
+  /* ------------ TOGGLE CONFIRM ------------ */
   const openToggleConfirm = (banner) => {
     setUpdateItem(banner);
     setNextStatus(!banner.isActive);
@@ -122,7 +122,7 @@ export default function AdminBanners() {
       {/* --------------- BANNER LIST --------------- */}
       {getLoading ? (
         <div className="w-full flex justify-center">
-          <Loader />
+          <AdminLoader />
         </div>
       ) : banners.length === 0 ? (
         <div className="py-8 bg-slate-800 rounded-sm flex flex-col items-center justify-center text-center">

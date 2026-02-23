@@ -8,8 +8,8 @@ import Select from "react-select";
 import { IoMdSearch } from "react-icons/io";
 import UpdateConfirmModal from "../components/UpdateConfirmModal";
 import { BsEmojiTearFill } from "react-icons/bs";
-import Loader from "../components/loader/Loader";
 import { CrossIcon } from "../../icons/Icons";
+import AdminLoader from "../components/loader/AdminLoader";
 
 const cardVariant = {
   hidden: {
@@ -67,6 +67,9 @@ export default function SuccessStoriesAdmin() {
   } = useAdminStories();
 
   const [stories, setStories] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [preview, setPreview] = useState(null);
+  const [viewImage, setViewImage] = useState(null);
 
   const [search, setSearch] = useState("");
 
@@ -305,7 +308,7 @@ export default function SuccessStoriesAdmin() {
         {/* Loading State */}
         {fetchLoading && (
           <div className="min-h-screen w-full flex justify-center">
-            <Loader />
+            <AdminLoader />
           </div>
         )}
 
@@ -338,7 +341,7 @@ export default function SuccessStoriesAdmin() {
 
         {/* Cards Grid */}
         {!fetchLoading && stories.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 border-t border-slate-800 pt-4 rounded-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 border-t border-slate-800 pt-4 rounded-sm">
             {stories.map((story) => (
               <motion.div
                 key={story._id}
@@ -348,7 +351,7 @@ export default function SuccessStoriesAdmin() {
                 whileHover="hover"
                 className="relative
     bg-gradient-to-b from-slate-900 to-slate-950
-    border border-slate-800 hover:border-slate-700
+    border border-slate-800 hover:border-cyan-500/30 shadow-lg hover:shadow-cyan-900/20
     rounded-md p-4 text-center"
               >
                 {/* Status Badge */}
@@ -361,14 +364,18 @@ export default function SuccessStoriesAdmin() {
               : "bg-yellow-900/40 text-yellow-400"
           }`}
                 >
-                  {story.approved ? "Approved" : "Unapproved"}
+                  {story.approved ? "Approved" : "Rejected"}
                 </span>
 
-                {/* Avatar */}
+                {/* Photo */}
                 <img
                   src={story.photo.url}
-                  className="w-16 h-16 mx-auto rounded-full
-          border-2 border-slate-700 object-cover"
+                  alt="Student Photo"
+                  onClick={() => setViewImage(story.photo.url)}
+                  className="w-16 h-16 mx-auto rounded-full text-sm
+          border-2 border-slate-700 object-cover cursor-pointer
+                hover:opacity-70
+                transition-all duration-300"
                 />
 
                 {/* Rating */}
@@ -378,41 +385,69 @@ export default function SuccessStoriesAdmin() {
                       key={index}
                       className={
                         index < story.rating
-                          ? "text-yellow-400"
+                          ? "text-yellow-400 drop-shadow-[0_0_3px_rgba(250,204,21,0.5)]"
                           : "text-slate-600"
                       }
                     />
                   ))}
                 </div>
 
-                {/* Story */}
-                <p className="text-sm text-slate-400 mt-3 line-clamp-4">
-                  “{story.story}”
-                </p>
-
                 {/* Name */}
-                <h4 className="mt-2 text-blue-400 font-semibold">
-                  {story.name}
-                </h4>
+                <div className="flex justify-center mt-2">
+                  <h3
+                    className="
+      px-4 py-0.5 rounded-full
+      text-xs sm:text-sm font-semibold
+      bg-blue-500/10 bg-clip-text
+tracking-wide
+      text-blue-400
+      border border-blue-500/20
+    "
+                  >
+                    {story.name}
+                  </h3>
+                </div>
+
+                {/* Story */}
+                <div
+                  className="relative mt-2 px-3 py-2.5
+          bg-slate-800/20 border border-slate-900
+          rounded-md backdrop-blur-sm"
+                >
+                  <span className="absolute -top-3 left-3 text-3xl text-blue-500/40 font-serif">
+                    “
+                  </span>
+
+                  <p
+                    className="text-slate-300 text-xs sm:text-sm
+             leading-normal text-justify tracking-wide
+            line-clamp-4"
+                  >
+                    {story.story}
+                  </p>
+
+                  <span className="absolute -bottom-7 right-3 text-3xl text-blue-500/40 font-serif">
+                    ”
+                  </span>
+                </div>
 
                 {/* Actions Buttons */}
                 <div className="mt-3 flex justify-center gap-2">
-                  {/* Approve / Unapprove */}
+                  {/* Approve / Reject */}
                   <motion.button
                     whileTap={{ scale: 0.95 }}
                     onClick={() => {
                       setSelectedStory(story);
-                      // setNextStatus(!story.approved);
                       setOpenUpdate(true);
                     }}
-                    className={`px-3 py-1.5 rounded-xs text-xs font-medium
+                    className={`px-3.5 py-1.5 rounded-xs text-xs font-medium
     ${
       story.approved
         ? "bg-yellow-700 hover:bg-yellow-600"
         : "bg-green-600 hover:bg-green-700"
     }`}
                   >
-                    {story.approved ? "Unapprove" : "Approve"}
+                    {story.approved ? "Reject" : "Approve"}
                   </motion.button>
 
                   {/* View */}
@@ -495,6 +530,41 @@ export default function SuccessStoriesAdmin() {
         )}
       </div>
 
+      {/*--------------- IMAGE PREVIEW--------------- */}
+      <AnimatePresence>
+        {viewImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setViewImage(null)}
+            className="
+              fixed inset-0 z-50
+              bg-black/90
+              flex items-center justify-center
+              px-3 sm:px-6 md:px-10
+            "
+          >
+            <motion.img
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              src={viewImage}
+              alt="Banner Preview"
+              className="
+                w-auto h-auto
+                max-h-[85vh] sm:max-h-[90vh]
+                max-w-full sm:max-w-[90vw]
+                rounded-md
+                object-contain
+                shadow-2xl
+              "
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Delete Confirm Modal */}
       <ConfirmModal
         open={showDeleteModal}
@@ -546,41 +616,47 @@ export default function SuccessStoriesAdmin() {
               animate="visible"
               exit="exit"
               className="relative bg-slate-900 border border-slate-700
-        rounded-md max-w-lg sm:max-w-xl w-full p-6"
+        rounded-md max-w-lg sm:max-w-xl w-full p-4 [@media(min-width:480px)]:p-6"
             >
               <button
                 onClick={() => setViewStory(null)}
                 className="absolute top-4 right-4 text-slate-400 hover:text-white transition-transform duration-300 hover:scale-105"
               >
-                <CrossIcon size={24} />
+                <CrossIcon className="text-lg [@media(min-width:400px)]:text-2xl" />
               </button>
 
               {/* Header */}
-              <div className="flex items-center gap-4">
+              <div className="w-full flex items-center gap-2 sm:gap-3">
+                {/* Image */}
                 <img
                   src={viewStory.photo.url}
-                  className="w-14 h-14 rounded-full object-cover"
+                  className="w-13 h-13 [@media(min-width:400px)]:w-15 [@media(min-width:400px)]:h-15 rounded-full object-cover"
                 />
 
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold">{viewStory.name}</h3>
+                <div className="w-full flex-1 mb-0.5 [@media(min-width:400px)]:mb-1">
+                  {/* Name */}
+                  <h3 className="text-sm text-blue-200 [@media(min-width:400px)]:text-lg font-semibold">
+                    {viewStory.name}
+                  </h3>
 
-                  <div className="flex-row sm:flex items-center gap-2 mt-0.5">
-                    <div className="flex gap-1">
+                  {/* Rating */}
+                  <div className="flex-row [@media(min-width:280px)]:flex items-center gap-2">
+                    <div className="flex text-sm [@media(min-width:400px)]:text-base gap-1">
                       {Array.from({ length: 5 }).map((_, index) => (
                         <FaStar
                           key={index}
                           className={
                             index < viewStory.rating
-                              ? "text-yellow-400"
+                              ? "text-yellow-400 drop-shadow-[0_0_3px_rgba(250,204,21,0.5)]"
                               : "text-slate-600"
                           }
                         />
                       ))}
                     </div>
 
+                    {/* Status */}
                     <span
-                      className={`text-[10px] px-2 py-0.5 rounded-full font-semibold
+                      className={`text-[9px] [@media(min-width:450px)]:text-[10px] px-2 py-0.5 rounded-full font-semibold
                 ${
                   viewStory.approved
                     ? "bg-green-900/40 text-green-400"
@@ -598,13 +674,13 @@ export default function SuccessStoriesAdmin() {
                 className="mt-4 max-h-50 overflow-y-auto scrollbar-slim
   pr-1.5 scroll-smooth"
               >
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                <p className="text-xs sm:text-sm text-justify text-slate-300 tracking-wide leading-normal">
                   {viewStory.story}
                 </p>
               </div>
 
               {/* Achievement */}
-              <p className="mt-3 text-sm text-blue-400 font-medium">
+              <p className="mt-3 text-base text-blue-400 font-medium">
                 🏆 {viewStory.achievement}
               </p>
 
@@ -633,8 +709,16 @@ export default function SuccessStoriesAdmin() {
                   <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold mb-1">
                     Created At
                   </p>
+
                   <p className="text-slate-300">
-                    {new Date(viewStory.createdAt).toLocaleString()}
+                    {new Date(viewStory.createdAt).toLocaleString("en-IN", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: true,
+                    })}
                   </p>
                 </div>
 
@@ -643,8 +727,16 @@ export default function SuccessStoriesAdmin() {
                   <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold mb-1">
                     Updated At
                   </p>
+
                   <p className="text-slate-300">
-                    {new Date(viewStory.updatedAt).toLocaleString()}
+                    {new Date(viewStory.updatedAt).toLocaleString("en-IN", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: true,
+                    })}
                   </p>
                 </div>
               </div>

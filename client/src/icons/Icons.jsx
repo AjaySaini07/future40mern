@@ -27,7 +27,7 @@ import { IoMdSettings } from "react-icons/io";
 import { FaEyeSlash } from "react-icons/fa";
 import { BsInfoCircleFill } from "react-icons/bs";
 import { PiWarningFill } from "react-icons/pi";
-import { HiMiniCheckBadge } from "react-icons/hi2";
+import { FaAward } from "react-icons/fa";
 
 export const DashboardIcon = FaTachometerAlt;
 export const CoursesIcon = GiBookCover;
@@ -57,4 +57,4 @@ export const EyeIcon = FaEye;
 export const EyeOffIcon = FaEyeSlash;
 export const TooltipIcon = BsInfoCircleFill;
 export const WarningIcon = PiWarningFill;
-export const VerifiedIcon = HiMiniCheckBadge;
+export const AwardIcon = FaAward;

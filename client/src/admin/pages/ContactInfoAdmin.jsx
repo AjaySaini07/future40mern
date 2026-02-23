@@ -11,7 +11,7 @@ import {
   PlusIcon,
 } from "../../icons/Icons";
 import useAdminContactInfo from "../hooks/useAdminContactInfo";
-import Loader from "../components/loader/Loader";
+import AdminLoader from "../components/loader/AdminLoader";
 
 export default function ContactInfoAdmin() {
   const {
@@ -71,7 +71,7 @@ export default function ContactInfoAdmin() {
         {/* Loading State */}
         {fetchLoading && (
           <div className="w-full flex justify-center">
-            <Loader />
+            <AdminLoader />
           </div>
         )}
 

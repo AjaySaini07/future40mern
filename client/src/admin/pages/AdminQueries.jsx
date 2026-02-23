@@ -13,7 +13,7 @@ import Select from "react-select";
 import { useForm } from "react-hook-form";
 import { useRef } from "react";
 import { motion } from "framer-motion";
-import Loader from "../components/loader/Loader";
+import AdminLoader from "../components/loader/AdminLoader";
 
 const actionBtnMotion = {
   // whileHover: { scale: 1.1 },
@@ -91,11 +91,6 @@ export default function AdminQueries() {
   }, [viewQuery]);
 
   /* 📩 SEND REPLY */
-  // const onReplySubmit = async (data) => {
-  //   await replyQuery(replyModal._id, data.reply);
-  //   reset();
-  //   setReplyModal(null);
-  // };
   const onReplySubmit = async (data) => {
     const success = await replyQuery(replyModal._id, data.reply);
 
@@ -298,7 +293,7 @@ export default function AdminQueries() {
                 <td colSpan="5" className="p-3 text-center">
                   {/* Loading queries... */}
                   <div className="w-full flex justify-center">
-                    <Loader />
+                    <AdminLoader />
                   </div>
                 </td>
               </tr>
@@ -487,7 +482,14 @@ export default function AdminQueries() {
                 Query Details :-
               </h3>
               <p className="text-[10px] sm:text-xs text-slate-400 mt-1">
-                {new Date(viewQuery.createdAt).toLocaleString()}
+                {new Date(viewQuery.createdAt).toLocaleString("en-IN", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: true,
+                })}
               </p>
             </div>
 

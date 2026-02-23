@@ -435,15 +435,23 @@ export default function Navbar() {
       alignItems: "center",
       gap: "10px",
       padding: "10px",
-      borderRadius: "2px",
+      borderRadius: "4px",
       fontSize: "14px",
       fontWeight: 400,
-      color: "#e5e7eb",
-      backgroundColor: state.isFocused
-        ? "rgba(59,130,246,0.25)"
-        : "transparent",
       cursor: "pointer",
       transition: "all 0.2s ease",
+
+      color: state.isSelected || state.isFocused ? "#ffffff" : "#e5e7eb",
+
+      backgroundColor: state.isSelected
+        ? "rgba(59,130,246,0.45)"
+        : state.isFocused
+          ? "rgba(59,130,246,0.25)"
+          : "transparent",
+
+      ":active": {
+        backgroundColor: "rgba(59,130,246,0.55)",
+      },
     }),
 
     singleValue: () => ({
@@ -526,11 +534,13 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           {isLoggedIn ? (
             <Select
+              value={null}
+              closeMenuOnSelect={true}
+              blurInputOnSelect={true}
               options={profileOptions}
               onChange={handleProfileAction}
               styles={selectStyles}
               isSearchable={false}
-              value={null}
               placeholder={<ProfileIcon />}
             />
           ) : (
@@ -637,21 +647,33 @@ export default function Navbar() {
             href={item.href}
             onClick={() => setOpen(false)}
             className="
-  block rounded-sm px-2 py-1.5
-  text-slate-200
-
-  border border-transparent
-  transition-all duration-300 ease-out
-
-  hover:border-cyan-400/60
-  hover:bg-slate-800
-  hover:text-cyan-300
-  hover:shadow-[0_0_0_1px_rgba(34,211,238,0.3)]
-
-  active:scale-[0.98]
-"
+      group relative block px-4 py-2
+      text-sm font-medium text-slate-300
+      overflow-hidden rounded-md
+      transition-colors duration-300
+    "
           >
-            {item.label}
+            {/* Sliding Background */}
+            <span
+              className="
+      absolute inset-0
+      bg-gradient-to-r from-cyan-500/20 via-blue-500/20 to-purple-500/20
+      translate-x-[-100%] group-hover:translate-x-0
+      transition-transform duration-500 ease-out
+      rounded-md
+    "
+            ></span>
+
+            {/* Text */}
+            <span
+              className="
+      relative z-10
+      group-hover:text-white
+      transition-colors duration-300
+    "
+            >
+              {item.label}
+            </span>
           </a>
         ))}
 
