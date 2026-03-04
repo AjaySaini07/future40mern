@@ -55,7 +55,7 @@ export default function Banners() {
                       <img
                         src={item.image.url}
                         alt="Banner"
-                        className="w-full h-[180px] sm:h-[280px] md:h-[300px] rounded-md object-cover"
+                        className="w-full h-[180px] sm:h-[280px] md:h-[300px] rounded-md object-fill"
                       />
 
                       <div className="absolute inset-0 bg-black/30" />

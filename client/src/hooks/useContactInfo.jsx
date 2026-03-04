@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "sonner";
 // import { toast } from "react-toastify";
 
-const API = import.meta.env.VITE_API_URL;
+const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export default function useContactInfo() {
   const [fetchLoading, setFetchLoading] = useState(false);

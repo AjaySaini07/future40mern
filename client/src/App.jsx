@@ -33,6 +33,7 @@ import AdminHero from "./admin/pages/AdminHero";
 import AdminChangePassword from "./admin/pages/AdminChangePassword";
 import ForgotPasswordAdmin from "./admin/pages/ForgotPasswordAdmin";
 import ResetPasswordAdmin from "./admin/pages/ResetPasswordAdmin";
+import NotFound from "./pages/NotFound";
 
 export default function App() {
   return (
@@ -111,6 +112,9 @@ export default function App() {
           <Route path="hero" element={<AdminHero />} />
           <Route path="change-password" element={<AdminChangePassword />} />
         </Route>
+
+        {/* 404 route ALWAYS last */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );
