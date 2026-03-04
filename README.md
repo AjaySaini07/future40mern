@@ -21,3 +21,5 @@ Git Push commands -:
 git add
 git commit -last changes
 git push origin main
+
+Hover image zoom iffect - transition-transform duration-[4500ms] ease-out md:group-hover:scale-105

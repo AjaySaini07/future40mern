@@ -26,8 +26,8 @@ export default function Banners() {
   }
 
   return (
-    <section className="bg-slate-950 pt-8 sm:pt-12 pb-2 md:pb-5">
-      <div className="mx-auto max-w-6xl px-4">
+    <section className="bg-slate-950 pt-8 sm:pt-12 pb-2 md:pb-5 px-4">
+      <div className="mx-auto max-w-6xl">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           navigation
@@ -50,40 +50,13 @@ export default function Banners() {
                 transition={{ duration: 0.6, ease: "easeOut" }}
               >
                 <Reveal>
-                  <div className="p-1">
+                  <div className="">
                     <div className="group relative rounded-md overflow-hidden border border-white/10 bg-slate-900">
-                      {/* <img
-                        src={item.image.url}
-                        alt="Banner"
-                        className="
-              w-full h-[150px] sm:h-[290px] md:h-[300px]
-              rounded-md object-cover
-              transition-transform duration-[4500ms] ease-out
-              group-hover:scale-105
-            "
-                      /> */}
                       <img
                         src={item.image.url}
                         alt="Banner"
-                        className="
-    w-full
-    h-[180px] sm:h-[280px] md:h-[300px]
-    rounded-md object-cover
-    transition-transform duration-[4500ms] ease-out
-    md:group-hover:scale-105
-  "
+                        className="w-full h-[180px] sm:h-[280px] md:h-[300px] rounded-md object-cover"
                       />
-                      {/* <img
-                        src={item.image.url}
-                        alt="Banner"
-                        className="
-    w-full aspect-[16/7]
-    sm:h-[280px] md:h-[300px]
-    rounded-md object-cover
-    transition-transform duration-[4500ms] ease-out
-    md:group-hover:scale-105
-  "
-                      /> */}
 
                       <div className="absolute inset-0 bg-black/30" />
                     </div>
