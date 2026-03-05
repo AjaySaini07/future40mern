@@ -97,14 +97,12 @@ exports.studentSignup = async (req, res) => {
       await exists.save();
 
       try {
-        await transporter.sendMail({
-          from: `"Future40" <${process.env.GMAIL_USER}>`,
+        await resend.emails.send({
+          from: "Future40 <onboarding@resend.dev>",
           to: email,
           subject: "Verify Your Account - OTP",
           html: otpEmailTemplate(otp),
         });
-
-        console.log("Email sent:", info.response);
       } catch (mailError) {
         console.log("Mail Error:", mailError.message);
       }
@@ -145,12 +143,14 @@ exports.studentSignup = async (req, res) => {
 
     // 🔒 Email send safe wrapper
     try {
-      await transporter.sendMail({
-        from: `"Future40" <${process.env.GMAIL_USER}>`,
+      await resend.emails.send({
+        from: "Future40 <onboarding@resend.dev>",
         to: email,
         subject: "Verify Your Account - OTP",
         html: otpEmailTemplate(otp),
       });
+
+      console.log("OTP email sent");
     } catch (mailError) {
       console.log("Mail Error:", mailError.message);
     }
@@ -326,12 +326,14 @@ exports.resendStudentOtp = async (req, res) => {
 
     // 🔒 SAFE EMAIL SEND
     try {
-      await transporter.sendMail({
-        from: `"Future40" <${process.env.GMAIL_USER}>`,
+      await resend.emails.send({
+        from: "Future40 <onboarding@resend.dev>",
         to: email,
         subject: "Your New OTP Code - Future40",
         html: otpEmailTemplate(otp, "Your New OTP Code"),
       });
+
+      console.log("OTP resent successfully");
     } catch (mailError) {
       console.log("Mail Error:", mailError.message);
     }
