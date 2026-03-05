@@ -16,21 +16,6 @@ const successStoryModel = require("../models/successStoryModel");
 /* OTP generator */
 const generateOTP = () => Math.floor(1000 + Math.random() * 9000);
 
-app.get("/test-email", async (req, res) => {
-  try {
-    await sendEmail({
-      to: "nodetest0708@gmail.com",
-      subject: "Test Email",
-      html: "<h1>Email working</h1>",
-    });
-
-    res.send("Email sent");
-  } catch (error) {
-    console.log(error);
-    res.send("Email failed");
-  }
-});
-
 /* -------------------- STUDENT SIGNUP --------------------- */
 exports.studentSignup = async (req, res) => {
   try {

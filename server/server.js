@@ -3,6 +3,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const { generalLimiter } = require("./middlewares/rateLimiter");
+const sendEmail = require("./utils/mailer");
 
 dotenv.config();
 const app = express();
@@ -28,19 +29,13 @@ app.set("trust proxy", 1);
 connectDB();
 
 app.get("/test-email", async (req, res) => {
-  try {
-    await transporter.sendMail({
-      from: `"Future40 Test" <${process.env.GMAIL_USER}>`,
-      to: "nodetest0708@gmail.com",
-      subject: "Test Email",
-      text: "Email working successfully",
-    });
+  await sendEmail({
+    to: "ajaysainif22@gmail.com",
+    subject: "Future40 Test Email",
+    html: "<h2>Email working successfully</h2>",
+  });
 
-    res.send("Email sent");
-  } catch (error) {
-    console.log(error);
-    res.send("Email failed");
-  }
+  res.send("Email sent");
 });
 
 // Routes
