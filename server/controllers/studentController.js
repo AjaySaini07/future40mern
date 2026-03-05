@@ -6,6 +6,8 @@ const jwt = require("jsonwebtoken");
 const studentModel = require("../models/studentModel");
 const otpEmailTemplate = require("../templates/otpEmailTemplate");
 const transporter = require("../utils/mailer");
+const sendEmail = require("../utils/mailer");
+
 const successStoryModel = require("../models/successStoryModel");
 // const { Resend } = require("resend");
 
@@ -13,6 +15,21 @@ const successStoryModel = require("../models/successStoryModel");
 
 /* OTP generator */
 const generateOTP = () => Math.floor(1000 + Math.random() * 9000);
+
+app.get("/test-email", async (req, res) => {
+  try {
+    await sendEmail({
+      to: "nodetest0708@gmail.com",
+      subject: "Test Email",
+      html: "<h1>Email working</h1>",
+    });
+
+    res.send("Email sent");
+  } catch (error) {
+    console.log(error);
+    res.send("Email failed");
+  }
+});
 
 /* -------------------- STUDENT SIGNUP --------------------- */
 exports.studentSignup = async (req, res) => {
@@ -36,18 +53,11 @@ exports.studentSignup = async (req, res) => {
       //   subject: "Verify Your Account - OTP",
       //   html: otpEmailTemplate(otp), // 👈 USE TEMPLATE
       // });
-      try {
-        await transporter.sendMail({
-          from: `"Future40 Academy" <${process.env.GMAIL_USER}>`,
-          to: email,
-          subject: "Verify Your Account - Future40 OTP",
-          html: otpEmailTemplate(otp),
-        });
-
-        console.log("OTP email sent successfully");
-      } catch (err) {
-        console.log("Email send error:", err.message);
-      }
+      await sendEmail({
+        to: email,
+        subject: "Verify Your Account - Future40 OTP",
+        html: otpEmailTemplate(otp),
+      });
 
       return res.status(200).json({
         success: true,
@@ -81,18 +91,11 @@ exports.studentSignup = async (req, res) => {
     //   subject: "Verify Your Account - OTP",
     //   html: otpEmailTemplate(otp), // 👈 USE TEMPLATE
     // });
-    try {
-      await transporter.sendMail({
-        from: `"Future40 Academy" <${process.env.GMAIL_USER}>`,
-        to: email,
-        subject: "Verify Your Account - Future40 OTP",
-        html: otpEmailTemplate(otp),
-      });
-
-      console.log("OTP email sent successfully");
-    } catch (err) {
-      console.log("Email send error:", err.message);
-    }
+    await sendEmail({
+      to: email,
+      subject: "Verify Your Account - Future40 OTP",
+      html: otpEmailTemplate(otp),
+    });
 
     res.status(201).json({
       success: true,
