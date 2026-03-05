@@ -14,6 +14,28 @@
 // module.exports = transporter;
 
 //-----------------------------------------------------------------
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+});
+
+// connection test
+transporter.verify(function (error, success) {
+  if (error) {
+    console.log("Email server error:", error);
+  } else {
+    console.log("Email server ready");
+  }
+});
+
+module.exports = transporter;
+
+//-----------------------------------------------------------------
 // const nodemailer = require("nodemailer");
 
 // const transporter = nodemailer.createTransport({
@@ -46,7 +68,7 @@
 // module.exports = transporter;
 
 //----------------------------------------------------------------
-const { Resend } = require("resend");
-const resend = new Resend(process.env.RESEND_API_KEY);
+// const { Resend } = require("resend");
+// const resend = new Resend(process.env.RESEND_API_KEY);
 
-module.exports = resend;
+// module.exports = resend;

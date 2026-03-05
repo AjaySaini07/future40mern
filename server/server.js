@@ -27,6 +27,22 @@ app.set("trust proxy", 1);
 // Database connect
 connectDB();
 
+app.get("/test-email", async (req, res) => {
+  try {
+    await transporter.sendMail({
+      from: `"Future40 Test" <${process.env.GMAIL_USER}>`,
+      to: "nodetest0708@gmail.com",
+      subject: "Test Email",
+      text: "Email working successfully",
+    });
+
+    res.send("Email sent");
+  } catch (error) {
+    console.log(error);
+    res.send("Email failed");
+  }
+});
+
 // Routes
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/success-stories", require("./routes/storyRoutes"));
