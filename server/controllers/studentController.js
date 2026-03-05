@@ -7,6 +7,9 @@ const studentModel = require("../models/studentModel");
 const otpEmailTemplate = require("../templates/otpEmailTemplate");
 const transporter = require("../utils/mailer");
 const successStoryModel = require("../models/successStoryModel");
+const { Resend } = require("resend");
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 /* OTP generator */
 const generateOTP = () => Math.floor(1000 + Math.random() * 9000);
