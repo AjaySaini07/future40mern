@@ -48,7 +48,7 @@ app.use("/api/contactinfo", require("./routes/contactInfoRoutes"));
 app.use("/api/founder", require("./routes/founderRoutes"));
 app.use("/api/banner", require("./routes/bannerRoutes"));
 app.use("/api/hero", require("./routes/heroRoutes"));
-
+//add comment
 // Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));
