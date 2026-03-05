@@ -103,6 +103,8 @@ exports.studentSignup = async (req, res) => {
           subject: "Verify Your Account - OTP",
           html: otpEmailTemplate(otp),
         });
+
+        console.log("Email sent:", info.response);
       } catch (mailError) {
         console.log("Mail Error:", mailError.message);
       }
