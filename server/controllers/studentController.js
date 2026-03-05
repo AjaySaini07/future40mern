@@ -122,6 +122,14 @@ exports.studentSignup = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const otp = generateOTP();
 
+    console.log({
+      fullname,
+      email,
+      gender,
+      dob,
+      mobile,
+    });
+
     await studentModel.create({
       fullName: fullname,
       email,
@@ -153,7 +161,6 @@ exports.studentSignup = async (req, res) => {
     console.error("Signup Error:", error);
 
     res.status(500).json({
-      success: false,
       message: "Signup failed",
       error: error.message,
     });
