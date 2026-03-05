@@ -216,6 +216,67 @@ exports.verifyStudentOtp = async (req, res) => {
 };
 
 /* ---------------------- RESEND OTP ----------------------- */
+// exports.resendStudentOtp = async (req, res) => {
+//   try {
+//     const { email } = req.body;
+
+//     if (!email) {
+//       return res.status(400).json({ message: "Email is required" });
+//     }
+
+//     const student = await studentModel.findOne({ email });
+//     if (!student) {
+//       return res.status(404).json({ message: "Student not found" });
+//     }
+
+//     if (student.isVerified) {
+//       return res.status(400).json({ message: "Account already verified" });
+//     }
+
+//     // 🔒 If old OTP is still valid → block resend
+//     if (student.otpExpiry && student.otpExpiry > Date.now()) {
+//       const msLeft = student.otpExpiry - Date.now();
+
+//       const totalSeconds = Math.ceil(msLeft / 1000);
+//       const minutes = Math.floor(totalSeconds / 60);
+//       const seconds = totalSeconds % 60;
+
+//       let timeMsg = "";
+//       if (minutes > 0) {
+//         timeMsg = `${minutes} min${seconds > 0 ? ` ${seconds} sec` : ""}`;
+//       } else {
+//         timeMsg = `${seconds} sec`;
+//       }
+
+//       return res.status(400).json({
+//         message: `Please wait ${timeMsg} before requesting a new OTP`,
+//       });
+//     }
+
+//     // 🔐 Generate new OTP
+//     const otp = generateOTP();
+
+//     student.otp = otp;
+//     student.otpExpiry = Date.now() + 5 * 60 * 1000; // 5 min
+//     await student.save();
+
+//     await transporter.sendMail({
+//       from: `"Future40" <${process.env.GMAIL_USER}>`,
+//       to: email,
+//       subject: "Your New OTP Code - Future40",
+//       html: otpEmailTemplate(otp, "Your New OTP Code"), // ✅ TEMPLATE USED
+//     });
+
+//     res.json({
+//       success: true,
+//       message: "New OTP sent to email",
+//     });
+//   } catch (error) {
+//     console.error("Resend OTP Error:", error);
+//     res.status(500).json({ message: "Resend OTP failed" });
+//   }
+// };
+
 exports.resendStudentOtp = async (req, res) => {
   try {
     const { email } = req.body;
@@ -225,6 +286,7 @@ exports.resendStudentOtp = async (req, res) => {
     }
 
     const student = await studentModel.findOne({ email });
+
     if (!student) {
       return res.status(404).json({ message: "Student not found" });
     }
@@ -233,10 +295,9 @@ exports.resendStudentOtp = async (req, res) => {
       return res.status(400).json({ message: "Account already verified" });
     }
 
-    // 🔒 If old OTP is still valid → block resend
+    // OTP still valid
     if (student.otpExpiry && student.otpExpiry > Date.now()) {
       const msLeft = student.otpExpiry - Date.now();
-
       const totalSeconds = Math.ceil(msLeft / 1000);
       const minutes = Math.floor(totalSeconds / 60);
       const seconds = totalSeconds % 60;
@@ -253,19 +314,25 @@ exports.resendStudentOtp = async (req, res) => {
       });
     }
 
-    // 🔐 Generate new OTP
+    // Generate new OTP
     const otp = generateOTP();
 
     student.otp = otp;
-    student.otpExpiry = Date.now() + 5 * 60 * 1000; // 5 min
+    student.otpExpiry = Date.now() + 5 * 60 * 1000;
+
     await student.save();
 
-    await transporter.sendMail({
-      from: `"Future40" <${process.env.GMAIL_USER}>`,
-      to: email,
-      subject: "Your New OTP Code - Future40",
-      html: otpEmailTemplate(otp, "Your New OTP Code"), // ✅ TEMPLATE USED
-    });
+    // 🔒 SAFE EMAIL SEND
+    try {
+      await transporter.sendMail({
+        from: `"Future40" <${process.env.GMAIL_USER}>`,
+        to: email,
+        subject: "Your New OTP Code - Future40",
+        html: otpEmailTemplate(otp, "Your New OTP Code"),
+      });
+    } catch (mailError) {
+      console.log("Mail Error:", mailError.message);
+    }
 
     res.json({
       success: true,
@@ -273,7 +340,11 @@ exports.resendStudentOtp = async (req, res) => {
     });
   } catch (error) {
     console.error("Resend OTP Error:", error);
-    res.status(500).json({ message: "Resend OTP failed" });
+
+    res.status(500).json({
+      message: "Resend OTP failed",
+      error: error.message,
+    });
   }
 };
 
