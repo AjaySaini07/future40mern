@@ -8,7 +8,17 @@ dotenv.config();
 const app = express();
 
 // Middlewares
-app.use(cors());
+app.set("trust proxy", 1);
+
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://future40.vercel.app"],
+    credentials: true,
+  }),
+);
+
+app.options("*", cors());
+
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 app.use(generalLimiter);

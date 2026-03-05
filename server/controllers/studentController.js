@@ -12,9 +12,78 @@ const successStoryModel = require("../models/successStoryModel");
 const generateOTP = () => Math.floor(1000 + Math.random() * 9000);
 
 /* -------------------- STUDENT SIGNUP --------------------- */
+// exports.studentSignup = async (req, res) => {
+//   try {
+//     console.log("Body Console ----->", req.body);
+//     const { fullname, email, password, gender, dob, mobile } = req.body;
+
+//     const exists = await studentModel.findOne({ email });
+
+//     // 🔁 Resend OTP if not verified
+//     if (exists && !exists.isVerified) {
+//       const otp = generateOTP();
+
+//       exists.otp = otp;
+//       exists.otpExpiry = Date.now() + 5 * 60 * 1000;
+//       await exists.save();
+
+//       await transporter.sendMail({
+//         from: `"Future40" <${process.env.GMAIL_USER}>`,
+//         to: email,
+//         subject: "Verify Your Account - OTP",
+//         html: otpEmailTemplate(otp), // 👈 USE TEMPLATE
+//       });
+
+//       return res.status(200).json({
+//         success: true,
+//         message: "OTP already sent. Please verify your email.",
+//       });
+//     }
+
+//     if (exists && exists.isVerified) {
+//       return res.status(400).json({
+//         message: "Account already exists. Please login.",
+//       });
+//     }
+
+//     const hashedPassword = await bcrypt.hash(password, 10);
+//     const otp = generateOTP();
+
+//     await studentModel.create({
+//       fullName: fullname,
+//       email,
+//       password: hashedPassword,
+//       gender,
+//       dob,
+//       mobile,
+//       otp,
+//       otpExpiry: Date.now() + 5 * 60 * 1000,
+//     });
+
+//     await transporter.sendMail({
+//       from: `"Future40" <${process.env.GMAIL_USER}>`,
+//       to: email,
+//       subject: "Verify Your Account - OTP",
+//       html: otpEmailTemplate(otp), // 👈 USE TEMPLATE
+//     });
+
+//     res.status(201).json({
+//       success: true,
+//       message: "OTP sent to your email",
+//     });
+//   } catch (error) {
+//     console.error("Signup Error:", error);
+//     res.status(500).json({
+//       message: "Signup failed",
+//     });
+//   }
+// };
+
+/* -------------------- STUDENT SIGNUP --------------------- */
 exports.studentSignup = async (req, res) => {
   try {
     console.log("Body Console ----->", req.body);
+
     const { fullname, email, password, gender, dob, mobile } = req.body;
 
     const exists = await studentModel.findOne({ email });
@@ -27,12 +96,16 @@ exports.studentSignup = async (req, res) => {
       exists.otpExpiry = Date.now() + 5 * 60 * 1000;
       await exists.save();
 
-      await transporter.sendMail({
-        from: `"Future40" <${process.env.GMAIL_USER}>`,
-        to: email,
-        subject: "Verify Your Account - OTP",
-        html: otpEmailTemplate(otp), // 👈 USE TEMPLATE
-      });
+      try {
+        await transporter.sendMail({
+          from: `"Future40" <${process.env.GMAIL_USER}>`,
+          to: email,
+          subject: "Verify Your Account - OTP",
+          html: otpEmailTemplate(otp),
+        });
+      } catch (mailError) {
+        console.log("Mail Error:", mailError.message);
+      }
 
       return res.status(200).json({
         success: true,
@@ -60,12 +133,17 @@ exports.studentSignup = async (req, res) => {
       otpExpiry: Date.now() + 5 * 60 * 1000,
     });
 
-    await transporter.sendMail({
-      from: `"Future40" <${process.env.GMAIL_USER}>`,
-      to: email,
-      subject: "Verify Your Account - OTP",
-      html: otpEmailTemplate(otp), // 👈 USE TEMPLATE
-    });
+    // 🔒 Email send safe wrapper
+    try {
+      await transporter.sendMail({
+        from: `"Future40" <${process.env.GMAIL_USER}>`,
+        to: email,
+        subject: "Verify Your Account - OTP",
+        html: otpEmailTemplate(otp),
+      });
+    } catch (mailError) {
+      console.log("Mail Error:", mailError.message);
+    }
 
     res.status(201).json({
       success: true,
@@ -73,8 +151,11 @@ exports.studentSignup = async (req, res) => {
     });
   } catch (error) {
     console.error("Signup Error:", error);
+
     res.status(500).json({
+      success: false,
       message: "Signup failed",
+      error: error.message,
     });
   }
 };
