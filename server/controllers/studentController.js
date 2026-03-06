@@ -9,9 +9,6 @@ const otpEmailTemplate = require("../templates/otpEmailTemplate");
 const sendEmail = require("../utils/mailer");
 
 const successStoryModel = require("../models/successStoryModel");
-// const { Resend } = require("resend");
-
-// const resend = new Resend(process.env.RESEND_API_KEY);
 
 /* OTP generator */
 const generateOTP = () => Math.floor(1000 + Math.random() * 9000);
@@ -70,12 +67,6 @@ exports.studentSignup = async (req, res) => {
       otpExpiry: Date.now() + 5 * 60 * 1000,
     });
 
-    // await transporter.sendMail({
-    //   from: `"Future40" <${process.env.GMAIL_USER}>`,
-    //   to: email,
-    //   subject: "Verify Your Account - OTP",
-    //   html: otpEmailTemplate(otp), // 👈 USE TEMPLATE
-    // });
     await sendEmail({
       to: email,
       subject: "Verify Your Account - Future40 OTP",
@@ -93,96 +84,6 @@ exports.studentSignup = async (req, res) => {
     });
   }
 };
-
-/* -------------------- STUDENT SIGNUP --------------------- */
-// exports.studentSignup = async (req, res) => {
-//   try {
-//     console.log("Body Console ----->", req.body);
-
-//     const { fullname, email, password, gender, dob, mobile } = req.body;
-
-//     const exists = await studentModel.findOne({ email });
-
-//     // 🔁 Resend OTP if not verified
-//     if (exists && !exists.isVerified) {
-//       const otp = generateOTP();
-
-//       exists.otp = otp;
-//       exists.otpExpiry = Date.now() + 5 * 60 * 1000;
-//       await exists.save();
-
-//       try {
-//         await resend.emails.send({
-//           from: "Future40 <onboarding@resend.dev>",
-//           to: email,
-//           subject: "Verify Your Account - OTP",
-//           html: otpEmailTemplate(otp),
-//         });
-//       } catch (mailError) {
-//         console.log("Mail Error:", mailError.message);
-//       }
-
-//       return res.status(200).json({
-//         success: true,
-//         message: "OTP already sent. Please verify your email.",
-//       });
-//     }
-
-//     if (exists && exists.isVerified) {
-//       return res.status(400).json({
-//         message: "Account already exists. Please login.",
-//       });
-//     }
-
-//     const hashedPassword = await bcrypt.hash(password, 10);
-//     const otp = generateOTP();
-
-//     console.log({
-//       fullname,
-//       email,
-//       gender,
-//       dob,
-//       mobile,
-//     });
-
-//     await studentModel.create({
-//       fullName: fullname,
-//       email,
-//       password: hashedPassword,
-//       gender,
-//       dob,
-//       mobile,
-//       otp,
-//       otpExpiry: Date.now() + 5 * 60 * 1000,
-//     });
-
-//     // 🔒 Email send safe wrapper
-//     try {
-//       await resend.emails.send({
-//         from: "Future40 <onboarding@resend.dev>",
-//         to: email,
-//         subject: "Verify Your Account - OTP",
-//         html: otpEmailTemplate(otp),
-//       });
-
-//       console.log("OTP email sent");
-//     } catch (mailError) {
-//       console.log("Mail Error:", mailError.message);
-//     }
-
-//     res.status(201).json({
-//       success: true,
-//       message: "OTP sent to your email",
-//     });
-//   } catch (error) {
-//     console.error("Signup Error:", error);
-
-//     res.status(500).json({
-//       message: "Signup failed",
-//       error: error.message,
-//     });
-//   }
-// };
 
 /* ---------------------- VERIFY OTP ----------------------- */
 exports.verifyStudentOtp = async (req, res) => {
@@ -281,8 +182,13 @@ exports.resendStudentOtp = async (req, res) => {
     //   from: `"Future40" <${process.env.GMAIL_USER}>`,
     //   to: email,
     //   subject: "Your New OTP Code - Future40",
-    //   html: otpEmailTemplate(otp, "Your New OTP Code"), // ✅ TEMPLATE USED
+    //   html: otpEmailTemplate(otp, "Your New OTP Code"),
     // });
+    await sendEmail({
+      to: email,
+      subject: "Your New OTP Code - Future40",
+      html: otpEmailTemplate(otp, "Your New OTP Code"),
+    });
 
     res.json({
       success: true,
@@ -293,79 +199,6 @@ exports.resendStudentOtp = async (req, res) => {
     res.status(500).json({ message: "Resend OTP failed" });
   }
 };
-
-// exports.resendStudentOtp = async (req, res) => {
-//   try {
-//     const { email } = req.body;
-
-//     if (!email) {
-//       return res.status(400).json({ message: "Email is required" });
-//     }
-
-//     const student = await studentModel.findOne({ email });
-
-//     if (!student) {
-//       return res.status(404).json({ message: "Student not found" });
-//     }
-
-//     if (student.isVerified) {
-//       return res.status(400).json({ message: "Account already verified" });
-//     }
-
-//     // OTP still valid
-//     if (student.otpExpiry && student.otpExpiry > Date.now()) {
-//       const msLeft = student.otpExpiry - Date.now();
-//       const totalSeconds = Math.ceil(msLeft / 1000);
-//       const minutes = Math.floor(totalSeconds / 60);
-//       const seconds = totalSeconds % 60;
-
-//       let timeMsg = "";
-//       if (minutes > 0) {
-//         timeMsg = `${minutes} min${seconds > 0 ? ` ${seconds} sec` : ""}`;
-//       } else {
-//         timeMsg = `${seconds} sec`;
-//       }
-
-//       return res.status(400).json({
-//         message: `Please wait ${timeMsg} before requesting a new OTP`,
-//       });
-//     }
-
-//     // Generate new OTP
-//     const otp = generateOTP();
-
-//     student.otp = otp;
-//     student.otpExpiry = Date.now() + 5 * 60 * 1000;
-
-//     await student.save();
-
-//     // 🔒 SAFE EMAIL SEND
-//     try {
-//       await resend.emails.send({
-//         from: "Future40 <onboarding@resend.dev>",
-//         to: email,
-//         subject: "Your New OTP Code - Future40",
-//         html: otpEmailTemplate(otp, "Your New OTP Code"),
-//       });
-
-//       console.log("OTP resent successfully");
-//     } catch (mailError) {
-//       console.log("Mail Error:", mailError.message);
-//     }
-
-//     res.json({
-//       success: true,
-//       message: "New OTP sent to email",
-//     });
-//   } catch (error) {
-//     console.error("Resend OTP Error:", error);
-
-//     res.status(500).json({
-//       message: "Resend OTP failed",
-//       error: error.message,
-//     });
-//   }
-// };
 
 /* --------------------- STUDENT LOGIN --------------------- */
 exports.studentLogin = async (req, res) => {
@@ -465,6 +298,11 @@ exports.forgotStudentPassword = async (req, res) => {
     //   subject: "Reset Your Password - Future40",
     //   html: otpEmailTemplate(otp, "Reset Your Password"),
     // });
+    await sendEmail({
+      to: email,
+      subject: "Reset Your Password - Future40",
+      html: otpEmailTemplate(otp, "Reset Your Password"),
+    });
 
     res.json({
       success: true,

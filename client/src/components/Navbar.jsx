@@ -473,7 +473,7 @@ export default function Navbar() {
             <p className="text-sm uppercase tracking-widest text-blue-400">
               Future40
             </p>
-            <p className="text-xs text-slate-400">English Learning Studio</p>
+            <p className="text-xs text-slate-400">English Training Academy</p>
           </div>
         </div>
 

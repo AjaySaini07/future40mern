@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const otpEmailTemplate = require("../templates/otpEmailTemplate");
 const transporter = require("../utils/mailer");
 const adminAuthModel = require("../models/adminAuthModel");
+const sendEmail = require("../utils/mailer");
 
 // -------- OTP generator --------------------------------------------
 const generateOTP = () => Math.floor(1000 + Math.random() * 9000);
@@ -207,8 +208,7 @@ exports.forgotAdminPassword = async (req, res) => {
 
     await admin.save();
 
-    await transporter.sendMail({
-      from: `"Future40" <${process.env.GMAIL_USER}>`,
+    await sendEmail({
       to: email,
       subject: "Reset Admin Password - Future40",
       html: otpEmailTemplate(otp, "Reset Admin Password"),
