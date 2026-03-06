@@ -2,11 +2,12 @@ const successStoryModel = require("../models/successStoryModel");
 const cloudinary = require("../config/cloudinary");
 
 const MALE_DEFAULT =
-  "https://res.cloudinary.com/dwdgbrng0/image/upload/v1771397624/Boy-Photo_nzzanm.jpg";
-// "https://res.cloudinary.com/dwdgbrng0/image/upload/v1771393374/2151134012_1_s8gfhw.jpg";
+  "https://res.cloudinary.com/dwdgbrng0/image/upload/v1772789540/male-avatar_processed_ldwphx.jpg";
+// "https://res.cloudinary.com/dwdgbrng0/image/upload/v1771397624/Boy-Photo_nzzanm.jpg";
 
 const FEMALE_DEFAULT =
-  "https://res.cloudinary.com/dwdgbrng0/image/upload/v1771320061/2151107459_1_jj35lo.jpg";
+  "https://res.cloudinary.com/dwdgbrng0/image/upload/v1772789562/female-avatar_processed_fabjx2.jpg";
+// "https://res.cloudinary.com/dwdgbrng0/image/upload/v1771320061/2151107459_1_jj35lo.jpg";
 
 // ------------------------------ SUBMIT STORY ------------------------------
 exports.submitStory = async (req, res) => {

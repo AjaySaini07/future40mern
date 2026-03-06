@@ -135,9 +135,11 @@ export default function SuccessForm() {
                   className="space-y-2 text-left"
                 >
                   <div className="grid grid-cols-1 [@media(min-width:480px)]:grid-cols-2 gap-x-4 gap-y-1 [@media(min-width:480px)]:gap-y-2">
-                    {/* Name */}
+                    {/* Full Name */}
                     <div>
-                      <label className="text-xs text-slate-400">Name *</label>
+                      <label className="text-xs text-slate-400">
+                        Full Name *
+                      </label>
                       <input
                         {...register("name", { required: true })}
                         className="w-full rounded-sm bg-slate-900
@@ -157,6 +159,7 @@ export default function SuccessForm() {
                       <input
                         type="email"
                         {...register("email", { required: true })}
+                        placeholder="Enter registered email"
                         className="w-full rounded-sm bg-slate-900
                  border border-slate-700 outline-none focus:border-slate-400 transition duration-500
                  px-2 [@media(min-width:480px)]:px-3 py-2 [@media(min-width:480px)]:py-2 text-xs sm:text-sm"
