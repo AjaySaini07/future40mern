@@ -1,6 +1,7 @@
 const Query = require("../models/queryModel");
 const { adminReplyMail } = require("../templates/emailTemplates");
 const sendEmail = require("../utils/mailer");
+require("dotenv").config();
 
 // ------------------------ Submit Query (Public) ------------------------
 exports.submitQuery = async (req, res) => {
