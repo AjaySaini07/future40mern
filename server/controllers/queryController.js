@@ -221,7 +221,6 @@ exports.replyToQuery = async (req, res) => {
     // 📧 Send reply mail to user
     await sendEmail({
       to: query.email,
-      subject: "📩 Reply to your query | Future40",
       ...adminReplyMail({
         name: query.name,
         reply: reply,

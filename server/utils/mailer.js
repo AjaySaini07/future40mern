@@ -68,28 +68,60 @@
 // module.exports = transporter;
 
 //----------------------------------------------------------------
+// const SibApiV3Sdk = require("sib-api-v3-sdk");
+
+// const client = SibApiV3Sdk.ApiClient.instance;
+
+// client.authentications["api-key"].apiKey = process.env.BREVO_API_KEY;
+
+// const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+
+// const sendEmail = async ({ to, subject, html }) => {
+//   try {
+//     const data = await apiInstance.sendTransacEmail({
+//       sender: {
+//         email: "nodetest0708@gmail.com", // tumhari email
+//         name: "Future40 English Training Academy",
+//       },
+//       to: [{ email: to }],
+//       subject: subject,
+//       htmlContent: html,
+//     });
+
+//     console.log("Email sent:", data.messageId);
+//   } catch (error) {
+//     console.log("Email error:", error.response?.text || error.message);
+//   }
+// };
+
+// module.exports = sendEmail;
+
 const SibApiV3Sdk = require("sib-api-v3-sdk");
 
 const client = SibApiV3Sdk.ApiClient.instance;
+
 client.authentications["api-key"].apiKey = process.env.BREVO_API_KEY;
 
 const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 
 const sendEmail = async ({ to, subject, html }) => {
   try {
-    const data = await apiInstance.sendTransacEmail({
+    const response = await apiInstance.sendTransacEmail({
       sender: {
-        email: "nodetest0708@gmail.com", // tumhari email
+        email: process.env.GMAIL_USER,
         name: "Future40 English Training Academy",
       },
+
       to: [{ email: to }],
+
       subject: subject,
+
       htmlContent: html,
     });
 
-    console.log("Email sent:", data.messageId);
+    console.log("📧 Email sent:", response.messageId);
   } catch (error) {
-    console.log("Email error:", error.response?.text || error.message);
+    console.error("❌ Email error:", error.response?.text || error.message);
   }
 };
 
