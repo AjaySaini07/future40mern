@@ -1,8 +1,8 @@
 const Query = require("../models/queryModel");
 const { adminReplyMail } = require("../templates/emailTemplates");
-const transporter = require("../utils/mailer");
+const sendEmail = require("../utils/mailer");
 
-// Submit Query (Public)
+// ------------------------ Submit Query (Public) ------------------------
 exports.submitQuery = async (req, res) => {
   try {
     const { name, email, phone, message } = req.body;
@@ -18,30 +18,93 @@ exports.submitQuery = async (req, res) => {
     await Query.create({ name, email, phone, message });
 
     // 2️⃣ Admin notification
-    await transporter.sendMail({
-      from: `"Future40" <${process.env.GMAIL_USER}>`,
-      to: process.env.GMAIL_USER, // or ADMIN_EMAIL
-      subject: "📩 New Contact Query – Future40",
+    // await sendEmail({
+    //   to: process.env.GMAIL_USER, // or ADMIN_EMAIL
+    //   subject: "📩 New Contact Query – Future40",
+    //   html: `
+    //     <h3>New Query Received</h3>
+    //     <p><b>Name:</b> ${name}</p>
+    //     <p><b>Email:</b> ${email}</p>
+    //     <p><b>Message:</b><br/>${message}</p>
+    //   `,
+    // });
+    await sendEmail({
+      to: process.env.GMAIL_USER, // Admin email
+      subject: "📩 New Contact Query | Future40",
       html: `
-        <h3>New Query Received</h3>
-        <p><b>Name:</b> ${name}</p>
-        <p><b>Email:</b> ${email}</p>
-        <p><b>Message:</b><br/>${message}</p>
-      `,
+    <div style="font-family: Arial, sans-serif; line-height:1.6; color:#333;">
+      <h2 style="color:#0f172a;">New Contact Query Received</h2>
+
+      <p>A new query has been submitted on the <b>Future40</b> website.</p>
+
+      <table style="border-collapse:collapse; width:100%; max-width:500px;">
+        <tr>
+          <td style="padding:8px; border:1px solid #ddd;"><b>Name</b></td>
+          <td style="padding:8px; border:1px solid #ddd;">${name}</td>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid #ddd;"><b>Email</b></td>
+          <td style="padding:8px; border:1px solid #ddd;">${email}</td>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid #ddd;"><b>Message</b></td>
+          <td style="padding:8px; border:1px solid #ddd;">${message}</td>
+        </tr>
+      </table>
+
+      <p style="margin-top:20px;">Please respond to the user as soon as possible.</p>
+
+      <hr/>
+      <p style="font-size:12px;color:#777;">Future40 Website Notification</p>
+    </div>
+  `,
     });
 
     // 3️⃣ User auto-reply
-    await transporter.sendMail({
-      from: `"Future40" <${process.env.GMAIL_USER}>`,
+    // await sendEmail({
+    //   to: email,
+    //   subject: "Thanks for contacting Future40",
+    //   html: `
+    //     <p>Hi ${name},</p>
+    //     <p>Thanks for contacting <b>Future40</b>.</p>
+    //     <p>We have received your query and our team will contact you shortly.</p>
+    //     <br/>
+    //     <p>Regards,<br/>Future40 Team</p>
+    //   `,
+    // });
+    await sendEmail({
       to: email,
-      subject: "Thanks for contacting Future40",
+      subject: "✅ We received your message | Future40",
       html: `
-        <p>Hi ${name},</p>
-        <p>Thanks for contacting <b>Future40</b>.</p>
-        <p>We have received your query and our team will contact you shortly.</p>
-        <br/>
-        <p>Regards,<br/>Future40 Team</p>
-      `,
+    <div style="font-family: Arial, sans-serif; line-height:1.6; color:#333;">
+      <h2 style="color:#0f172a;">Thank You for Contacting Future40</h2>
+
+      <p>Hi <b>${name}</b>,</p>
+
+      <p>
+        Thank you for reaching out to <b>Future40 English Training Academy</b>.
+        We have successfully received your message.
+      </p>
+
+      <p>
+        Our team will review your query and get back to you shortly.
+      </p>
+
+      <p>If your matter is urgent, feel free to reply to this email.</p>
+
+      <br/>
+
+      <p>
+        Best regards,<br/>
+        <b>Future40 Team</b>
+      </p>
+
+      <hr/>
+      <p style="font-size:12px;color:#777;">
+        This is an automated message confirming that we received your inquiry.
+      </p>
+    </div>
+  `,
     });
 
     res.status(201).json({
@@ -57,7 +120,7 @@ exports.submitQuery = async (req, res) => {
   }
 };
 
-// 🔒 Admin – Get all queries (pagination + search + filter)
+// ------ 🔒 Admin – Get all queries (pagination + search + filter) ------
 exports.getAllQueries = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -118,7 +181,7 @@ exports.getAllQueries = async (req, res) => {
   }
 };
 
-// 🔒 Admin replies to query
+// ---------------------- 🔒 Admin replies to query ----------------------
 exports.replyToQuery = async (req, res) => {
   try {
     const { id } = req.params;
@@ -154,13 +217,13 @@ exports.replyToQuery = async (req, res) => {
 
     await query.save();
 
-    // 📧 Send reply mail
-    await transporter.sendMail({
-      from: `"Future40" <${process.env.GMAIL_USER}>`,
+    // 📧 Send reply mail to user
+    await sendEmail({
       to: query.email,
+      subject: "📩 Reply to your query | Future40",
       ...adminReplyMail({
         name: query.name,
-        reply,
+        reply: reply,
       }),
     });
 
@@ -178,7 +241,7 @@ exports.replyToQuery = async (req, res) => {
   }
 };
 
-// 🔒 Admin delete query
+// ------------------------ 🔒 Admin delete query ------------------------
 exports.deleteQuery = async (req, res) => {
   try {
     const { id } = req.params;

@@ -307,7 +307,7 @@ export default function SuccessStoriesAdmin() {
 
         {/* Loading State */}
         {fetchLoading && (
-          <div className="min-h-screen w-full flex justify-center">
+          <div className="min-h-screen w-full flex mt-20 justify-center">
             <AdminLoader />
           </div>
         )}
@@ -582,14 +582,12 @@ tracking-wide
       <UpdateConfirmModal
         open={openUpdate}
         title={
-          isCurrentlyApproved
-            ? "Unapprove Success Story"
-            : "Approve Success Story"
+          isCurrentlyApproved ? "Reject Success Story" : "Approve Success Story"
         }
         message={`Are you sure you want to ${
-          isCurrentlyApproved ? "unapprove" : "approve"
+          isCurrentlyApproved ? "reject" : "approve"
         } this success story?`}
-        confirmText={isCurrentlyApproved ? "Unapprove" : "Approve"}
+        confirmText={isCurrentlyApproved ? "Reject" : "Approve"}
         loading={statusLoading}
         onConfirm={handleUpdate}
         onCancel={() => {
