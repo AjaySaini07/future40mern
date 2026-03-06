@@ -31,8 +31,8 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="bg-slate-950 py-12">
-      <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-8">
+    <section id="contact" className="bg-slate-950 py-12 px-4">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
         {/* Left Side Content */}
         <Reveal>
           <div>

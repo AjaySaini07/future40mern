@@ -35,8 +35,8 @@ const features = [
 
 export default function NeonFeatureCards() {
   return (
-    <section className="pt-12 md:pt-16 pb-2 md:pb-5 bg-slate-950">
-      <div className="max-w-6xl mx-auto px-4">
+    <section className="pt-12 md:pt-16 pb-2 md:pb-5 bg-slate-950 px-4">
+      <div className="max-w-6xl mx-auto">
         <h2 className="text-center text-2xl sm:text-3xl md:text-4xl font-bold text-white">
           Why Choose <span className="text-blue-400">Future40?</span>
         </h2>
