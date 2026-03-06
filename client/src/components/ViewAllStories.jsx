@@ -165,7 +165,7 @@ export default function ViewAllStories() {
                 <img
                   src={story.photo.url}
                   alt={story.name}
-                  className="w-20 h-20 bg-cover rounded-full border-2 border-slate-600/80"
+                  className="w-20 h-20 object-cover rounded-full border-2 border-slate-600/80"
                 />
               </div>
 
@@ -304,7 +304,7 @@ export default function ViewAllStories() {
                 <img
                   src={selectedStory.photo.url}
                   alt={selectedStory.name}
-                  className="w-20 h-20 sm:w-28 sm:h-28 bg-cover rounded-full border-4 border-slate-700 bg-slate-900"
+                  className="w-20 h-20 sm:w-28 sm:h-28 object-cover rounded-full border-4 border-slate-700 bg-slate-900"
                 />
               </div>
 

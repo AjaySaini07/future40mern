@@ -501,7 +501,7 @@ export default function SuccessStoriesSection() {
                 <img
                   src={selectedStory.photo.url}
                   alt={selectedStory.name}
-                  className="w-20 h-20 sm:w-28 sm:h-28 bg-cover text-sm rounded-full border-4 border-slate-700 bg-slate-900"
+                  className="w-20 h-20 sm:w-28 sm:h-28 object-cover text-sm rounded-full border-4 border-slate-700 bg-slate-900"
                 />
               </div>
 
