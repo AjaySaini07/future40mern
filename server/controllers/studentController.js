@@ -277,12 +277,12 @@ exports.resendStudentOtp = async (req, res) => {
     student.otpExpiry = Date.now() + 5 * 60 * 1000; // 5 min
     await student.save();
 
-    await transporter.sendMail({
-      from: `"Future40" <${process.env.GMAIL_USER}>`,
-      to: email,
-      subject: "Your New OTP Code - Future40",
-      html: otpEmailTemplate(otp, "Your New OTP Code"), // ✅ TEMPLATE USED
-    });
+    // await transporter.sendMail({
+    //   from: `"Future40" <${process.env.GMAIL_USER}>`,
+    //   to: email,
+    //   subject: "Your New OTP Code - Future40",
+    //   html: otpEmailTemplate(otp, "Your New OTP Code"), // ✅ TEMPLATE USED
+    // });
 
     res.json({
       success: true,
@@ -459,12 +459,12 @@ exports.forgotStudentPassword = async (req, res) => {
     await student.save();
 
     // 📧 Send email
-    await transporter.sendMail({
-      from: `"Future40" <${process.env.GMAIL_USER}>`,
-      to: email,
-      subject: "Reset Your Password - Future40",
-      html: otpEmailTemplate(otp, "Reset Your Password"),
-    });
+    // await transporter.sendMail({
+    //   from: `"Future40" <${process.env.GMAIL_USER}>`,
+    //   to: email,
+    //   subject: "Reset Your Password - Future40",
+    //   html: otpEmailTemplate(otp, "Reset Your Password"),
+    // });
 
     res.json({
       success: true,
