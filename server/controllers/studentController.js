@@ -5,7 +5,7 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const studentModel = require("../models/studentModel");
 const otpEmailTemplate = require("../templates/otpEmailTemplate");
-const transporter = require("../utils/mailer");
+// const transporter = require("../utils/mailer");
 const sendEmail = require("../utils/mailer");
 
 const successStoryModel = require("../models/successStoryModel");
