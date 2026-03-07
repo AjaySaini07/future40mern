@@ -112,11 +112,11 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-950 to-slate-950">
+    <section className="relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-950 to-slate-950 px-4">
       {/* 🔥 Dynamic Background (class same) */}
       {hero?.backgroundImage?.url && (
         <div
-          className="absolute inset-0 opacity-40 bg-cover sm:bg-cover bg-center"
+          className="absolute inset-0 opacity-50 bg-cover sm:bg-cover bg-center"
           style={{
             backgroundImage: `url(${hero.backgroundImage.url})`,
           }}
@@ -125,7 +125,7 @@ export default function Hero() {
 
       <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-slate-950" />
 
-      <div className="relative max-w-6xl mx-auto px-4 py-8 md:py-16">
+      <div className="relative max-w-6xl mx-auto py-8 md:py-16">
         <div className="max-w-2xl">
           {/* Title */}
           <Reveal>

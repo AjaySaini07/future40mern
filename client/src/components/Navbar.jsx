@@ -460,20 +460,27 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur border-b border-slate-800">
-      <nav className="max-w-6xl mx-auto flex items-center justify-between px-4 py-2 [@media(min-width:480px)]:py-3">
+    <header className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur border-b border-slate-800 px-2 [@media(min-width:480px)]:px-4">
+      <nav className="max-w-6xl mx-auto flex items-center justify-between py-2 [@media(min-width:480px)]:py-3">
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <div className="h-7 w-7 [@media(min-width:480px)]:h-9 [@media(min-width:480px)]:w-9 rounded-full bg-blue-500 flex items-center justify-center font-bold text-white">
+          <div className="h-8 w-8 [@media(min-width:480px)]:h-10 [@media(min-width:480px)]:w-10 rounded-full bg-blue-500 flex items-center justify-center font-bold text-white">
             F
           </div>
 
           {/* Hide text on mobile */}
-          <div className="hidden sm:block">
-            <p className="text-sm uppercase tracking-widest text-blue-400">
+          <div className="">
+            <p
+              className="text-xs [@media(min-width:480px)]:text-sm uppercase font-semibold
+      bg-gradient-to-r from-cyan-400 to-blue-500
+      bg-clip-text text-transparent
+      tracking-wide"
+            >
               Future40
             </p>
-            <p className="text-xs text-slate-400">English Training Academy</p>
+            <p className="text-[10px] [@media(min-width:480px)]:text-xs text-slate-400">
+              English Training Academy
+            </p>
           </div>
         </div>
 

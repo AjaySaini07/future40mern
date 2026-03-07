@@ -54,7 +54,7 @@ export default function AdminLogin() {
           <label className="text-xs font-medium text-slate-400">Email</label>
           <input
             type="email"
-            placeholder="admin@future40.com"
+            // placeholder="admin@future40.com"
             {...register("email", {
               required: "Email is required",
               pattern: {

@@ -63,6 +63,7 @@ export default function ForgotPassword() {
           <input
             type="email"
             {...register("email", { required: "Email is required" })}
+            placeholder="Enter your registered email"
             className="
       w-full bg-slate-900
       border border-slate-700

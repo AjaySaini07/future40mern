@@ -202,47 +202,31 @@ export default function FounderSection() {
           {/* LEFT IMAGE (IMAGE SECTION) */}
           <Reveal>
             <div className="lg:col-span-1 flex justify-center relative">
-              {/* Ambient Gradient Light */}
-              <div
-                className="absolute
-      bg-gradient-to-tr from-blue-500/20 via-purple-500/20 to-pink-500/20
-      blur-[80px] rounded-full -z-10"
-              />
-
               {/* Premium Glass Card */}
               <motion.div
-                whileHover={{ y: -1 }}
+                // whileHover={{ y: -1 }}
                 transition={{ type: "spring", stiffness: 120 }}
                 className="relative group"
               >
                 {/* Animated Gradient Border */}
                 <div
                   className="
-        absolute inset-0 rounded-lg p-[2px]
-        bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500
-        opacity-70 group-hover:opacity-100
-        transition duration-500
-      "
+    absolute inset-0 rounded-md p-[2px]
+    bg-gradient-to-br from-cyan-400 via-slate-900 to-cyan-400
+    opacity-80 group-hover:opacity-100
+    transition duration-500
+  "
                 />
 
                 {/* Glass Container */}
                 <div
                   className="
-        relative rounded-lg overflow-hidden
+        relative rounded-xl overflow-hidden
         bg-slate-900/50 backdrop-blur-xl
         border border-slate-700/50 m-0.5
         shadow-[0_10px_40px_rgba(0,0,0,0.6)]
       "
                 >
-                  {/* Shine Overlay */}
-                  <div
-                    className="
-          absolute inset-0 bg-gradient-to-tr
-          from-white/5 via-transparent to-transparent
-          pointer-events-none
-        "
-                  />
-
                   <motion.img
                     src={founder?.image?.url}
                     alt="Founder"
@@ -262,28 +246,19 @@ export default function FounderSection() {
       "
                 />
               </motion.div>
-
-              {/* Floating Subtle Accent */}
-              <motion.span
-                animate={{ y: [0, -6, 0] }}
-                transition={{ repeat: Infinity, duration: 4 }}
-                className="
-        absolute -top-6 right-10
-        w-5 h-5 rounded-full
-        bg-pink-500/50 blur-md
-      "
-              />
             </div>
           </Reveal>
 
           {/* RIGHT CONTENT (TEXT SECTION) */}
           <div className="lg:col-span-2 text-center lg:text-left">
             {getFounderLoading ? (
-              <p className="text-slate-400">Loading founder info...</p>
+              <p className="text-slate-400 text-center">
+                Loading founder info...
+              </p>
             ) : (
               <>
                 {/* Founder Name */}
-                <h2 className="lg:text-center text-xl sm:text-2xl font-semibold text-white">
+                <h2 className="lg:text-center text-xl sm:text-2xl italic font-semibold text-white">
                   {founder?.name || "Ajay Saini"} -{" "}
                   <span className="text-cyan-400 block sm:inline">
                     {founder?.title || "Spoken English Coach"}
@@ -295,7 +270,7 @@ export default function FounderSection() {
                     {founder?.bio}
                   </p> */}
                 <div
-                  className="relative mt-3 px-4 py-3
+                  className="relative mt-3 px-3.5 py-3
           bg-slate-800/10 border border-slate-900
           rounded-md backdrop-blur-sm"
                 >
@@ -310,13 +285,13 @@ export default function FounderSection() {
                     {founder?.bio}
                   </p>
 
-                  <span className="absolute -bottom-9 right-3 text-5xl text-blue-500/40 font-serif">
+                  <span className="absolute -bottom-10 right-3 text-5xl text-blue-500/40 font-serif">
                     ”
                   </span>
                 </div>
 
                 {/* Founder Info */}
-                <div className="mt-2">
+                <div className="mt-2.5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {/* Experience */}
                     <div className="rounded-md bg-slate-900/70 border border-slate-800 p-3 sm:p-4 hover:border-blue-500/40 transition-all duration-300">
