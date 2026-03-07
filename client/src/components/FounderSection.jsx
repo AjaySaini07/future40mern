@@ -232,7 +232,7 @@ export default function FounderSection() {
                     alt="Founder"
                     className="
             w-[230px] sm:w-[310px]
-            object-contain transition-transform duration-800 ease-out hover:scale-105 transform-gpu
+            object-cover transition-transform duration-800 ease-out hover:scale-105 transform-gpu
           "
                   />
                 </div>
@@ -270,7 +270,7 @@ export default function FounderSection() {
                     {founder?.bio}
                   </p> */}
                 <div
-                  className="relative mt-3 px-3.5 py-3
+                  className="relative mt-2 px-3.5 py-3
           bg-slate-800/10 border border-slate-900
           rounded-md backdrop-blur-sm"
                 >
@@ -285,7 +285,7 @@ export default function FounderSection() {
                     {founder?.bio}
                   </p>
 
-                  <span className="absolute -bottom-10 right-3 text-5xl text-blue-500/40 font-serif">
+                  <span className="absolute -bottom-9 sm:-bottom-10 right-3 text-5xl text-blue-500/40 font-serif">
                     ”
                   </span>
                 </div>
