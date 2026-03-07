@@ -274,7 +274,7 @@ export default function FounderSection() {
           bg-slate-800/10 border border-slate-900
           rounded-md backdrop-blur-sm"
                 >
-                  <span className="absolute -top-2 sm:-top-3 left-3 text-5xl text-blue-500/40 font-serif">
+                  <span className="absolute -top-4 sm:-top-3 left-3 text-5xl text-blue-500/40 font-serif">
                     “
                   </span>
 
