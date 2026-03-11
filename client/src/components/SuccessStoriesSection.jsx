@@ -325,7 +325,7 @@ export default function SuccessStoriesSection() {
             modules={[Autoplay]}
             spaceBetween={16}
             slidesPerView={1}
-            loop={true}
+            loop={!fetchLoading}
             allowTouchMove={false}
             speed={6000}
             autoplay={{
@@ -341,12 +341,48 @@ export default function SuccessStoriesSection() {
             }}
             className="linear-swiper mt-5 sm:mt-7 md:mt-8 w-full"
           >
-            {stories.map((s) => (
-              <SwiperSlide key={s._id}>
-                <div className="p-[1px] my-2 rounded-md bg-gradient-to-b from-slate-700/40 to-slate-800/30">
-                  <div
-                    onClick={() => setSelectedStory(s)}
-                    className="
+            {fetchLoading
+              ? Array.from({ length: 6 }).map((_, i) => (
+                  <SwiperSlide key={i}>
+                    <div className="p-[1px] my-2 rounded-md bg-gradient-to-b from-slate-700/40 to-slate-800/30">
+                      <div className="rounded-md bg-slate-900/90 px-4 py-4 border border-slate-800 animate-pulse">
+                        {/* Avatar */}
+                        <div className="flex justify-center">
+                          <div className="w-20 h-20 rounded-full bg-slate-700"></div>
+                        </div>
+
+                        {/* Stars */}
+                        <div className="flex justify-center gap-1 mt-3">
+                          {Array.from({ length: 5 }).map((_, i) => (
+                            <div
+                              key={i}
+                              className="w-4 h-4 bg-slate-700 rounded"
+                            ></div>
+                          ))}
+                        </div>
+
+                        {/* Name */}
+                        <div className="h-4 bg-slate-700 rounded w-24 mx-auto mt-3"></div>
+
+                        {/* Story */}
+                        <div className="space-y-2 mt-4">
+                          <div className="h-3 bg-slate-700 rounded"></div>
+                          <div className="h-3 bg-slate-700 rounded"></div>
+                          <div className="h-3 bg-slate-700 rounded w-4/5"></div>
+                        </div>
+
+                        {/* Achievement */}
+                        <div className="h-4 bg-slate-700 rounded w-28 mx-auto mt-4"></div>
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                ))
+              : stories.map((s) => (
+                  <SwiperSlide key={s._id}>
+                    <div className="p-[1px] my-2 rounded-md bg-gradient-to-b from-slate-700/40 to-slate-800/30">
+                      <div
+                        onClick={() => setSelectedStory(s)}
+                        className="
         rounded-md
         bg-slate-900/90
         px-4.5 py-3 sm:py-4
@@ -359,17 +395,17 @@ export default function SuccessStoriesSection() {
         hover:shadow-xl hover:shadow-cyan-500/10
         cursor-pointer
       "
-                  >
-                    {/* Avatar */}
-                    <div className="flex justify-center">
-                      <div className="relative">
-                        <div className="absolute inset-0 rounded-full bg-blue-500/10 blur-2xl"></div>
+                      >
+                        {/* Avatar */}
+                        <div className="flex justify-center">
+                          <div className="relative">
+                            <div className="absolute inset-0 rounded-full bg-blue-500/10 blur-2xl"></div>
 
-                        <img
-                          loading="lazy"
-                          src={s?.photo?.url}
-                          alt={s?.name}
-                          className="
+                            <img
+                              loading="lazy"
+                              src={s?.photo?.url}
+                              alt={s?.name}
+                              className="
               relative
               w-20 h-20
               rounded-full
@@ -377,73 +413,73 @@ export default function SuccessStoriesSection() {
               border-2 border-slate-700
               shadow-md
             "
-                        />
-                      </div>
-                    </div>
+                            />
+                          </div>
+                        </div>
 
-                    {/* Rating */}
-                    <div className="flex justify-center gap-1 mt-2">
-                      {Array.from({ length: 5 }).map((_, index) => (
-                        <StarIcon
-                          key={index}
-                          className={
-                            index < s.rating
-                              ? "text-yellow-400 drop-shadow-[0_0_3px_rgba(250,204,21,0.5)]"
-                              : "text-slate-700"
-                          }
-                        />
-                      ))}
-                    </div>
+                        {/* Rating */}
+                        <div className="flex justify-center gap-1 mt-2">
+                          {Array.from({ length: 5 }).map((_, index) => (
+                            <StarIcon
+                              key={index}
+                              className={
+                                index < s.rating
+                                  ? "text-yellow-400 drop-shadow-[0_0_3px_rgba(250,204,21,0.5)]"
+                                  : "text-slate-700"
+                              }
+                            />
+                          ))}
+                        </div>
 
-                    {/* Name */}
-                    <h4 className="text-sm sm:text-base text-white tracking-wide">
-                      {s.name}
-                    </h4>
+                        {/* Name */}
+                        <h4 className="text-sm sm:text-base text-white tracking-wide">
+                          {s.name}
+                        </h4>
 
-                    {/* Line */}
-                    <div className="w-10 h-[2px] mx-auto mt-0 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full" />
+                        {/* Line */}
+                        <div className="w-10 h-[2px] mx-auto mt-0 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full" />
 
-                    {/* Story */}
-                    <div
-                      className="relative mt-2 px-3 py-1.5
+                        {/* Story */}
+                        <div
+                          className="relative mt-2 px-3 py-1.5
     bg-slate-800/40
     border border-slate-700/50
     rounded-md backdrop-blur-sm"
-                    >
-                      <span className="absolute -top-3 left-3 text-3xl text-blue-500/40 font-serif">
-                        “
-                      </span>
+                        >
+                          <span className="absolute -top-3 left-3 text-3xl text-blue-500/40 font-serif">
+                            “
+                          </span>
 
-                      <p
-                        className="
+                          <p
+                            className="
             text-slate-300
     text-xs sm:text-sm
     leading-normal
     tracking-normal
     text-justify
     line-clamp-4"
-                      >
-                        {s.story}
-                      </p>
+                          >
+                            {s.story}
+                          </p>
 
-                      <span className="absolute -bottom-7 right-3 text-3xl text-blue-500/40 font-serif">
-                        ”
-                      </span>
+                          <span className="absolute -bottom-7 right-3 text-3xl text-blue-500/40 font-serif">
+                            ”
+                          </span>
+                        </div>
+
+                        {/* Achievement */}
+                        <div className="w-full flex justify-center mt-2">
+                          <span className=" px-3 py-0.5 rounded-full text-[11px] font-medium bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                            {s.achievement}
+                          </span>
+                        </div>
+
+                        {/* Divider Accent */}
+                        {/* <div className="w-10 h-[2px] mx-auto mt-2 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full" /> */}
+                      </div>
                     </div>
-
-                    {/* Achievement */}
-                    <div className="w-full flex justify-center mt-2">
-                      <span className=" px-3 py-0.5 rounded-full text-[11px] font-medium bg-sky-500/10 text-sky-400 border border-sky-500/20">
-                        {s.achievement}
-                      </span>
-                    </div>
-
-                    {/* Divider Accent */}
-                    {/* <div className="w-10 h-[2px] mx-auto mt-2 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full" /> */}
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))}
+                  </SwiperSlide>
+                ))}
           </Swiper>
         </div>
 
